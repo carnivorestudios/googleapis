@@ -848,6 +848,40 @@ class ProjectsDatabasesDocumentsResourceApi {
     return _response.then((data) => new RunQueryResponse.fromJson(data));
   }
 
+  async.Future<core.List<RunQueryResponse>> runCollectionQuery(
+      RunQueryRequest request, core.String parent,
+      {core.String $fields}) {
+    var _url = null;
+    var _queryParams = new core.Map();
+    var _uploadMedia = null;
+    var _uploadOptions = null;
+    var _downloadOptions = commons.DownloadOptions.Metadata;
+    var _body = null;
+
+    if (request != null) {
+      _body = convert.JSON.encode((request).toJson());
+    }
+    if (parent == null) {
+      throw new core.ArgumentError("Parameter parent is required.");
+    }
+    if ($fields != null) {
+      _queryParams["fields"] = [$fields];
+    }
+
+    _url = 'v1beta1/' +
+        commons.Escaper.ecapeVariableReserved('$parent') +
+        ':runQuery';
+
+    var _response = _requester.request(_url, "POST",
+        body: _body,
+        queryParams: _queryParams,
+        uploadOptions: _uploadOptions,
+        uploadMedia: _uploadMedia,
+        downloadOptions: _downloadOptions);
+    return _response.then((core.List data) =>
+        data.map((d) => new RunQueryResponse.fromJson(d)).toList());
+  }
+
   /// Streams batches of document updates and deletes, in order.
   ///
   /// [request] - The metadata request object.
