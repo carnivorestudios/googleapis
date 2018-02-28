@@ -2308,12 +2308,9 @@ class EditsTestersResourceApi {
   ///
   /// [editId] - Unique identifier for this edit.
   ///
-  /// [track] - null
-  /// Possible string values are:
-  /// - "alpha"
-  /// - "beta"
-  /// - "production"
-  /// - "rollout"
+  /// [track] - The track to read or modify. Acceptable values are: "alpha",
+  /// "beta", "production" or "rollout".
+  /// Value must have pattern "(alpha|beta|production|rollout)".
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2372,12 +2369,9 @@ class EditsTestersResourceApi {
   ///
   /// [editId] - Unique identifier for this edit.
   ///
-  /// [track] - null
-  /// Possible string values are:
-  /// - "alpha"
-  /// - "beta"
-  /// - "production"
-  /// - "rollout"
+  /// [track] - The track to read or modify. Acceptable values are: "alpha",
+  /// "beta", "production" or "rollout".
+  /// Value must have pattern "(alpha|beta|production|rollout)".
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2439,12 +2433,9 @@ class EditsTestersResourceApi {
   ///
   /// [editId] - Unique identifier for this edit.
   ///
-  /// [track] - null
-  /// Possible string values are:
-  /// - "alpha"
-  /// - "beta"
-  /// - "production"
-  /// - "rollout"
+  /// [track] - The track to read or modify. Acceptable values are: "alpha",
+  /// "beta", "production" or "rollout".
+  /// Value must have pattern "(alpha|beta|production|rollout)".
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2513,12 +2504,9 @@ class EditsTracksResourceApi {
   ///
   /// [editId] - Unique identifier for this edit.
   ///
-  /// [track] - The track type to read or modify.
-  /// Possible string values are:
-  /// - "alpha"
-  /// - "beta"
-  /// - "production"
-  /// - "rollout"
+  /// [track] - The track to read or modify. Acceptable values are: "alpha",
+  /// "beta", "production" or "rollout".
+  /// Value must have pattern "(alpha|beta|production|rollout)".
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2634,12 +2622,9 @@ class EditsTracksResourceApi {
   ///
   /// [editId] - Unique identifier for this edit.
   ///
-  /// [track] - The track type to read or modify.
-  /// Possible string values are:
-  /// - "alpha"
-  /// - "beta"
-  /// - "production"
-  /// - "rollout"
+  /// [track] - The track to read or modify. Acceptable values are: "alpha",
+  /// "beta", "production" or "rollout".
+  /// Value must have pattern "(alpha|beta|production|rollout)".
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2705,12 +2690,9 @@ class EditsTracksResourceApi {
   ///
   /// [editId] - Unique identifier for this edit.
   ///
-  /// [track] - The track type to read or modify.
-  /// Possible string values are:
-  /// - "alpha"
-  /// - "beta"
-  /// - "production"
-  /// - "rollout"
+  /// [track] - The track to read or modify. Acceptable values are: "alpha",
+  /// "beta", "production" or "rollout".
+  /// Value must have pattern "(alpha|beta|production|rollout)".
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -3624,7 +3606,7 @@ class PurchasesVoidedpurchasesResourceApi {
   PurchasesVoidedpurchasesResourceApi(commons.ApiRequester client)
       : _requester = client;
 
-  /// Lists the purchases that were cancelled, refunded or charged-back.
+  /// Lists the purchases that were canceled, refunded or charged-back.
   ///
   /// Request parameters:
   ///
@@ -5263,12 +5245,19 @@ class ProductPurchase {
 
   /// The purchase state of the order. Possible values are:
   /// - Purchased
-  /// - Cancelled
+  /// - Canceled
   core.int purchaseState;
 
   /// The time the product was purchased, in milliseconds since the epoch (Jan
   /// 1, 1970).
   core.String purchaseTimeMillis;
+
+  /// The type of purchase of the inapp product. This field is only set if this
+  /// purchase was not made using the standard in-app billing flow. Possible
+  /// values are:
+  /// - Test (i.e. purchased from a license testing account)
+  /// - Promo (i.e. purchased using a promo code)
+  core.int purchaseType;
 
   ProductPurchase();
 
@@ -5290,6 +5279,9 @@ class ProductPurchase {
     }
     if (_json.containsKey("purchaseTimeMillis")) {
       purchaseTimeMillis = _json["purchaseTimeMillis"];
+    }
+    if (_json.containsKey("purchaseType")) {
+      purchaseType = _json["purchaseType"];
     }
   }
 
@@ -5313,6 +5305,9 @@ class ProductPurchase {
     }
     if (purchaseTimeMillis != null) {
       _json["purchaseTimeMillis"] = purchaseTimeMillis;
+    }
+    if (purchaseType != null) {
+      _json["purchaseType"] = purchaseType;
     }
     return _json;
   }
@@ -5595,12 +5590,13 @@ class SubscriptionPurchase {
   /// current expiry time.
   core.bool autoRenewing;
 
-  /// The reason why a subscription was cancelled or is not auto-renewing.
+  /// The reason why a subscription was canceled or is not auto-renewing.
   /// Possible values are:
-  /// - User cancelled the subscription
-  /// - Subscription was cancelled by the system, for example because of a
+  /// - User canceled the subscription
+  /// - Subscription was canceled by the system, for example because of a
   /// billing problem
   /// - Subscription was replaced with a new subscription
+  /// - Subscription was canceled by the developer
   core.int cancelReason;
 
   /// ISO 3166-1 alpha-2 billing country/region code of the user at the time the
@@ -5618,6 +5614,19 @@ class SubscriptionPurchase {
   /// This kind represents a subscriptionPurchase object in the androidpublisher
   /// service.
   core.String kind;
+
+  /// The purchase token of the originating purchase if this subscription is one
+  /// of the following:
+  /// - Re-signup of a canceled but non-lapsed subscription
+  /// - Upgrade/downgrade from a previous subscription  For example, suppose a
+  /// user originally signs up and you receive purchase token X, then the user
+  /// cancels and goes through the resignup flow (before their subscription
+  /// lapses) and you receive purchase token Y, and finally the user upgrades
+  /// their subscription and you receive purchase token Z. If you call this API
+  /// with purchase token Z, this field will be set to Y. If you call this API
+  /// with purchase token Y, this field will be set to X. If you call this API
+  /// with purchase token X, this field will not be set.
+  core.String linkedPurchaseToken;
 
   /// The order id of the latest recurring order associated with the purchase of
   /// the subscription.
@@ -5639,6 +5648,12 @@ class SubscriptionPurchase {
   /// price is specified in British pounds sterling, price_currency_code is
   /// "GBP".
   core.String priceCurrencyCode;
+
+  /// The type of purchase of the subscription. This field is only set if this
+  /// purchase was not made using the standard in-app billing flow. Possible
+  /// values are:
+  /// - Test (i.e. purchased from a license testing account)
+  core.int purchaseType;
 
   /// Time at which the subscription was granted, in milliseconds since the
   /// Epoch.
@@ -5669,6 +5684,9 @@ class SubscriptionPurchase {
     if (_json.containsKey("kind")) {
       kind = _json["kind"];
     }
+    if (_json.containsKey("linkedPurchaseToken")) {
+      linkedPurchaseToken = _json["linkedPurchaseToken"];
+    }
     if (_json.containsKey("orderId")) {
       orderId = _json["orderId"];
     }
@@ -5680,6 +5698,9 @@ class SubscriptionPurchase {
     }
     if (_json.containsKey("priceCurrencyCode")) {
       priceCurrencyCode = _json["priceCurrencyCode"];
+    }
+    if (_json.containsKey("purchaseType")) {
+      purchaseType = _json["purchaseType"];
     }
     if (_json.containsKey("startTimeMillis")) {
       startTimeMillis = _json["startTimeMillis"];
@@ -5710,6 +5731,9 @@ class SubscriptionPurchase {
     if (kind != null) {
       _json["kind"] = kind;
     }
+    if (linkedPurchaseToken != null) {
+      _json["linkedPurchaseToken"] = linkedPurchaseToken;
+    }
     if (orderId != null) {
       _json["orderId"] = orderId;
     }
@@ -5721,6 +5745,9 @@ class SubscriptionPurchase {
     }
     if (priceCurrencyCode != null) {
       _json["priceCurrencyCode"] = priceCurrencyCode;
+    }
+    if (purchaseType != null) {
+      _json["purchaseType"] = purchaseType;
     }
     if (startTimeMillis != null) {
       _json["startTimeMillis"] = startTimeMillis;
@@ -5862,6 +5889,8 @@ class TokenPagination {
 }
 
 class Track {
+  /// Identifier for this track. One of "alpha", "beta", "production" or
+  /// "rollout".
   core.String track;
   core.double userFraction;
   core.List<core.int> versionCodes;
@@ -6057,7 +6086,7 @@ class UserComment {
 }
 
 /// A VoidedPurchase resource indicates a purchase that was either
-/// cancelled/refunded/charged-back.
+/// canceled/refunded/charged-back.
 class VoidedPurchase {
   /// This kind represents a voided purchase object in the androidpublisher
   /// service.
@@ -6071,7 +6100,7 @@ class VoidedPurchase {
   /// identifies a purchase.
   core.String purchaseToken;
 
-  /// The time at which the purchase was cancelled/refunded/charged-back, in
+  /// The time at which the purchase was canceled/refunded/charged-back, in
   /// milliseconds since the epoch (Jan 1, 1970).
   core.String voidedTimeMillis;
 

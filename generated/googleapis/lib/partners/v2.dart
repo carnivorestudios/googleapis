@@ -23,7 +23,6 @@ class PartnersApi {
   ClientMessagesResourceApi get clientMessages =>
       new ClientMessagesResourceApi(_requester);
   CompaniesResourceApi get companies => new CompaniesResourceApi(_requester);
-  ExamsResourceApi get exams => new ExamsResourceApi(_requester);
   LeadsResourceApi get leads => new LeadsResourceApi(_requester);
   OffersResourceApi get offers => new OffersResourceApi(_requester);
   UserEventsResourceApi get userEvents => new UserEventsResourceApi(_requester);
@@ -48,23 +47,10 @@ class AnalyticsResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [requestMetadata_locale] - Locale to use for the current request.
-  ///
-  /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
-  /// the user's geo-located IP address.
-  ///
-  /// [requestMetadata_experimentIds] - Experiment IDs the current request
-  /// belongs to.
-  ///
-  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
-  /// indicate where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
+  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
   /// instead of the user's ID.
-  ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [pageToken] - A token identifying a page of results that the server
   /// returns.
@@ -89,6 +75,19 @@ class AnalyticsResourceApi {
   /// An identifier has multiple letters created by a team which redirected the
   /// traffic to us.
   ///
+  /// [requestMetadata_locale] - Locale to use for the current request.
+  ///
+  /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
+  /// the user's geo-located IP address.
+  ///
+  /// [requestMetadata_experimentIds] - Experiment IDs the current request
+  /// belongs to.
+  ///
+  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
+  /// indicate where the traffic comes from.
+  /// An identifier has multiple letters created by a team which redirected the
+  /// traffic to us.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -100,15 +99,15 @@ class AnalyticsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListAnalyticsResponse> list(
-      {core.String requestMetadata_locale,
-      core.String requestMetadata_userOverrides_ipAddress,
-      core.List<core.String> requestMetadata_experimentIds,
-      core.String requestMetadata_trafficSource_trafficSubId,
+      {core.String requestMetadata_partnersSessionId,
       core.String requestMetadata_userOverrides_userId,
-      core.String requestMetadata_partnersSessionId,
       core.String pageToken,
       core.int pageSize,
       core.String requestMetadata_trafficSource_trafficSourceId,
+      core.String requestMetadata_locale,
+      core.String requestMetadata_userOverrides_ipAddress,
+      core.List<core.String> requestMetadata_experimentIds,
+      core.String requestMetadata_trafficSource_trafficSubId,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -117,6 +116,27 @@ class AnalyticsResourceApi {
     var _downloadOptions = commons.DownloadOptions.Metadata;
     var _body = null;
 
+    if (requestMetadata_partnersSessionId != null) {
+      _queryParams["requestMetadata.partnersSessionId"] = [
+        requestMetadata_partnersSessionId
+      ];
+    }
+    if (requestMetadata_userOverrides_userId != null) {
+      _queryParams["requestMetadata.userOverrides.userId"] = [
+        requestMetadata_userOverrides_userId
+      ];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
+    }
+    if (pageSize != null) {
+      _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (requestMetadata_trafficSource_trafficSourceId != null) {
+      _queryParams["requestMetadata.trafficSource.trafficSourceId"] = [
+        requestMetadata_trafficSource_trafficSourceId
+      ];
+    }
     if (requestMetadata_locale != null) {
       _queryParams["requestMetadata.locale"] = [requestMetadata_locale];
     }
@@ -132,27 +152,6 @@ class AnalyticsResourceApi {
     if (requestMetadata_trafficSource_trafficSubId != null) {
       _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
         requestMetadata_trafficSource_trafficSubId
-      ];
-    }
-    if (requestMetadata_userOverrides_userId != null) {
-      _queryParams["requestMetadata.userOverrides.userId"] = [
-        requestMetadata_userOverrides_userId
-      ];
-    }
-    if (requestMetadata_partnersSessionId != null) {
-      _queryParams["requestMetadata.partnersSessionId"] = [
-        requestMetadata_partnersSessionId
-      ];
-    }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
-    if (pageSize != null) {
-      _queryParams["pageSize"] = ["${pageSize}"];
-    }
-    if (requestMetadata_trafficSource_trafficSourceId != null) {
-      _queryParams["requestMetadata.trafficSource.trafficSourceId"] = [
-        requestMetadata_trafficSource_trafficSourceId
       ];
     }
     if ($fields != null) {
@@ -236,12 +235,25 @@ class CompaniesResourceApi {
   ///
   /// [companyId] - The ID of the company to retrieve.
   ///
-  /// [requestMetadata_experimentIds] - Experiment IDs the current request
-  /// belongs to.
+  /// [requestMetadata_trafficSource_trafficSourceId] - Identifier to indicate
+  /// where the traffic comes from.
+  /// An identifier has multiple letters created by a team which redirected the
+  /// traffic to us.
+  ///
+  /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
+  /// the user's geo-located IP address.
   ///
   /// [currencyCode] - If the company's budget is in a different currency code
   /// than this one, then
   /// the converted budget is converted to this currency code.
+  ///
+  /// [requestMetadata_experimentIds] - Experiment IDs the current request
+  /// belongs to.
+  ///
+  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
+  /// indicate where the traffic comes from.
+  /// An identifier has multiple letters created by a team which redirected the
+  /// traffic to us.
   ///
   /// [orderBy] - How to order addresses within the returned company. Currently,
   /// only
@@ -249,15 +261,10 @@ class CompaniesResourceApi {
   /// farthest in distance from given address and farthest to closest distance
   /// from given address respectively.
   ///
-  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
-  /// indicate where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
+  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
   /// instead of the user's ID.
-  ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [view] - The view of `Company` resource to be returned. This must not be
   /// `COMPANY_VIEW_UNSPECIFIED`.
@@ -272,14 +279,6 @@ class CompaniesResourceApi {
   /// If not given, the geo-located address of the request is used.
   /// Used when order_by is set.
   ///
-  /// [requestMetadata_trafficSource_trafficSourceId] - Identifier to indicate
-  /// where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
-  ///
-  /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
-  /// the user's geo-located IP address.
-  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -291,17 +290,17 @@ class CompaniesResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<GetCompanyResponse> get(core.String companyId,
-      {core.List<core.String> requestMetadata_experimentIds,
+      {core.String requestMetadata_trafficSource_trafficSourceId,
+      core.String requestMetadata_userOverrides_ipAddress,
       core.String currencyCode,
-      core.String orderBy,
+      core.List<core.String> requestMetadata_experimentIds,
       core.String requestMetadata_trafficSource_trafficSubId,
-      core.String requestMetadata_userOverrides_userId,
+      core.String orderBy,
       core.String requestMetadata_partnersSessionId,
+      core.String requestMetadata_userOverrides_userId,
       core.String view,
       core.String requestMetadata_locale,
       core.String address,
-      core.String requestMetadata_trafficSource_trafficSourceId,
-      core.String requestMetadata_userOverrides_ipAddress,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -313,29 +312,39 @@ class CompaniesResourceApi {
     if (companyId == null) {
       throw new core.ArgumentError("Parameter companyId is required.");
     }
-    if (requestMetadata_experimentIds != null) {
-      _queryParams["requestMetadata.experimentIds"] =
-          requestMetadata_experimentIds;
+    if (requestMetadata_trafficSource_trafficSourceId != null) {
+      _queryParams["requestMetadata.trafficSource.trafficSourceId"] = [
+        requestMetadata_trafficSource_trafficSourceId
+      ];
+    }
+    if (requestMetadata_userOverrides_ipAddress != null) {
+      _queryParams["requestMetadata.userOverrides.ipAddress"] = [
+        requestMetadata_userOverrides_ipAddress
+      ];
     }
     if (currencyCode != null) {
       _queryParams["currencyCode"] = [currencyCode];
     }
-    if (orderBy != null) {
-      _queryParams["orderBy"] = [orderBy];
+    if (requestMetadata_experimentIds != null) {
+      _queryParams["requestMetadata.experimentIds"] =
+          requestMetadata_experimentIds;
     }
     if (requestMetadata_trafficSource_trafficSubId != null) {
       _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
         requestMetadata_trafficSource_trafficSubId
       ];
     }
-    if (requestMetadata_userOverrides_userId != null) {
-      _queryParams["requestMetadata.userOverrides.userId"] = [
-        requestMetadata_userOverrides_userId
-      ];
+    if (orderBy != null) {
+      _queryParams["orderBy"] = [orderBy];
     }
     if (requestMetadata_partnersSessionId != null) {
       _queryParams["requestMetadata.partnersSessionId"] = [
         requestMetadata_partnersSessionId
+      ];
+    }
+    if (requestMetadata_userOverrides_userId != null) {
+      _queryParams["requestMetadata.userOverrides.userId"] = [
+        requestMetadata_userOverrides_userId
       ];
     }
     if (view != null) {
@@ -346,16 +355,6 @@ class CompaniesResourceApi {
     }
     if (address != null) {
       _queryParams["address"] = [address];
-    }
-    if (requestMetadata_trafficSource_trafficSourceId != null) {
-      _queryParams["requestMetadata.trafficSource.trafficSourceId"] = [
-        requestMetadata_trafficSource_trafficSourceId
-      ];
-    }
-    if (requestMetadata_userOverrides_ipAddress != null) {
-      _queryParams["requestMetadata.userOverrides.ipAddress"] = [
-        requestMetadata_userOverrides_ipAddress
-      ];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -375,6 +374,25 @@ class CompaniesResourceApi {
   /// Lists companies.
   ///
   /// Request parameters:
+  ///
+  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
+  ///
+  /// [companyName] - Company name to search for.
+  ///
+  /// [pageToken] - A token identifying a page of results that the server
+  /// returns.
+  /// Typically, this is the value of `ListCompaniesResponse.next_page_token`
+  /// returned from the previous call to
+  /// ListCompanies.
+  ///
+  /// [industries] - List of industries the company can help with.
+  ///
+  /// [websiteUrl] - Website URL that will help to find a better matched
+  /// company.
+  /// .
+  ///
+  /// [gpsMotivations] - List of reasons for using Google Partner Search to get
+  /// companies.
   ///
   /// [languageCodes] - List of language codes that company can support. Only
   /// primary language
@@ -406,11 +424,11 @@ class CompaniesResourceApi {
   /// [maxMonthlyBudget_currencyCode] - The 3-letter currency code defined in
   /// ISO 4217.
   ///
-  /// [minMonthlyBudget_currencyCode] - The 3-letter currency code defined in
-  /// ISO 4217.
-  ///
   /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
   /// instead of the user's ID.
+  ///
+  /// [minMonthlyBudget_currencyCode] - The 3-letter currency code defined in
+  /// ISO 4217.
   ///
   /// [view] - The view of the `Company` resource to be returned. This must not
   /// be
@@ -447,11 +465,6 @@ class CompaniesResourceApi {
   /// [maxMonthlyBudget_units] - The whole units of the amount.
   /// For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar.
   ///
-  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
-  /// indicate where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
-  ///
   /// [minMonthlyBudget_nanos] - Number of nano (10^-9) units of the amount.
   /// The value must be between -999,999,999 and +999,999,999 inclusive.
   /// If `units` is positive, `nanos` must be positive or zero.
@@ -459,24 +472,10 @@ class CompaniesResourceApi {
   /// If `units` is negative, `nanos` must be negative or zero.
   /// For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.
   ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
-  ///
-  /// [companyName] - Company name to search for.
-  ///
-  /// [pageToken] - A token identifying a page of results that the server
-  /// returns.
-  /// Typically, this is the value of `ListCompaniesResponse.next_page_token`
-  /// returned from the previous call to
-  /// ListCompanies.
-  ///
-  /// [industries] - List of industries the company can help with.
-  ///
-  /// [websiteUrl] - Website URL that will help to find a better matched
-  /// company.
-  /// .
-  ///
-  /// [gpsMotivations] - List of reasons for using Google Partner Search to get
-  /// companies.
+  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
+  /// indicate where the traffic comes from.
+  /// An identifier has multiple letters created by a team which redirected the
+  /// traffic to us.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -489,15 +488,21 @@ class CompaniesResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListCompaniesResponse> list(
-      {core.List<core.String> languageCodes,
+      {core.String requestMetadata_partnersSessionId,
+      core.String companyName,
+      core.String pageToken,
+      core.List<core.String> industries,
+      core.String websiteUrl,
+      core.List<core.String> gpsMotivations,
+      core.List<core.String> languageCodes,
       core.int pageSize,
       core.String requestMetadata_userOverrides_ipAddress,
       core.List<core.String> requestMetadata_experimentIds,
       core.String orderBy,
       core.List<core.String> specializations,
       core.String maxMonthlyBudget_currencyCode,
-      core.String minMonthlyBudget_currencyCode,
       core.String requestMetadata_userOverrides_userId,
+      core.String minMonthlyBudget_currencyCode,
       core.String view,
       core.String requestMetadata_locale,
       core.String address,
@@ -506,14 +511,8 @@ class CompaniesResourceApi {
       core.List<core.String> services,
       core.String requestMetadata_trafficSource_trafficSourceId,
       core.String maxMonthlyBudget_units,
-      core.String requestMetadata_trafficSource_trafficSubId,
       core.int minMonthlyBudget_nanos,
-      core.String requestMetadata_partnersSessionId,
-      core.String companyName,
-      core.String pageToken,
-      core.List<core.String> industries,
-      core.String websiteUrl,
-      core.List<core.String> gpsMotivations,
+      core.String requestMetadata_trafficSource_trafficSubId,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -522,6 +521,26 @@ class CompaniesResourceApi {
     var _downloadOptions = commons.DownloadOptions.Metadata;
     var _body = null;
 
+    if (requestMetadata_partnersSessionId != null) {
+      _queryParams["requestMetadata.partnersSessionId"] = [
+        requestMetadata_partnersSessionId
+      ];
+    }
+    if (companyName != null) {
+      _queryParams["companyName"] = [companyName];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
+    }
+    if (industries != null) {
+      _queryParams["industries"] = industries;
+    }
+    if (websiteUrl != null) {
+      _queryParams["websiteUrl"] = [websiteUrl];
+    }
+    if (gpsMotivations != null) {
+      _queryParams["gpsMotivations"] = gpsMotivations;
+    }
     if (languageCodes != null) {
       _queryParams["languageCodes"] = languageCodes;
     }
@@ -548,14 +567,14 @@ class CompaniesResourceApi {
         maxMonthlyBudget_currencyCode
       ];
     }
-    if (minMonthlyBudget_currencyCode != null) {
-      _queryParams["minMonthlyBudget.currencyCode"] = [
-        minMonthlyBudget_currencyCode
-      ];
-    }
     if (requestMetadata_userOverrides_userId != null) {
       _queryParams["requestMetadata.userOverrides.userId"] = [
         requestMetadata_userOverrides_userId
+      ];
+    }
+    if (minMonthlyBudget_currencyCode != null) {
+      _queryParams["minMonthlyBudget.currencyCode"] = [
+        minMonthlyBudget_currencyCode
       ];
     }
     if (view != null) {
@@ -584,33 +603,13 @@ class CompaniesResourceApi {
     if (maxMonthlyBudget_units != null) {
       _queryParams["maxMonthlyBudget.units"] = [maxMonthlyBudget_units];
     }
+    if (minMonthlyBudget_nanos != null) {
+      _queryParams["minMonthlyBudget.nanos"] = ["${minMonthlyBudget_nanos}"];
+    }
     if (requestMetadata_trafficSource_trafficSubId != null) {
       _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
         requestMetadata_trafficSource_trafficSubId
       ];
-    }
-    if (minMonthlyBudget_nanos != null) {
-      _queryParams["minMonthlyBudget.nanos"] = ["${minMonthlyBudget_nanos}"];
-    }
-    if (requestMetadata_partnersSessionId != null) {
-      _queryParams["requestMetadata.partnersSessionId"] = [
-        requestMetadata_partnersSessionId
-      ];
-    }
-    if (companyName != null) {
-      _queryParams["companyName"] = [companyName];
-    }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
-    if (industries != null) {
-      _queryParams["industries"] = industries;
-    }
-    if (websiteUrl != null) {
-      _queryParams["websiteUrl"] = [websiteUrl];
-    }
-    if (gpsMotivations != null) {
-      _queryParams["gpsMotivations"] = gpsMotivations;
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -685,131 +684,6 @@ class CompaniesLeadsResourceApi {
   }
 }
 
-class ExamsResourceApi {
-  final commons.ApiRequester _requester;
-
-  ExamsResourceApi(commons.ApiRequester client) : _requester = client;
-
-  /// Gets an Exam Token for a Partner's user to take an exam in the Exams
-  /// System
-  ///
-  /// Request parameters:
-  ///
-  /// [examType] - The exam type we are requesting a token for.
-  /// Possible string values are:
-  /// - "CERTIFICATION_EXAM_TYPE_UNSPECIFIED" : A
-  /// CERTIFICATION_EXAM_TYPE_UNSPECIFIED.
-  /// - "CET_ADWORDS_FUNDAMENTALS" : A CET_ADWORDS_FUNDAMENTALS.
-  /// - "CET_ADWORDS_ADVANCED_SEARCH" : A CET_ADWORDS_ADVANCED_SEARCH.
-  /// - "CET_ADWORDS_ADVANCED_DISPLAY" : A CET_ADWORDS_ADVANCED_DISPLAY.
-  /// - "CET_VIDEO_ADS" : A CET_VIDEO_ADS.
-  /// - "CET_DOUBLECLICK" : A CET_DOUBLECLICK.
-  /// - "CET_ANALYTICS" : A CET_ANALYTICS.
-  /// - "CET_SHOPPING" : A CET_SHOPPING.
-  /// - "CET_MOBILE" : A CET_MOBILE.
-  /// - "CET_DIGITAL_SALES" : A CET_DIGITAL_SALES.
-  /// - "CET_MOBILE_SITES" : A CET_MOBILE_SITES.
-  ///
-  /// [requestMetadata_experimentIds] - Experiment IDs the current request
-  /// belongs to.
-  ///
-  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
-  /// indicate where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
-  ///
-  /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
-  /// instead of the user's ID.
-  ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
-  ///
-  /// [requestMetadata_trafficSource_trafficSourceId] - Identifier to indicate
-  /// where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
-  ///
-  /// [requestMetadata_locale] - Locale to use for the current request.
-  ///
-  /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
-  /// the user's geo-located IP address.
-  ///
-  /// [$fields] - Selector specifying which fields to include in a partial
-  /// response.
-  ///
-  /// Completes with a [ExamToken].
-  ///
-  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
-  /// error.
-  ///
-  /// If the used [http.Client] completes with an error when making a REST call,
-  /// this method will complete with the same error.
-  async.Future<ExamToken> getToken(core.String examType,
-      {core.List<core.String> requestMetadata_experimentIds,
-      core.String requestMetadata_trafficSource_trafficSubId,
-      core.String requestMetadata_userOverrides_userId,
-      core.String requestMetadata_partnersSessionId,
-      core.String requestMetadata_trafficSource_trafficSourceId,
-      core.String requestMetadata_locale,
-      core.String requestMetadata_userOverrides_ipAddress,
-      core.String $fields}) {
-    var _url = null;
-    var _queryParams = new core.Map();
-    var _uploadMedia = null;
-    var _uploadOptions = null;
-    var _downloadOptions = commons.DownloadOptions.Metadata;
-    var _body = null;
-
-    if (examType == null) {
-      throw new core.ArgumentError("Parameter examType is required.");
-    }
-    if (requestMetadata_experimentIds != null) {
-      _queryParams["requestMetadata.experimentIds"] =
-          requestMetadata_experimentIds;
-    }
-    if (requestMetadata_trafficSource_trafficSubId != null) {
-      _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
-        requestMetadata_trafficSource_trafficSubId
-      ];
-    }
-    if (requestMetadata_userOverrides_userId != null) {
-      _queryParams["requestMetadata.userOverrides.userId"] = [
-        requestMetadata_userOverrides_userId
-      ];
-    }
-    if (requestMetadata_partnersSessionId != null) {
-      _queryParams["requestMetadata.partnersSessionId"] = [
-        requestMetadata_partnersSessionId
-      ];
-    }
-    if (requestMetadata_trafficSource_trafficSourceId != null) {
-      _queryParams["requestMetadata.trafficSource.trafficSourceId"] = [
-        requestMetadata_trafficSource_trafficSourceId
-      ];
-    }
-    if (requestMetadata_locale != null) {
-      _queryParams["requestMetadata.locale"] = [requestMetadata_locale];
-    }
-    if (requestMetadata_userOverrides_ipAddress != null) {
-      _queryParams["requestMetadata.userOverrides.ipAddress"] = [
-        requestMetadata_userOverrides_ipAddress
-      ];
-    }
-    if ($fields != null) {
-      _queryParams["fields"] = [$fields];
-    }
-
-    _url = 'v2/exams/' + commons.Escaper.ecapeVariable('$examType') + '/token';
-
-    var _response = _requester.request(_url, "GET",
-        body: _body,
-        queryParams: _queryParams,
-        uploadOptions: _uploadOptions,
-        uploadMedia: _uploadMedia,
-        downloadOptions: _downloadOptions);
-    return _response.then((data) => new ExamToken.fromJson(data));
-  }
-}
-
 class LeadsResourceApi {
   final commons.ApiRequester _requester;
 
@@ -820,21 +694,10 @@ class LeadsResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [requestMetadata_experimentIds] - Experiment IDs the current request
-  /// belongs to.
-  ///
-  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
-  /// indicate where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
-  ///
-  /// [orderBy] - How to order Leads. Currently, only `create_time`
-  /// and `create_time desc` are supported
+  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
   /// instead of the user's ID.
-  ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [pageToken] - A token identifying a page of results that the server
   /// returns.
@@ -856,6 +719,17 @@ class LeadsResourceApi {
   /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
   /// the user's geo-located IP address.
   ///
+  /// [requestMetadata_experimentIds] - Experiment IDs the current request
+  /// belongs to.
+  ///
+  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
+  /// indicate where the traffic comes from.
+  /// An identifier has multiple letters created by a team which redirected the
+  /// traffic to us.
+  ///
+  /// [orderBy] - How to order Leads. Currently, only `create_time`
+  /// and `create_time desc` are supported
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -867,16 +741,16 @@ class LeadsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListLeadsResponse> list(
-      {core.List<core.String> requestMetadata_experimentIds,
-      core.String requestMetadata_trafficSource_trafficSubId,
-      core.String orderBy,
+      {core.String requestMetadata_partnersSessionId,
       core.String requestMetadata_userOverrides_userId,
-      core.String requestMetadata_partnersSessionId,
       core.String pageToken,
       core.int pageSize,
       core.String requestMetadata_trafficSource_trafficSourceId,
       core.String requestMetadata_locale,
       core.String requestMetadata_userOverrides_ipAddress,
+      core.List<core.String> requestMetadata_experimentIds,
+      core.String requestMetadata_trafficSource_trafficSubId,
+      core.String orderBy,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -885,26 +759,14 @@ class LeadsResourceApi {
     var _downloadOptions = commons.DownloadOptions.Metadata;
     var _body = null;
 
-    if (requestMetadata_experimentIds != null) {
-      _queryParams["requestMetadata.experimentIds"] =
-          requestMetadata_experimentIds;
-    }
-    if (requestMetadata_trafficSource_trafficSubId != null) {
-      _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
-        requestMetadata_trafficSource_trafficSubId
+    if (requestMetadata_partnersSessionId != null) {
+      _queryParams["requestMetadata.partnersSessionId"] = [
+        requestMetadata_partnersSessionId
       ];
-    }
-    if (orderBy != null) {
-      _queryParams["orderBy"] = [orderBy];
     }
     if (requestMetadata_userOverrides_userId != null) {
       _queryParams["requestMetadata.userOverrides.userId"] = [
         requestMetadata_userOverrides_userId
-      ];
-    }
-    if (requestMetadata_partnersSessionId != null) {
-      _queryParams["requestMetadata.partnersSessionId"] = [
-        requestMetadata_partnersSessionId
       ];
     }
     if (pageToken != null) {
@@ -925,6 +787,18 @@ class LeadsResourceApi {
       _queryParams["requestMetadata.userOverrides.ipAddress"] = [
         requestMetadata_userOverrides_ipAddress
       ];
+    }
+    if (requestMetadata_experimentIds != null) {
+      _queryParams["requestMetadata.experimentIds"] =
+          requestMetadata_experimentIds;
+    }
+    if (requestMetadata_trafficSource_trafficSubId != null) {
+      _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
+        requestMetadata_trafficSource_trafficSubId
+      ];
+    }
+    if (orderBy != null) {
+      _queryParams["orderBy"] = [orderBy];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1061,31 +935,10 @@ class OffersHistoryResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
-  /// the user's geo-located IP address.
-  ///
-  /// [requestMetadata_experimentIds] - Experiment IDs the current request
-  /// belongs to.
-  ///
-  /// [entireCompany] - if true, show history for the entire company.  Requires
-  /// user to be admin.
-  ///
-  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
-  /// indicate where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
-  ///
-  /// [orderBy] - Comma-separated list of fields to order by, e.g.:
-  /// "foo,bar,baz".
-  /// Use "foo desc" to sort descending.
-  /// List of valid field names is: name, offer_code, expiration_time, status,
-  ///     last_modified_time, sender_name, creation_time, country_code,
-  ///     offer_type.
+  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
   /// instead of the user's ID.
-  ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [pageToken] - Token to retrieve a specific page.
   ///
@@ -1098,6 +951,27 @@ class OffersHistoryResourceApi {
   ///
   /// [requestMetadata_locale] - Locale to use for the current request.
   ///
+  /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
+  /// the user's geo-located IP address.
+  ///
+  /// [entireCompany] - if true, show history for the entire company.  Requires
+  /// user to be admin.
+  ///
+  /// [requestMetadata_experimentIds] - Experiment IDs the current request
+  /// belongs to.
+  ///
+  /// [orderBy] - Comma-separated list of fields to order by, e.g.:
+  /// "foo,bar,baz".
+  /// Use "foo desc" to sort descending.
+  /// List of valid field names is: name, offer_code, expiration_time, status,
+  ///     last_modified_time, sender_name, creation_time, country_code,
+  ///     offer_type.
+  ///
+  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
+  /// indicate where the traffic comes from.
+  /// An identifier has multiple letters created by a team which redirected the
+  /// traffic to us.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1109,17 +983,17 @@ class OffersHistoryResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListOffersHistoryResponse> list(
-      {core.String requestMetadata_userOverrides_ipAddress,
-      core.List<core.String> requestMetadata_experimentIds,
-      core.bool entireCompany,
-      core.String requestMetadata_trafficSource_trafficSubId,
-      core.String orderBy,
+      {core.String requestMetadata_partnersSessionId,
       core.String requestMetadata_userOverrides_userId,
-      core.String requestMetadata_partnersSessionId,
       core.String pageToken,
       core.int pageSize,
       core.String requestMetadata_trafficSource_trafficSourceId,
       core.String requestMetadata_locale,
+      core.String requestMetadata_userOverrides_ipAddress,
+      core.bool entireCompany,
+      core.List<core.String> requestMetadata_experimentIds,
+      core.String orderBy,
+      core.String requestMetadata_trafficSource_trafficSubId,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1128,34 +1002,14 @@ class OffersHistoryResourceApi {
     var _downloadOptions = commons.DownloadOptions.Metadata;
     var _body = null;
 
-    if (requestMetadata_userOverrides_ipAddress != null) {
-      _queryParams["requestMetadata.userOverrides.ipAddress"] = [
-        requestMetadata_userOverrides_ipAddress
+    if (requestMetadata_partnersSessionId != null) {
+      _queryParams["requestMetadata.partnersSessionId"] = [
+        requestMetadata_partnersSessionId
       ];
-    }
-    if (requestMetadata_experimentIds != null) {
-      _queryParams["requestMetadata.experimentIds"] =
-          requestMetadata_experimentIds;
-    }
-    if (entireCompany != null) {
-      _queryParams["entireCompany"] = ["${entireCompany}"];
-    }
-    if (requestMetadata_trafficSource_trafficSubId != null) {
-      _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
-        requestMetadata_trafficSource_trafficSubId
-      ];
-    }
-    if (orderBy != null) {
-      _queryParams["orderBy"] = [orderBy];
     }
     if (requestMetadata_userOverrides_userId != null) {
       _queryParams["requestMetadata.userOverrides.userId"] = [
         requestMetadata_userOverrides_userId
-      ];
-    }
-    if (requestMetadata_partnersSessionId != null) {
-      _queryParams["requestMetadata.partnersSessionId"] = [
-        requestMetadata_partnersSessionId
       ];
     }
     if (pageToken != null) {
@@ -1171,6 +1025,26 @@ class OffersHistoryResourceApi {
     }
     if (requestMetadata_locale != null) {
       _queryParams["requestMetadata.locale"] = [requestMetadata_locale];
+    }
+    if (requestMetadata_userOverrides_ipAddress != null) {
+      _queryParams["requestMetadata.userOverrides.ipAddress"] = [
+        requestMetadata_userOverrides_ipAddress
+      ];
+    }
+    if (entireCompany != null) {
+      _queryParams["entireCompany"] = ["${entireCompany}"];
+    }
+    if (requestMetadata_experimentIds != null) {
+      _queryParams["requestMetadata.experimentIds"] =
+          requestMetadata_experimentIds;
+    }
+    if (orderBy != null) {
+      _queryParams["orderBy"] = [orderBy];
+    }
+    if (requestMetadata_trafficSource_trafficSubId != null) {
+      _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
+        requestMetadata_trafficSource_trafficSubId
+      ];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1366,10 +1240,10 @@ class UsersResourceApi {
   /// An identifier has multiple letters created by a team which redirected the
   /// traffic to us.
   ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
-  ///
   /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
   /// instead of the user's ID.
+  ///
+  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [requestMetadata_trafficSource_trafficSourceId] - Identifier to indicate
   /// where the traffic comes from.
@@ -1395,8 +1269,8 @@ class UsersResourceApi {
       CompanyRelation request, core.String userId,
       {core.List<core.String> requestMetadata_experimentIds,
       core.String requestMetadata_trafficSource_trafficSubId,
-      core.String requestMetadata_partnersSessionId,
       core.String requestMetadata_userOverrides_userId,
+      core.String requestMetadata_partnersSessionId,
       core.String requestMetadata_trafficSource_trafficSourceId,
       core.String requestMetadata_locale,
       core.String requestMetadata_userOverrides_ipAddress,
@@ -1423,14 +1297,14 @@ class UsersResourceApi {
         requestMetadata_trafficSource_trafficSubId
       ];
     }
-    if (requestMetadata_partnersSessionId != null) {
-      _queryParams["requestMetadata.partnersSessionId"] = [
-        requestMetadata_partnersSessionId
-      ];
-    }
     if (requestMetadata_userOverrides_userId != null) {
       _queryParams["requestMetadata.userOverrides.userId"] = [
         requestMetadata_userOverrides_userId
+      ];
+    }
+    if (requestMetadata_partnersSessionId != null) {
+      _queryParams["requestMetadata.partnersSessionId"] = [
+        requestMetadata_partnersSessionId
       ];
     }
     if (requestMetadata_trafficSource_trafficSourceId != null) {
@@ -1470,16 +1344,6 @@ class UsersResourceApi {
   /// [userId] - The ID of the user. Can be set to <code>me</code> to mean
   /// the currently authenticated user.
   ///
-  /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
-  /// instead of the user's ID.
-  ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
-  ///
-  /// [requestMetadata_trafficSource_trafficSourceId] - Identifier to indicate
-  /// where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
-  ///
   /// [requestMetadata_locale] - Locale to use for the current request.
   ///
   /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
@@ -1490,6 +1354,16 @@ class UsersResourceApi {
   ///
   /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
   /// indicate where the traffic comes from.
+  /// An identifier has multiple letters created by a team which redirected the
+  /// traffic to us.
+  ///
+  /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
+  /// instead of the user's ID.
+  ///
+  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
+  ///
+  /// [requestMetadata_trafficSource_trafficSourceId] - Identifier to indicate
+  /// where the traffic comes from.
   /// An identifier has multiple letters created by a team which redirected the
   /// traffic to us.
   ///
@@ -1504,13 +1378,13 @@ class UsersResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<Empty> deleteCompanyRelation(core.String userId,
-      {core.String requestMetadata_userOverrides_userId,
-      core.String requestMetadata_partnersSessionId,
-      core.String requestMetadata_trafficSource_trafficSourceId,
-      core.String requestMetadata_locale,
+      {core.String requestMetadata_locale,
       core.String requestMetadata_userOverrides_ipAddress,
       core.List<core.String> requestMetadata_experimentIds,
       core.String requestMetadata_trafficSource_trafficSubId,
+      core.String requestMetadata_userOverrides_userId,
+      core.String requestMetadata_partnersSessionId,
+      core.String requestMetadata_trafficSource_trafficSourceId,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1521,21 +1395,6 @@ class UsersResourceApi {
 
     if (userId == null) {
       throw new core.ArgumentError("Parameter userId is required.");
-    }
-    if (requestMetadata_userOverrides_userId != null) {
-      _queryParams["requestMetadata.userOverrides.userId"] = [
-        requestMetadata_userOverrides_userId
-      ];
-    }
-    if (requestMetadata_partnersSessionId != null) {
-      _queryParams["requestMetadata.partnersSessionId"] = [
-        requestMetadata_partnersSessionId
-      ];
-    }
-    if (requestMetadata_trafficSource_trafficSourceId != null) {
-      _queryParams["requestMetadata.trafficSource.trafficSourceId"] = [
-        requestMetadata_trafficSource_trafficSourceId
-      ];
     }
     if (requestMetadata_locale != null) {
       _queryParams["requestMetadata.locale"] = [requestMetadata_locale];
@@ -1552,6 +1411,21 @@ class UsersResourceApi {
     if (requestMetadata_trafficSource_trafficSubId != null) {
       _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
         requestMetadata_trafficSource_trafficSubId
+      ];
+    }
+    if (requestMetadata_userOverrides_userId != null) {
+      _queryParams["requestMetadata.userOverrides.userId"] = [
+        requestMetadata_userOverrides_userId
+      ];
+    }
+    if (requestMetadata_partnersSessionId != null) {
+      _queryParams["requestMetadata.partnersSessionId"] = [
+        requestMetadata_partnersSessionId
+      ];
+    }
+    if (requestMetadata_trafficSource_trafficSourceId != null) {
+      _queryParams["requestMetadata.trafficSource.trafficSourceId"] = [
+        requestMetadata_trafficSource_trafficSourceId
       ];
     }
     if ($fields != null) {
@@ -1579,9 +1453,6 @@ class UsersResourceApi {
   /// the currently
   /// authenticated user.
   ///
-  /// [requestMetadata_experimentIds] - Experiment IDs the current request
-  /// belongs to.
-  ///
   /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
   /// indicate where the traffic comes from.
   /// An identifier has multiple letters created by a team which redirected the
@@ -1608,6 +1479,9 @@ class UsersResourceApi {
   /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
   /// the user's geo-located IP address.
   ///
+  /// [requestMetadata_experimentIds] - Experiment IDs the current request
+  /// belongs to.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1619,14 +1493,14 @@ class UsersResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<User> get(core.String userId,
-      {core.List<core.String> requestMetadata_experimentIds,
-      core.String requestMetadata_trafficSource_trafficSubId,
+      {core.String requestMetadata_trafficSource_trafficSubId,
       core.String requestMetadata_userOverrides_userId,
       core.String requestMetadata_partnersSessionId,
       core.String userView,
       core.String requestMetadata_trafficSource_trafficSourceId,
       core.String requestMetadata_locale,
       core.String requestMetadata_userOverrides_ipAddress,
+      core.List<core.String> requestMetadata_experimentIds,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1637,10 +1511,6 @@ class UsersResourceApi {
 
     if (userId == null) {
       throw new core.ArgumentError("Parameter userId is required.");
-    }
-    if (requestMetadata_experimentIds != null) {
-      _queryParams["requestMetadata.experimentIds"] =
-          requestMetadata_experimentIds;
     }
     if (requestMetadata_trafficSource_trafficSubId != null) {
       _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
@@ -1673,6 +1543,10 @@ class UsersResourceApi {
         requestMetadata_userOverrides_ipAddress
       ];
     }
+    if (requestMetadata_experimentIds != null) {
+      _queryParams["requestMetadata.experimentIds"] =
+          requestMetadata_experimentIds;
+    }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
     }
@@ -1695,6 +1569,11 @@ class UsersResourceApi {
   ///
   /// Request parameters:
   ///
+  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
+  ///
+  /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
+  /// instead of the user's ID.
+  ///
   /// [requestMetadata_trafficSource_trafficSourceId] - Identifier to indicate
   /// where the traffic comes from.
   /// An identifier has multiple letters created by a team which redirected the
@@ -1713,11 +1592,6 @@ class UsersResourceApi {
   /// An identifier has multiple letters created by a team which redirected the
   /// traffic to us.
   ///
-  /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
-  /// instead of the user's ID.
-  ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
-  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1729,13 +1603,13 @@ class UsersResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<UserProfile> updateProfile(UserProfile request,
-      {core.String requestMetadata_trafficSource_trafficSourceId,
+      {core.String requestMetadata_partnersSessionId,
+      core.String requestMetadata_userOverrides_userId,
+      core.String requestMetadata_trafficSource_trafficSourceId,
       core.String requestMetadata_locale,
       core.String requestMetadata_userOverrides_ipAddress,
       core.List<core.String> requestMetadata_experimentIds,
       core.String requestMetadata_trafficSource_trafficSubId,
-      core.String requestMetadata_userOverrides_userId,
-      core.String requestMetadata_partnersSessionId,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1746,6 +1620,16 @@ class UsersResourceApi {
 
     if (request != null) {
       _body = convert.JSON.encode((request).toJson());
+    }
+    if (requestMetadata_partnersSessionId != null) {
+      _queryParams["requestMetadata.partnersSessionId"] = [
+        requestMetadata_partnersSessionId
+      ];
+    }
+    if (requestMetadata_userOverrides_userId != null) {
+      _queryParams["requestMetadata.userOverrides.userId"] = [
+        requestMetadata_userOverrides_userId
+      ];
     }
     if (requestMetadata_trafficSource_trafficSourceId != null) {
       _queryParams["requestMetadata.trafficSource.trafficSourceId"] = [
@@ -1767,16 +1651,6 @@ class UsersResourceApi {
     if (requestMetadata_trafficSource_trafficSubId != null) {
       _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
         requestMetadata_trafficSource_trafficSubId
-      ];
-    }
-    if (requestMetadata_userOverrides_userId != null) {
-      _queryParams["requestMetadata.userOverrides.userId"] = [
-        requestMetadata_userOverrides_userId
-      ];
-    }
-    if (requestMetadata_partnersSessionId != null) {
-      _queryParams["requestMetadata.partnersSessionId"] = [
-        requestMetadata_partnersSessionId
       ];
     }
     if ($fields != null) {
@@ -1805,9 +1679,6 @@ class V2ResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
-  /// the user's geo-located IP address.
-  ///
   /// [requestMetadata_experimentIds] - Experiment IDs the current request
   /// belongs to.
   ///
@@ -1828,6 +1699,9 @@ class V2ResourceApi {
   ///
   /// [requestMetadata_locale] - Locale to use for the current request.
   ///
+  /// [requestMetadata_userOverrides_ipAddress] - IP address to use instead of
+  /// the user's geo-located IP address.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1839,13 +1713,13 @@ class V2ResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<GetPartnersStatusResponse> getPartnersstatus(
-      {core.String requestMetadata_userOverrides_ipAddress,
-      core.List<core.String> requestMetadata_experimentIds,
+      {core.List<core.String> requestMetadata_experimentIds,
       core.String requestMetadata_trafficSource_trafficSubId,
       core.String requestMetadata_userOverrides_userId,
       core.String requestMetadata_partnersSessionId,
       core.String requestMetadata_trafficSource_trafficSourceId,
       core.String requestMetadata_locale,
+      core.String requestMetadata_userOverrides_ipAddress,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1854,11 +1728,6 @@ class V2ResourceApi {
     var _downloadOptions = commons.DownloadOptions.Metadata;
     var _body = null;
 
-    if (requestMetadata_userOverrides_ipAddress != null) {
-      _queryParams["requestMetadata.userOverrides.ipAddress"] = [
-        requestMetadata_userOverrides_ipAddress
-      ];
-    }
     if (requestMetadata_experimentIds != null) {
       _queryParams["requestMetadata.experimentIds"] =
           requestMetadata_experimentIds;
@@ -1885,6 +1754,11 @@ class V2ResourceApi {
     }
     if (requestMetadata_locale != null) {
       _queryParams["requestMetadata.locale"] = [requestMetadata_locale];
+    }
+    if (requestMetadata_userOverrides_ipAddress != null) {
+      _queryParams["requestMetadata.userOverrides.ipAddress"] = [
+        requestMetadata_userOverrides_ipAddress
+      ];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1909,14 +1783,6 @@ class V2ResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [requestMetadata_experimentIds] - Experiment IDs the current request
-  /// belongs to.
-  ///
-  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
-  /// indicate where the traffic comes from.
-  /// An identifier has multiple letters created by a team which redirected the
-  /// traffic to us.
-  ///
   /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
   /// instead of the user's ID.
   ///
@@ -1935,6 +1801,14 @@ class V2ResourceApi {
   /// [updateMask] - Standard field mask for the set of fields to be updated.
   /// Required with at least 1 value in FieldMask's paths.
   ///
+  /// [requestMetadata_experimentIds] - Experiment IDs the current request
+  /// belongs to.
+  ///
+  /// [requestMetadata_trafficSource_trafficSubId] - Second level identifier to
+  /// indicate where the traffic comes from.
+  /// An identifier has multiple letters created by a team which redirected the
+  /// traffic to us.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1946,14 +1820,14 @@ class V2ResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<Company> updateCompanies(Company request,
-      {core.List<core.String> requestMetadata_experimentIds,
-      core.String requestMetadata_trafficSource_trafficSubId,
-      core.String requestMetadata_userOverrides_userId,
+      {core.String requestMetadata_userOverrides_userId,
       core.String requestMetadata_partnersSessionId,
       core.String requestMetadata_trafficSource_trafficSourceId,
       core.String requestMetadata_locale,
       core.String requestMetadata_userOverrides_ipAddress,
       core.String updateMask,
+      core.List<core.String> requestMetadata_experimentIds,
+      core.String requestMetadata_trafficSource_trafficSubId,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1964,15 +1838,6 @@ class V2ResourceApi {
 
     if (request != null) {
       _body = convert.JSON.encode((request).toJson());
-    }
-    if (requestMetadata_experimentIds != null) {
-      _queryParams["requestMetadata.experimentIds"] =
-          requestMetadata_experimentIds;
-    }
-    if (requestMetadata_trafficSource_trafficSubId != null) {
-      _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
-        requestMetadata_trafficSource_trafficSubId
-      ];
     }
     if (requestMetadata_userOverrides_userId != null) {
       _queryParams["requestMetadata.userOverrides.userId"] = [
@@ -2000,6 +1865,15 @@ class V2ResourceApi {
     if (updateMask != null) {
       _queryParams["updateMask"] = [updateMask];
     }
+    if (requestMetadata_experimentIds != null) {
+      _queryParams["requestMetadata.experimentIds"] =
+          requestMetadata_experimentIds;
+    }
+    if (requestMetadata_trafficSource_trafficSubId != null) {
+      _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
+        requestMetadata_trafficSource_trafficSubId
+      ];
+    }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
     }
@@ -2020,6 +1894,11 @@ class V2ResourceApi {
   /// [request] - The metadata request object.
   ///
   /// Request parameters:
+  ///
+  /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
+  /// instead of the user's ID.
+  ///
+  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
   ///
   /// [requestMetadata_trafficSource_trafficSourceId] - Identifier to indicate
   /// where the traffic comes from.
@@ -2043,11 +1922,6 @@ class V2ResourceApi {
   /// An identifier has multiple letters created by a team which redirected the
   /// traffic to us.
   ///
-  /// [requestMetadata_userOverrides_userId] - Logged-in user ID to impersonate
-  /// instead of the user's ID.
-  ///
-  /// [requestMetadata_partnersSessionId] - Google Partners session ID.
-  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -2059,14 +1933,14 @@ class V2ResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<Lead> updateLeads(Lead request,
-      {core.String requestMetadata_trafficSource_trafficSourceId,
+      {core.String requestMetadata_userOverrides_userId,
+      core.String requestMetadata_partnersSessionId,
+      core.String requestMetadata_trafficSource_trafficSourceId,
       core.String requestMetadata_locale,
       core.String requestMetadata_userOverrides_ipAddress,
       core.String updateMask,
       core.List<core.String> requestMetadata_experimentIds,
       core.String requestMetadata_trafficSource_trafficSubId,
-      core.String requestMetadata_userOverrides_userId,
-      core.String requestMetadata_partnersSessionId,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -2077,6 +1951,16 @@ class V2ResourceApi {
 
     if (request != null) {
       _body = convert.JSON.encode((request).toJson());
+    }
+    if (requestMetadata_userOverrides_userId != null) {
+      _queryParams["requestMetadata.userOverrides.userId"] = [
+        requestMetadata_userOverrides_userId
+      ];
+    }
+    if (requestMetadata_partnersSessionId != null) {
+      _queryParams["requestMetadata.partnersSessionId"] = [
+        requestMetadata_partnersSessionId
+      ];
     }
     if (requestMetadata_trafficSource_trafficSourceId != null) {
       _queryParams["requestMetadata.trafficSource.trafficSourceId"] = [
@@ -2101,16 +1985,6 @@ class V2ResourceApi {
     if (requestMetadata_trafficSource_trafficSubId != null) {
       _queryParams["requestMetadata.trafficSource.trafficSubId"] = [
         requestMetadata_trafficSource_trafficSubId
-      ];
-    }
-    if (requestMetadata_userOverrides_userId != null) {
-      _queryParams["requestMetadata.userOverrides.userId"] = [
-        requestMetadata_userOverrides_userId
-      ];
-    }
-    if (requestMetadata_partnersSessionId != null) {
-      _queryParams["requestMetadata.partnersSessionId"] = [
-        requestMetadata_partnersSessionId
       ];
     }
     if ($fields != null) {
@@ -3476,59 +3350,6 @@ class ExamStatus {
     }
     if (warning != null) {
       _json["warning"] = warning;
-    }
-    return _json;
-  }
-}
-
-/// A token that allows a user to take an exam.
-class ExamToken {
-  /// The id of the exam the token is for.
-  core.String examId;
-
-  /// The type of the exam the token belongs to.
-  /// Possible string values are:
-  /// - "CERTIFICATION_EXAM_TYPE_UNSPECIFIED" : Unchosen.
-  /// - "CET_ADWORDS_FUNDAMENTALS" : Adwords Fundamentals exam.
-  /// - "CET_ADWORDS_ADVANCED_SEARCH" : AdWords advanced search exam.
-  /// - "CET_ADWORDS_ADVANCED_DISPLAY" : AdWords advanced display exam.
-  /// - "CET_VIDEO_ADS" : VideoAds exam.
-  /// - "CET_DOUBLECLICK" : DoubleClick exam.
-  /// - "CET_ANALYTICS" : Analytics exam.
-  /// - "CET_SHOPPING" : Shopping exam.
-  /// - "CET_MOBILE" : Mobile exam.
-  /// - "CET_DIGITAL_SALES" : Digital Sales exam.
-  /// - "CET_MOBILE_SITES" : Mobile Sites exam.
-  core.String examType;
-
-  /// The token, only present if the user has access to the exam.
-  core.String token;
-
-  ExamToken();
-
-  ExamToken.fromJson(core.Map _json) {
-    if (_json.containsKey("examId")) {
-      examId = _json["examId"];
-    }
-    if (_json.containsKey("examType")) {
-      examType = _json["examType"];
-    }
-    if (_json.containsKey("token")) {
-      token = _json["token"];
-    }
-  }
-
-  core.Map<core.String, core.Object> toJson() {
-    final core.Map<core.String, core.Object> _json =
-        new core.Map<core.String, core.Object>();
-    if (examId != null) {
-      _json["examId"] = examId;
-    }
-    if (examType != null) {
-      _json["examType"] = examType;
-    }
-    if (token != null) {
-      _json["token"] = token;
     }
     return _json;
   }

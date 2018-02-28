@@ -30,7 +30,7 @@
     "description": "Supports core YouTube features, such as uploading videos, creating and managing playlists, searching for content, and much more.",
     "discoveryVersion": "v1",
     "documentationLink": "https://developers.google.com/youtube/v3",
-    "etag": "\"YWOzh2SDasdU84ArJnpYek-OMdg/4-8iVRS7XjXc8_q8wbRC_IRggBY\"",
+    "etag": "\"-iA1DTNe4s-I6JZXPt1t1Ypy8IU/4RE3yZ8G6hkc4zQ8l8vwLojqIsk\"",
     "icons": {
         "x16": "https://www.google.com/images/icons/product/youtube-16.png",
         "x32": "https://www.google.com/images/icons/product/youtube-32.png"
@@ -3541,7 +3541,7 @@
             }
         }
     },
-    "revision": "20171101",
+    "revision": "20180205",
     "rootUrl": "https://www.googleapis.com/",
     "schemas": {
         "AccessPolicy": {
@@ -4177,9 +4177,11 @@
                     "description": "The frame rate of the inbound video data.",
                     "enum": [
                         "30fps",
-                        "60fps"
+                        "60fps",
+                        "variable"
                     ],
                     "enumDescriptions": [
+                        "",
                         "",
                         ""
                     ],
@@ -4216,9 +4218,11 @@
                         "240p",
                         "360p",
                         "480p",
-                        "720p"
+                        "720p",
+                        "variable"
                     ],
                     "enumDescriptions": [
+                        "",
                         "",
                         "",
                         "",
@@ -4816,7 +4820,7 @@
             "type": "object"
         },
         "ChannelSnippet": {
-            "description": "Basic details about a channel, including title, description and thumbnails. Next available id: 15.",
+            "description": "Basic details about a channel, including title, description and thumbnails.",
             "id": "ChannelSnippet",
             "properties": {
                 "country": {
@@ -7392,6 +7396,10 @@
                     ],
                     "type": "string"
                 },
+                "enableAutoStart": {
+                    "description": "This setting indicates whether auto start is enabled for this broadcast.",
+                    "type": "boolean"
+                },
                 "enableClosedCaptions": {
                     "description": "This setting indicates whether HTTP POST closed captioning is enabled for this broadcast. The ingestion URL of the closed captions is returned through the liveStreams API. This is mutually exclusive with using the closed_captions_type property, and is equivalent to setting closed_captions_type to CLOSED_CAPTIONS_HTTP_POST.",
                     "type": "boolean"
@@ -8584,6 +8592,30 @@
             },
             "type": "object"
         },
+        "Nonprofit": {
+            "description": "Nonprofit information.",
+            "id": "Nonprofit",
+            "properties": {
+                "nonprofitId": {
+                    "$ref": "NonprofitId",
+                    "description": "Id of the nonprofit."
+                },
+                "nonprofitLegalName": {
+                    "description": "Legal name of the nonprofit.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "NonprofitId": {
+            "id": "NonprofitId",
+            "properties": {
+                "value": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "PageInfo": {
             "description": "Paging details for lists of resources, including total number of items available and number of resources returned in a single page.",
             "id": "PageInfo",
@@ -9535,10 +9567,18 @@
                     "description": "A rendered string that displays the purchase amount and currency (e.g., \"$1.00\"). The string is rendered for the given language.",
                     "type": "string"
                 },
+                "isSuperChatForGood": {
+                    "description": "True if this event is a Super Chat for Good purchase.",
+                    "type": "boolean"
+                },
                 "messageType": {
                     "description": "The tier for the paid message, which is based on the amount of money spent to purchase the message.",
                     "format": "uint32",
                     "type": "integer"
+                },
+                "nonprofit": {
+                    "$ref": "Nonprofit",
+                    "description": "If this event is a Super Chat for Good purchase, this field will contain information about the charity the purchase is donated to."
                 },
                 "supporterDetails": {
                     "$ref": "ChannelProfileDetails",
@@ -9686,7 +9726,7 @@
                 },
                 "processingDetails": {
                     "$ref": "VideoProcessingDetails",
-                    "description": "The processingProgress object encapsulates information about YouTube's progress in processing the uploaded video file. The properties in the object identify the current processing status and an estimate of the time remaining until YouTube finishes processing the video. This part also indicates whether different types of data or content, such as file details or thumbnail images, are available for the video.\n\nThe processingProgress object is designed to be polled so that the video uploaded can track the progress that YouTube has made in processing the uploaded video file. This data can only be retrieved by the video owner."
+                    "description": "The processingDetails object encapsulates information about YouTube's progress in processing the uploaded video file. The properties in the object identify the current processing status and an estimate of the time remaining until YouTube finishes processing the video. This part also indicates whether different types of data or content, such as file details or thumbnail images, are available for the video.\n\nThe processingProgress object is designed to be polled so that the video uploaded can track the progress that YouTube has made in processing the uploaded video file. This data can only be retrieved by the video owner."
                 },
                 "projectDetails": {
                     "$ref": "VideoProjectDetails",

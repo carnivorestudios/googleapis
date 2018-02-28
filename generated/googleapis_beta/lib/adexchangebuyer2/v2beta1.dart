@@ -740,6 +740,8 @@ class AccountsCreativesResourceApi {
   /// creatives.list
   /// method.
   ///
+  /// [accountId1] - The account the creative belongs to.
+  ///
   /// [duplicateIdMode] - Indicates if multiple creatives can share an ID or
   /// not. Default is
   /// NO_DUPLICATES (one ID per creative).
@@ -758,7 +760,9 @@ class AccountsCreativesResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<Creative> create(Creative request, core.String accountId,
-      {core.String duplicateIdMode, core.String $fields}) {
+      {core.String accountId1,
+      core.String duplicateIdMode,
+      core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -771,6 +775,9 @@ class AccountsCreativesResourceApi {
     }
     if (accountId == null) {
       throw new core.ArgumentError("Parameter accountId is required.");
+    }
+    if (accountId1 != null) {
+      _queryParams["accountId1"] = [accountId1];
     }
     if (duplicateIdMode != null) {
       _queryParams["duplicateIdMode"] = [duplicateIdMode];
@@ -875,7 +882,7 @@ class AccountsCreativesResourceApi {
   ///                           not_checked}
   /// <li>attribute: {a numeric attribute from the list of attributes}
   /// <li>disapprovalReason: {a reason from
-  /// DisapprovalReason
+  /// DisapprovalReason}
   /// </ul>
   /// Example: 'accountId=12345 AND (dealsStatus:disapproved AND
   /// disapprovalReason:unacceptable_content) OR attribute:47'
@@ -1007,6 +1014,8 @@ class AccountsCreativesResourceApi {
   /// creatives.list
   /// method.
   ///
+  /// [accountId1] - The account the creative belongs to.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1019,7 +1028,7 @@ class AccountsCreativesResourceApi {
   /// this method will complete with the same error.
   async.Future<Creative> update(
       Creative request, core.String accountId, core.String creativeId,
-      {core.String $fields}) {
+      {core.String accountId1, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -1035,6 +1044,9 @@ class AccountsCreativesResourceApi {
     }
     if (creativeId == null) {
       throw new core.ArgumentError("Parameter creativeId is required.");
+    }
+    if (accountId1 != null) {
+      _queryParams["accountId1"] = [accountId1];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1192,12 +1204,6 @@ class AccountsCreativesDealAssociationsResourceApi {
   /// [creativeId] - The creative ID to list the associations from.
   /// Specify "-" to list all creatives under the above account.
   ///
-  /// [pageToken] - A token identifying a page of results the server should
-  /// return.
-  /// Typically, this is the value of
-  /// ListDealAssociationsResponse.next_page_token
-  /// returned from the previous call to 'ListDealAssociations' method.
-  ///
   /// [pageSize] - Requested page size. Server may return fewer associations
   /// than requested.
   /// If unspecified, server will pick an appropriate default.
@@ -1217,6 +1223,12 @@ class AccountsCreativesDealAssociationsResourceApi {
   /// </ul>
   /// Example: 'dealsId=12345 AND dealsStatus:disapproved'
   ///
+  /// [pageToken] - A token identifying a page of results the server should
+  /// return.
+  /// Typically, this is the value of
+  /// ListDealAssociationsResponse.next_page_token
+  /// returned from the previous call to 'ListDealAssociations' method.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1229,9 +1241,9 @@ class AccountsCreativesDealAssociationsResourceApi {
   /// this method will complete with the same error.
   async.Future<ListDealAssociationsResponse> list(
       core.String accountId, core.String creativeId,
-      {core.String pageToken,
-      core.int pageSize,
+      {core.int pageSize,
       core.String query,
+      core.String pageToken,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1246,14 +1258,14 @@ class AccountsCreativesDealAssociationsResourceApi {
     if (creativeId == null) {
       throw new core.ArgumentError("Parameter creativeId is required.");
     }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
     }
     if (query != null) {
       _queryParams["query"] = [query];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -2291,16 +2303,16 @@ class BiddersAccountsFilterSetsImpressionMetricsResourceApi {
   ///   whose bidder is 123: `bidders/123/accounts/456/filterSets/abc`
   /// Value must have pattern "^bidders/[^/]+/accounts/[^/]+/filterSets/[^/]+$".
   ///
+  /// [pageSize] - Requested page size. The server may return fewer results than
+  /// requested.
+  /// If unspecified, the server will pick an appropriate default.
+  ///
   /// [pageToken] - A token identifying a page of results the server should
   /// return.
   /// Typically, this is the value of
   /// ListImpressionMetricsResponse.nextPageToken
   /// returned from the previous call to the impressionMetrics.list
   /// method.
-  ///
-  /// [pageSize] - Requested page size. The server may return fewer results than
-  /// requested.
-  /// If unspecified, the server will pick an appropriate default.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2313,7 +2325,7 @@ class BiddersAccountsFilterSetsImpressionMetricsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListImpressionMetricsResponse> list(core.String filterSetName,
-      {core.String pageToken, core.int pageSize, core.String $fields}) {
+      {core.int pageSize, core.String pageToken, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -2324,11 +2336,11 @@ class BiddersAccountsFilterSetsImpressionMetricsResourceApi {
     if (filterSetName == null) {
       throw new core.ArgumentError("Parameter filterSetName is required.");
     }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -4984,14 +4996,16 @@ class FilterSet {
   AbsoluteDateRange absoluteDateRange;
 
   /// The ID of the creative on which to filter; optional. This field may be set
-  /// only for a filter set that accesses buyer-level troubleshooting data, i.e.
-  /// one whose name matches the `bidders / * /accounts / * /filterSets / * `
+  /// only for a filter set that accesses account-level troubleshooting data,
+  /// i.e. one whose name matches the `bidders / * /accounts / * /filterSets / *
+  /// `
   /// pattern.
   core.String creativeId;
 
   /// The ID of the deal on which to filter; optional. This field may be set
-  /// only for a filter set that accesses buyer-level troubleshooting data, i.e.
-  /// one whose name matches the `bidders / * /accounts / * /filterSets / * `
+  /// only for a filter set that accesses account-level troubleshooting data,
+  /// i.e. one whose name matches the `bidders / * /accounts / * /filterSets / *
+  /// `
   /// pattern.
   core.String dealId;
 
@@ -5004,14 +5018,31 @@ class FilterSet {
   /// - "APP" : The ad impression appears in an app.
   core.String environment;
 
+  /// DEPRECATED: use repeated formats field instead.
   /// The format on which to filter; optional.
   /// Possible string values are:
   /// - "FORMAT_UNSPECIFIED" : A placeholder for an undefined format; indicates
   /// that no format filter
   /// will be applied.
-  /// - "DISPLAY" : The ad impression is display format (i.e. an image).
-  /// - "VIDEO" : The ad impression is video format.
+  /// - "DISPLAY" : DEPRECATED: use combination of NATIVE_DISPLAY and
+  /// NON_NATIVE_DISPLAY
+  /// The ad impression is display format (i.e. an image).
+  /// - "VIDEO" : DEPRECATED: use combination of NATIVE_VIDEO and
+  /// NON_NATIVE_VIDEO
+  /// The ad impression is video format.
+  /// - "NATIVE_DISPLAY" : The ad impression is a native ad, and display (i.e.
+  /// image) format.
+  /// - "NATIVE_VIDEO" : The ad impression is a native ad, and video format.
+  /// - "NON_NATIVE_DISPLAY" : The ad impression is not a native ad, and display
+  /// (i.e. image) format.
+  /// - "NON_NATIVE_VIDEO" : The ad impression is not a native ad, and video
+  /// format.
   core.String format;
+
+  /// The list of formats on which to filter; may be empty. The filters
+  /// represented by multiple formats are ORed together (i.e. if non-empty,
+  /// results must match any one of the formats).
+  core.List<core.String> formats;
 
   /// A user-defined name of the filter set. Filter set names must be unique
   /// globally and match one of the patterns:
@@ -5019,7 +5050,8 @@ class FilterSet {
   /// - `bidders / * /filterSets / * ` (for accessing bidder-level
   /// troubleshooting
   /// data)
-  /// - `bidders / * /accounts / * /filterSets / * ` (for accessing buyer-level
+  /// - `bidders / * /accounts / * /filterSets / * ` (for accessing
+  /// account-level
   /// troubleshooting data)
   ///
   /// This field is required in create operations.
@@ -5077,6 +5109,9 @@ class FilterSet {
     if (_json.containsKey("format")) {
       format = _json["format"];
     }
+    if (_json.containsKey("formats")) {
+      formats = _json["formats"];
+    }
     if (_json.containsKey("name")) {
       name = _json["name"];
     }
@@ -5116,6 +5151,9 @@ class FilterSet {
     }
     if (format != null) {
       _json["format"] = format;
+    }
+    if (formats != null) {
+      _json["formats"] = formats;
     }
     if (name != null) {
       _json["name"] = name;
@@ -6718,11 +6756,18 @@ class VideoContent {
   /// The URL to fetch a video ad.
   core.String videoUrl;
 
+  /// The contents of a VAST document for a video ad.
+  /// This document should conform to the VAST 2.0 or 3.0 standard.
+  core.String videoVastXml;
+
   VideoContent();
 
   VideoContent.fromJson(core.Map _json) {
     if (_json.containsKey("videoUrl")) {
       videoUrl = _json["videoUrl"];
+    }
+    if (_json.containsKey("videoVastXml")) {
+      videoVastXml = _json["videoVastXml"];
     }
   }
 
@@ -6731,6 +6776,9 @@ class VideoContent {
         new core.Map<core.String, core.Object>();
     if (videoUrl != null) {
       _json["videoUrl"] = videoUrl;
+    }
+    if (videoVastXml != null) {
+      _json["videoVastXml"] = videoVastXml;
     }
     return _json;
   }

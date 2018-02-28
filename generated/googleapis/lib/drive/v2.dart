@@ -94,10 +94,10 @@ class AboutResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [includeSubscribed] - When calculating the number of remaining change IDs,
-  /// whether to include public files the user has opened and shared files. When
-  /// set to false, this counts only change IDs for owned files and any shared
-  /// or public files that the user has explicitly added to a folder they own.
+  /// [includeSubscribed] - Whether to count changes outside the My Drive
+  /// hierarchy. When set to false, changes to files such as those in the
+  /// Application Data folder or shared files which have not been added to My
+  /// Drive will be omitted from the maxChangeIdCount.
   ///
   /// [maxChangeIdCount] - Maximum number of remaining change IDs to count
   ///
@@ -270,7 +270,8 @@ class ChangesResourceApi {
 
   ChangesResourceApi(commons.ApiRequester client) : _requester = client;
 
-  /// Gets a specific change.
+  /// Deprecated - Use changes.getStartPageToken and changes.list to retrieve
+  /// recent changes.
   ///
   /// Request parameters:
   ///
@@ -391,10 +392,10 @@ class ChangesResourceApi {
   /// been removed from the list of changes, for example by deletion or loss of
   /// access.
   ///
-  /// [includeSubscribed] - Whether to include public files the user has opened
-  /// and shared files. When set to false, the list only includes owned files
-  /// plus any shared or public files the user has explicitly added to a folder
-  /// they own.
+  /// [includeSubscribed] - Whether to include changes outside the My Drive
+  /// hierarchy in the result. When set to false, changes to files such as those
+  /// in the Application Data folder or shared files which have not been added
+  /// to My Drive will be omitted from the result.
   ///
   /// [includeTeamDriveItems] - Whether Team Drive files or changes should be
   /// included in results.
@@ -408,7 +409,7 @@ class ChangesResourceApi {
   /// [spaces] - A comma-separated list of spaces to query. Supported values are
   /// 'drive', 'appDataFolder' and 'photos'.
   ///
-  /// [startChangeId] - Change ID to start listing changes from.
+  /// [startChangeId] - Deprecated - use pageToken instead.
   ///
   /// [supportsTeamDrives] - Whether the requesting application supports Team
   /// Drives.
@@ -506,10 +507,10 @@ class ChangesResourceApi {
   /// been removed from the list of changes, for example by deletion or loss of
   /// access.
   ///
-  /// [includeSubscribed] - Whether to include public files the user has opened
-  /// and shared files. When set to false, the list only includes owned files
-  /// plus any shared or public files the user has explicitly added to a folder
-  /// they own.
+  /// [includeSubscribed] - Whether to include changes outside the My Drive
+  /// hierarchy in the result. When set to false, changes to files such as those
+  /// in the Application Data folder or shared files which have not been added
+  /// to My Drive will be omitted from the result.
   ///
   /// [includeTeamDriveItems] - Whether Team Drive files or changes should be
   /// included in results.
@@ -523,7 +524,7 @@ class ChangesResourceApi {
   /// [spaces] - A comma-separated list of spaces to query. Supported values are
   /// 'drive', 'appDataFolder' and 'photos'.
   ///
-  /// [startChangeId] - Change ID to start listing changes from.
+  /// [startChangeId] - Deprecated - use pageToken instead.
   ///
   /// [supportsTeamDrives] - Whether the requesting application supports Team
   /// Drives.
@@ -1949,8 +1950,11 @@ class FilesResourceApi {
   ///
   /// [removeParents] - Comma-separated list of parent IDs to remove.
   ///
-  /// [setModifiedDate] - Whether to set the modified date with the supplied
-  /// modified date.
+  /// [setModifiedDate] - Whether to set the modified date using the value
+  /// supplied in the request body. Setting this field to true is equivalent to
+  /// modifiedDateBehavior=fromBodyOrNow, and false is equivalent to
+  /// modifiedDateBehavior=now. To prevent any changes to the modified date set
+  /// modifiedDateBehavior=noChange.
   ///
   /// [supportsTeamDrives] - Whether the requesting application supports Team
   /// Drives.
@@ -2255,8 +2259,11 @@ class FilesResourceApi {
   ///
   /// [removeParents] - Comma-separated list of parent IDs to remove.
   ///
-  /// [setModifiedDate] - Whether to set the modified date with the supplied
-  /// modified date.
+  /// [setModifiedDate] - Whether to set the modified date using the value
+  /// supplied in the request body. Setting this field to true is equivalent to
+  /// modifiedDateBehavior=fromBodyOrNow, and false is equivalent to
+  /// modifiedDateBehavior=now. To prevent any changes to the modified date set
+  /// modifiedDateBehavior=noChange.
   ///
   /// [supportsTeamDrives] - Whether the requesting application supports Team
   /// Drives.
@@ -2887,7 +2894,8 @@ class PermissionsResourceApi {
   ///
   /// [fileId] - The ID for the file or Team Drive.
   ///
-  /// [emailMessage] - A custom message to include in notification emails.
+  /// [emailMessage] - A plain text custom message to include in notification
+  /// emails.
   ///
   /// [sendNotificationEmails] - Whether to send notification emails when
   /// sharing to users or groups. This parameter is ignored and an email is sent
@@ -4888,6 +4896,9 @@ class About {
   /// specific type takes precedence.
   core.List<AboutAdditionalRoleInfo> additionalRoleInfo;
 
+  /// Whether the user can create Team Drives.
+  core.bool canCreateTeamDrives;
+
   /// The domain sharing policy for the current user. Possible values are:
   /// - allowed
   /// - allowedWithWarning
@@ -4977,6 +4988,9 @@ class About {
       additionalRoleInfo = _json["additionalRoleInfo"]
           .map((value) => new AboutAdditionalRoleInfo.fromJson(value))
           .toList();
+    }
+    if (_json.containsKey("canCreateTeamDrives")) {
+      canCreateTeamDrives = _json["canCreateTeamDrives"];
     }
     if (_json.containsKey("domainSharingPolicy")) {
       domainSharingPolicy = _json["domainSharingPolicy"];
@@ -5070,6 +5084,9 @@ class About {
     if (additionalRoleInfo != null) {
       _json["additionalRoleInfo"] =
           additionalRoleInfo.map((value) => (value).toJson()).toList();
+    }
+    if (canCreateTeamDrives != null) {
+      _json["canCreateTeamDrives"] = canCreateTeamDrives;
     }
     if (domainSharingPolicy != null) {
       _json["domainSharingPolicy"] = domainSharingPolicy;
@@ -7121,9 +7138,11 @@ class File {
   core.List<User> owners;
 
   /// Collection of parent folders which contain this file.
-  /// Setting this field will put the file in all of the provided folders. On
-  /// insert, if no folders are provided, the file will be placed in the default
-  /// root folder.
+  /// If not specified as part of an insert request, the file will be placed
+  /// directly in the user's My Drive folder. If not specified as part of a copy
+  /// request, the file will inherit any discoverable parents of the source
+  /// file. Update requests can also use the addParents and removeParents
+  /// parameters to modify the parents list.
   core.List<ParentReference> parents;
 
   /// List of permission IDs for users with access to this file.
@@ -7967,7 +7986,8 @@ class Permission {
   /// - They can only be set on user and group permissions
   /// - The date must be in the future
   /// - The date cannot be more than a year in the future
-  /// - The date can only be set on drive.permissions.update requests
+  /// - The date can only be set on drive.permissions.update or
+  /// drive.permissions.patch requests
   core.DateTime expirationDate;
 
   /// The ID of the user this permission refers to, and identical to the

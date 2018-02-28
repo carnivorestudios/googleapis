@@ -66,7 +66,8 @@ class AppsResourceApi {
   /// location - The region (https://cloud.google.com/appengine/docs/locations)
   /// where you want the App Engine application located.For more information
   /// about App Engine applications, see Managing Projects, Applications, and
-  /// Billing (https://cloud.google.com/appengine/docs/python/console/).
+  /// Billing
+  /// (https://cloud.google.com/appengine/docs/standard/python/console/).
   ///
   /// [request] - The metadata request object.
   ///
@@ -1366,11 +1367,11 @@ class AppsLocationsResourceApi {
   /// [appsId] - Part of `name`. The resource that owns the locations
   /// collection, if applicable.
   ///
-  /// [filter] - The standard list filter.
-  ///
   /// [pageToken] - The standard list page token.
   ///
   /// [pageSize] - The standard list page size.
+  ///
+  /// [filter] - The standard list filter.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -1383,9 +1384,9 @@ class AppsLocationsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListLocationsResponse> list(core.String appsId,
-      {core.String filter,
-      core.String pageToken,
+      {core.String pageToken,
       core.int pageSize,
+      core.String filter,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1397,14 +1398,14 @@ class AppsLocationsResourceApi {
     if (appsId == null) {
       throw new core.ArgumentError("Parameter appsId is required.");
     }
-    if (filter != null) {
-      _queryParams["filter"] = [filter];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
     }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (filter != null) {
+      _queryParams["filter"] = [filter];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1673,9 +1674,9 @@ class AppsServicesResourceApi {
   /// [appsId] - Part of `parent`. Name of the parent Application resource.
   /// Example: apps/myapp.
   ///
-  /// [pageSize] - Maximum results to return per page.
-  ///
   /// [pageToken] - Continuation token for fetching the next page of results.
+  ///
+  /// [pageSize] - Maximum results to return per page.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -1688,7 +1689,7 @@ class AppsServicesResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListServicesResponse> list(core.String appsId,
-      {core.int pageSize, core.String pageToken, core.String $fields}) {
+      {core.String pageToken, core.int pageSize, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -1699,11 +1700,11 @@ class AppsServicesResourceApi {
     if (appsId == null) {
       throw new core.ArgumentError("Parameter appsId is required.");
     }
-    if (pageSize != null) {
-      _queryParams["pageSize"] = ["${pageSize}"];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
+    }
+    if (pageSize != null) {
+      _queryParams["pageSize"] = ["${pageSize}"];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -2008,14 +2009,14 @@ class AppsServicesVersionsResourceApi {
   ///
   /// [servicesId] - Part of `parent`. See documentation of `appsId`.
   ///
-  /// [pageToken] - Continuation token for fetching the next page of results.
-  ///
   /// [pageSize] - Maximum results to return per page.
   ///
   /// [view] - Controls the set of fields returned in the List response.
   /// Possible string values are:
   /// - "BASIC" : A BASIC.
   /// - "FULL" : A FULL.
+  ///
+  /// [pageToken] - Continuation token for fetching the next page of results.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2029,9 +2030,9 @@ class AppsServicesVersionsResourceApi {
   /// this method will complete with the same error.
   async.Future<ListVersionsResponse> list(
       core.String appsId, core.String servicesId,
-      {core.String pageToken,
-      core.int pageSize,
+      {core.int pageSize,
       core.String view,
+      core.String pageToken,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -2046,14 +2047,14 @@ class AppsServicesVersionsResourceApi {
     if (servicesId == null) {
       throw new core.ArgumentError("Parameter servicesId is required.");
     }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
     }
     if (view != null) {
       _queryParams["view"] = [view];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -2095,19 +2096,19 @@ class AppsServicesVersionsResourceApi {
   /// automatic_scaling.min_total_instances
   /// (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1beta/apps.services.versions#Version.FIELDS.automatic_scaling):
   /// For Version resources that use automatic scaling and run in the App
-  /// Engine Flexible environment.
+  /// Engine flexible environment.
   /// automatic_scaling.max_total_instances
   /// (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1beta/apps.services.versions#Version.FIELDS.automatic_scaling):
   /// For Version resources that use automatic scaling and run in the App
-  /// Engine Flexible environment.
+  /// Engine flexible environment.
   /// automatic_scaling.cool_down_period_sec
   /// (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1beta/apps.services.versions#Version.FIELDS.automatic_scaling):
   /// For Version resources that use automatic scaling and run in the App
-  /// Engine Flexible environment.
+  /// Engine flexible environment.
   /// automatic_scaling.cpu_utilization.target_utilization
   /// (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1beta/apps.services.versions#Version.FIELDS.automatic_scaling):
   /// For Version resources that use automatic scaling and run in the App
-  /// Engine Flexible environment.
+  /// Engine flexible environment.
   ///
   /// [request] - The metadata request object.
   ///
@@ -2413,9 +2414,9 @@ class AppsServicesVersionsInstancesResourceApi {
   ///
   /// [versionsId] - Part of `parent`. See documentation of `appsId`.
   ///
-  /// [pageSize] - Maximum results to return per page.
-  ///
   /// [pageToken] - Continuation token for fetching the next page of results.
+  ///
+  /// [pageSize] - Maximum results to return per page.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2429,7 +2430,7 @@ class AppsServicesVersionsInstancesResourceApi {
   /// this method will complete with the same error.
   async.Future<ListInstancesResponse> list(
       core.String appsId, core.String servicesId, core.String versionsId,
-      {core.int pageSize, core.String pageToken, core.String $fields}) {
+      {core.String pageToken, core.int pageSize, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -2446,11 +2447,11 @@ class AppsServicesVersionsInstancesResourceApi {
     if (versionsId == null) {
       throw new core.ArgumentError("Parameter versionsId is required.");
     }
-    if (pageSize != null) {
-      _queryParams["pageSize"] = ["${pageSize}"];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
+    }
+    if (pageSize != null) {
+      _queryParams["pageSize"] = ["${pageSize}"];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -2630,11 +2631,11 @@ class Application {
   /// deploy your application. Example: myapp.
   core.String id;
 
-  /// Location from which this application will be run. Application instances
-  /// will run out of data centers in the chosen location, which is also where
-  /// all of the application's end user content is stored.Defaults to
-  /// us-central.Options are:us-central - Central USeurope-west - Western
-  /// Europeus-east1 - Eastern US
+  /// Location from which this application runs. Application instances run out
+  /// of the data centers in the specified location, which is also where all of
+  /// the application's end user content is stored.Defaults to us-central1.View
+  /// the list of supported locations
+  /// (https://cloud.google.com/appengine/docs/locations).
   core.String locationId;
 
   /// Full path to the Application resource in the API. Example:
@@ -2901,12 +2902,15 @@ class AuthorizedDomain {
 class AutomaticScaling {
   /// Amount of time that the Autoscaler
   /// (https://cloud.google.com/compute/docs/autoscaler/) should wait between
-  /// changes to the number of virtual machines. Only applicable for VM
-  /// runtimes.
+  /// changes to the number of virtual machines. Only applicable in the App
+  /// Engine flexible environment.
   core.String coolDownPeriod;
 
   /// Target scaling by CPU usage.
   CpuUtilization cpuUtilization;
+
+  /// Target scaling by user-provided metrics.
+  core.List<CustomMetric> customMetrics;
 
   /// Target scaling by disk usage.
   DiskUtilization diskUtilization;
@@ -2924,7 +2928,8 @@ class AutomaticScaling {
   /// before starting a new instance to handle it.
   core.String maxPendingLatency;
 
-  /// Maximum number of instances that should be started to handle requests.
+  /// Maximum number of instances that should be started to handle requests for
+  /// this version.
   core.int maxTotalInstances;
 
   /// Minimum number of idle instances that should be maintained for this
@@ -2935,7 +2940,8 @@ class AutomaticScaling {
   /// starting a new instance to handle it.
   core.String minPendingLatency;
 
-  /// Minimum number of instances that should be maintained for this version.
+  /// Minimum number of running instances that should be maintained for this
+  /// version.
   core.int minTotalInstances;
 
   /// Target scaling by network usage.
@@ -2955,6 +2961,11 @@ class AutomaticScaling {
     }
     if (_json.containsKey("cpuUtilization")) {
       cpuUtilization = new CpuUtilization.fromJson(_json["cpuUtilization"]);
+    }
+    if (_json.containsKey("customMetrics")) {
+      customMetrics = _json["customMetrics"]
+          .map((value) => new CustomMetric.fromJson(value))
+          .toList();
     }
     if (_json.containsKey("diskUtilization")) {
       diskUtilization = new DiskUtilization.fromJson(_json["diskUtilization"]);
@@ -3002,6 +3013,10 @@ class AutomaticScaling {
     }
     if (cpuUtilization != null) {
       _json["cpuUtilization"] = (cpuUtilization).toJson();
+    }
+    if (customMetrics != null) {
+      _json["customMetrics"] =
+          customMetrics.map((value) => (value).toJson()).toList();
     }
     if (diskUtilization != null) {
       _json["diskUtilization"] = (diskUtilization).toJson();
@@ -3191,6 +3206,44 @@ class CertificateRawData {
   }
 }
 
+/// Options for the build operations performed as a part of the version
+/// deployment. Only applicable for App Engine flexible environment when
+/// creating a version using source code directly.
+class CloudBuildOptions {
+  /// Path to the yaml file used in deployment, used to determine runtime
+  /// configuration details.Required for flexible environment builds.See
+  /// https://cloud.google.com/appengine/docs/standard/python/config/appref for
+  /// more details.
+  core.String appYamlPath;
+
+  /// The Cloud Build timeout used as part of any dependent builds performed by
+  /// version creation. Defaults to 10 minutes.
+  core.String cloudBuildTimeout;
+
+  CloudBuildOptions();
+
+  CloudBuildOptions.fromJson(core.Map _json) {
+    if (_json.containsKey("appYamlPath")) {
+      appYamlPath = _json["appYamlPath"];
+    }
+    if (_json.containsKey("cloudBuildTimeout")) {
+      cloudBuildTimeout = _json["cloudBuildTimeout"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (appYamlPath != null) {
+      _json["appYamlPath"] = appYamlPath;
+    }
+    if (cloudBuildTimeout != null) {
+      _json["cloudBuildTimeout"] = cloudBuildTimeout;
+    }
+    return _json;
+  }
+}
+
 /// Docker image that is used to create a container and start a VM instance for
 /// the version that you deploy. Only applicable for instances running in the
 /// App Engine flexible environment.
@@ -3251,6 +3304,120 @@ class CpuUtilization {
   }
 }
 
+/// Metadata for the given google.longrunning.Operation during a
+/// google.appengine.v1alpha.CreateVersionRequest.
+class CreateVersionMetadataV1Alpha {
+  /// The Cloud Build ID if one was created as part of the version create.
+  /// @OutputOnly
+  core.String cloudBuildId;
+
+  CreateVersionMetadataV1Alpha();
+
+  CreateVersionMetadataV1Alpha.fromJson(core.Map _json) {
+    if (_json.containsKey("cloudBuildId")) {
+      cloudBuildId = _json["cloudBuildId"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (cloudBuildId != null) {
+      _json["cloudBuildId"] = cloudBuildId;
+    }
+    return _json;
+  }
+}
+
+/// Metadata for the given google.longrunning.Operation during a
+/// google.appengine.v1beta.CreateVersionRequest.
+class CreateVersionMetadataV1Beta {
+  /// The Cloud Build ID if one was created as part of the version create.
+  /// @OutputOnly
+  core.String cloudBuildId;
+
+  CreateVersionMetadataV1Beta();
+
+  CreateVersionMetadataV1Beta.fromJson(core.Map _json) {
+    if (_json.containsKey("cloudBuildId")) {
+      cloudBuildId = _json["cloudBuildId"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (cloudBuildId != null) {
+      _json["cloudBuildId"] = cloudBuildId;
+    }
+    return _json;
+  }
+}
+
+/// Allows autoscaling based on Stackdriver metrics.
+class CustomMetric {
+  /// Allows filtering on the metric's fields.
+  core.String filter;
+
+  /// The name of the metric.
+  core.String metricName;
+
+  /// May be used instead of target_utilization when an instance can handle a
+  /// specific amount of work/resources and the metric value is equal to the
+  /// current amount of work remaining. The autoscaler will try to keep the
+  /// number of instances equal to the metric value divided by
+  /// single_instance_assignment.
+  core.double singleInstanceAssignment;
+
+  /// The type of the metric. Must be a string representing a Stackdriver metric
+  /// type e.g. GAGUE, DELTA_PER_SECOND, etc.
+  core.String targetType;
+
+  /// The target value for the metric.
+  core.double targetUtilization;
+
+  CustomMetric();
+
+  CustomMetric.fromJson(core.Map _json) {
+    if (_json.containsKey("filter")) {
+      filter = _json["filter"];
+    }
+    if (_json.containsKey("metricName")) {
+      metricName = _json["metricName"];
+    }
+    if (_json.containsKey("singleInstanceAssignment")) {
+      singleInstanceAssignment = _json["singleInstanceAssignment"];
+    }
+    if (_json.containsKey("targetType")) {
+      targetType = _json["targetType"];
+    }
+    if (_json.containsKey("targetUtilization")) {
+      targetUtilization = _json["targetUtilization"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (filter != null) {
+      _json["filter"] = filter;
+    }
+    if (metricName != null) {
+      _json["metricName"] = metricName;
+    }
+    if (singleInstanceAssignment != null) {
+      _json["singleInstanceAssignment"] = singleInstanceAssignment;
+    }
+    if (targetType != null) {
+      _json["targetType"] = targetType;
+    }
+    if (targetUtilization != null) {
+      _json["targetUtilization"] = targetUtilization;
+    }
+    return _json;
+  }
+}
+
 /// Request message for Instances.DebugInstance.
 class DebugInstanceRequest {
   /// Public SSH key to add to the instance. Examples:
@@ -3281,8 +3448,16 @@ class DebugInstanceRequest {
 
 /// Code and application artifacts used to deploy a version to App Engine.
 class Deployment {
-  /// Google Cloud Container Builder build information.
+  /// Google Cloud Container Builder build information. Only applicable for
+  /// instances running in the App Engine flexible environment.
   BuildInfo build;
+
+  /// Options for any Google Cloud Container Builder builds created as a part of
+  /// this deployment.Note that this is orthogonal to the build parameter, where
+  /// the deployment depends on an already existing cloud build. These options
+  /// will only be used if a new build is created, such as when deploying to the
+  /// App Engine flexible environment using files or zip.
+  CloudBuildOptions cloudBuildOptions;
 
   /// The Docker image for the container that runs the version. Only applicable
   /// for instances running in the App Engine flexible environment.
@@ -3301,6 +3476,10 @@ class Deployment {
   Deployment.fromJson(core.Map _json) {
     if (_json.containsKey("build")) {
       build = new BuildInfo.fromJson(_json["build"]);
+    }
+    if (_json.containsKey("cloudBuildOptions")) {
+      cloudBuildOptions =
+          new CloudBuildOptions.fromJson(_json["cloudBuildOptions"]);
     }
     if (_json.containsKey("container")) {
       container = new ContainerInfo.fromJson(_json["container"]);
@@ -3322,6 +3501,9 @@ class Deployment {
     if (build != null) {
       _json["build"] = (build).toJson();
     }
+    if (cloudBuildOptions != null) {
+      _json["cloudBuildOptions"] = (cloudBuildOptions).toJson();
+    }
     if (container != null) {
       _json["container"] = (container).toJson();
     }
@@ -3337,7 +3519,8 @@ class Deployment {
   }
 }
 
-/// Target scaling by disk usage. Only applicable for VM runtimes.
+/// Target scaling by disk usage. Only applicable in the App Engine flexible
+/// environment.
 class DiskUtilization {
   /// Target bytes read per second.
   core.int targetReadBytesPerSecond;
@@ -3562,11 +3745,19 @@ class FeatureSettings {
   /// value is always true, this setting can be removed.
   core.bool splitHealthChecks;
 
+  /// If true, use Container-Optimized OS
+  /// (https://cloud.google.com/container-optimized-os/) base image for VMs,
+  /// rather than a base Debian image.
+  core.bool useContainerOptimizedOs;
+
   FeatureSettings();
 
   FeatureSettings.fromJson(core.Map _json) {
     if (_json.containsKey("splitHealthChecks")) {
       splitHealthChecks = _json["splitHealthChecks"];
+    }
+    if (_json.containsKey("useContainerOptimizedOs")) {
+      useContainerOptimizedOs = _json["useContainerOptimizedOs"];
     }
   }
 
@@ -3575,6 +3766,9 @@ class FeatureSettings {
         new core.Map<core.String, core.Object>();
     if (splitHealthChecks != null) {
       _json["splitHealthChecks"] = splitHealthChecks;
+    }
+    if (useContainerOptimizedOs != null) {
+      _json["useContainerOptimizedOs"] = useContainerOptimizedOs;
     }
     return _json;
   }
@@ -4481,11 +4675,11 @@ class Location {
 
 /// Metadata for the given google.cloud.location.Location.
 class LocationMetadata {
-  /// App Engine Flexible Environment is available in the given
+  /// App Engine flexible environment is available in the given
   /// location.@OutputOnly
   core.bool flexibleEnvironmentAvailable;
 
-  /// App Engine Standard Environment is available in the given
+  /// App Engine standard environment is available in the given
   /// location.@OutputOnly
   core.bool standardEnvironmentAvailable;
 
@@ -4597,36 +4791,39 @@ class ManualScaling {
   }
 }
 
-/// Extra network settings. Only applicable for App Engine flexible environment
-/// versions
+/// Extra network settings. Only applicable in the App Engine flexible
+/// environment.
 class Network {
   /// List of ports, or port pairs, to forward from the virtual machine to the
-  /// application container. Only applicable for App Engine flexible environment
-  /// versions.
+  /// application container. Only applicable in the App Engine flexible
+  /// environment.
   core.List<core.String> forwardedPorts;
 
-  /// Tag to apply to the VM instance during creation. Only applicable for for
-  /// App Engine flexible environment versions.
+  /// Tag to apply to the instance during creation. Only applicable in the App
+  /// Engine flexible environment.
   core.String instanceTag;
 
   /// Google Compute Engine network where the virtual machines are created.
   /// Specify the short name, not the resource path.Defaults to default.
   core.String name;
 
+  /// Enable session affinity.
+  core.bool sessionAffinity;
+
   /// Google Cloud Platform sub-network where the virtual machines are created.
   /// Specify the short name, not the resource path.If a subnetwork name is
   /// specified, a network name will also be required unless it is for the
   /// default network.
-  /// If the network the VM instance is being created in is a Legacy network,
+  /// If the network that the instance is being created in is a Legacy network,
   /// then the IP address is allocated from the IPv4Range.
-  /// If the network the VM instance is being created in is an auto Subnet Mode
-  /// Network, then only network name should be specified (not the
+  /// If the network that the instance is being created in is an auto Subnet
+  /// Mode Network, then only network name should be specified (not the
   /// subnetwork_name) and the IP address is created from the IPCidrRange of the
   /// subnetwork that exists in that zone for that network.
-  /// If the network the VM instance is being created in is a custom Subnet Mode
-  /// Network, then the subnetwork_name must be specified and the IP address is
-  /// created from the IPCidrRange of the subnetwork.If specified, the
-  /// subnetwork must exist in the same region as the App Engine flexible
+  /// If the network that the instance is being created in is a custom Subnet
+  /// Mode Network, then the subnetwork_name must be specified and the IP
+  /// address is created from the IPCidrRange of the subnetwork.If specified,
+  /// the subnetwork must exist in the same region as the App Engine flexible
   /// environment application.
   core.String subnetworkName;
 
@@ -4641,6 +4838,9 @@ class Network {
     }
     if (_json.containsKey("name")) {
       name = _json["name"];
+    }
+    if (_json.containsKey("sessionAffinity")) {
+      sessionAffinity = _json["sessionAffinity"];
     }
     if (_json.containsKey("subnetworkName")) {
       subnetworkName = _json["subnetworkName"];
@@ -4659,6 +4859,9 @@ class Network {
     if (name != null) {
       _json["name"] = name;
     }
+    if (sessionAffinity != null) {
+      _json["sessionAffinity"] = sessionAffinity;
+    }
     if (subnetworkName != null) {
       _json["subnetworkName"] = subnetworkName;
     }
@@ -4666,7 +4869,8 @@ class Network {
   }
 }
 
-/// Target scaling by network usage. Only applicable for VM runtimes.
+/// Target scaling by network usage. Only applicable in the App Engine flexible
+/// environment.
 class NetworkUtilization {
   /// Target bytes received per second.
   core.int targetReceivedBytesPerSecond;
@@ -4948,6 +5152,8 @@ class OperationMetadataV1 {
 
 /// Metadata for the given google.longrunning.Operation.
 class OperationMetadataV1Alpha {
+  CreateVersionMetadataV1Alpha createVersionMetadata;
+
   /// Time that this operation completed.@OutputOnly
   core.String endTime;
 
@@ -4975,6 +5181,10 @@ class OperationMetadataV1Alpha {
   OperationMetadataV1Alpha();
 
   OperationMetadataV1Alpha.fromJson(core.Map _json) {
+    if (_json.containsKey("createVersionMetadata")) {
+      createVersionMetadata = new CreateVersionMetadataV1Alpha.fromJson(
+          _json["createVersionMetadata"]);
+    }
     if (_json.containsKey("endTime")) {
       endTime = _json["endTime"];
     }
@@ -5001,6 +5211,9 @@ class OperationMetadataV1Alpha {
   core.Map<core.String, core.Object> toJson() {
     final core.Map<core.String, core.Object> _json =
         new core.Map<core.String, core.Object>();
+    if (createVersionMetadata != null) {
+      _json["createVersionMetadata"] = (createVersionMetadata).toJson();
+    }
     if (endTime != null) {
       _json["endTime"] = endTime;
     }
@@ -5028,6 +5241,8 @@ class OperationMetadataV1Alpha {
 
 /// Metadata for the given google.longrunning.Operation.
 class OperationMetadataV1Beta {
+  CreateVersionMetadataV1Beta createVersionMetadata;
+
   /// Time that this operation completed.@OutputOnly
   core.String endTime;
 
@@ -5055,6 +5270,10 @@ class OperationMetadataV1Beta {
   OperationMetadataV1Beta();
 
   OperationMetadataV1Beta.fromJson(core.Map _json) {
+    if (_json.containsKey("createVersionMetadata")) {
+      createVersionMetadata = new CreateVersionMetadataV1Beta.fromJson(
+          _json["createVersionMetadata"]);
+    }
     if (_json.containsKey("endTime")) {
       endTime = _json["endTime"];
     }
@@ -5081,6 +5300,9 @@ class OperationMetadataV1Beta {
   core.Map<core.String, core.Object> toJson() {
     final core.Map<core.String, core.Object> _json =
         new core.Map<core.String, core.Object>();
+    if (createVersionMetadata != null) {
+      _json["createVersionMetadata"] = (createVersionMetadata).toJson();
+    }
     if (endTime != null) {
       _json["endTime"] = endTime;
     }
@@ -5261,7 +5483,8 @@ class RepairApplicationRequest {
   }
 }
 
-/// Target scaling by request utilization. Only applicable for VM runtimes.
+/// Target scaling by request utilization. Only applicable in the App Engine
+/// flexible environment.
 class RequestUtilization {
   /// Target number of concurrent requests.
   core.int targetConcurrentRequests;
@@ -5526,12 +5749,12 @@ class SslSettings {
 
 /// Scheduler settings for standard environment.
 class StandardSchedulerSettings {
-  /// Maximum number of instances for an app version. Set to a non-positive
-  /// value (0 by convention) to disable max_instances configuration.
+  /// Maximum number of instances to run for this version. Set to zero to
+  /// disable max_instances configuration.
   core.int maxInstances;
 
-  /// Minimum number of instances for an app version. Set to a non-positive
-  /// value (0 by convention) to disable min_instances configuration.
+  /// Minimum number of instances to run for this version. Set to zero to
+  /// disable min_instances configuration.
   core.int minInstances;
 
   /// Target CPU utilization ratio to maintain when scaling.
@@ -6015,7 +6238,7 @@ class Version {
   Deployment deployment;
 
   /// Total size in bytes of all the files that are included in this version and
-  /// curerntly hosted on the App Engine disk.@OutputOnly
+  /// currently hosted on the App Engine disk.@OutputOnly
   core.String diskUsageBytes;
 
   /// Cloud Endpoints configuration.If endpoints_api_service is set, the Cloud
@@ -6040,9 +6263,9 @@ class Version {
   /// view=FULL is set.
   core.List<UrlMap> handlers;
 
-  /// Configures health checking for VM instances. Unhealthy instances are
-  /// stopped and replaced with new instances. Only applicable for VM
-  /// runtimes.Only returned in GET requests if view=FULL is set.
+  /// Configures health checking for instances. Unhealthy instances are stopped
+  /// and replaced with new instances. Only applicable in the App Engine
+  /// flexible environment.Only returned in GET requests if view=FULL is set.
   HealthCheck healthCheck;
 
   /// Relative name of the version within the service. Example: v1. Version
@@ -6064,9 +6287,9 @@ class Version {
   /// by the application.Only returned in GET requests if view=FULL is set.
   core.List<Library> libraries;
 
-  /// Configures liveness health checking for VM instances. Unhealthy instances
-  /// are stopped and replaced with new instancesOnly returned in GET requests
-  /// if view=FULL is set.
+  /// Configures liveness health checking for instances. Unhealthy instances are
+  /// stopped and replaced with new instancesOnly returned in GET requests if
+  /// view=FULL is set.
   LivenessCheck livenessCheck;
 
   /// A service with manual scaling runs continuously, allowing you to perform
@@ -6077,8 +6300,8 @@ class Version {
   /// apps/myapp/services/default/versions/v1.@OutputOnly
   core.String name;
 
-  /// Extra network settings. Only applicable for App Engine flexible
-  /// environment versions.
+  /// Extra network settings. Only applicable in the App Engine flexible
+  /// environment.
   Network network;
 
   /// Files that match this pattern will not be built into this version. Only
@@ -6086,12 +6309,13 @@ class Version {
   /// set.
   core.String nobuildFilesRegex;
 
-  /// Configures readiness health checking for VM instances. Unhealthy instances
+  /// Configures readiness health checking for instances. Unhealthy instances
   /// are not put into the backend traffic rotation.Only returned in GET
   /// requests if view=FULL is set.
   ReadinessCheck readinessCheck;
 
-  /// Machine resources for this version. Only applicable for VM runtimes.
+  /// Machine resources for this version. Only applicable in the App Engine
+  /// flexible environment.
   Resources resources;
 
   /// Desired runtime. Example: python27.
@@ -6101,6 +6325,10 @@ class Version {
   /// app.yaml reference for valid values at
   /// https://cloud.google.com/appengine/docs/standard/<language>/config/appref
   core.String runtimeApiVersion;
+
+  /// The channel of the runtime to use. Only available for some runtimes.
+  /// Defaults to the default channel.
+  core.String runtimeChannel;
 
   /// Current serving status of this version. Only the versions with a SERVING
   /// status create instances and can be billed.SERVING_STATUS_UNSPECIFIED is an
@@ -6122,6 +6350,10 @@ class Version {
 
   /// Whether to deploy this version in a container on a virtual machine.
   core.bool vm;
+
+  /// The Google Compute Engine zones that are supported by this version in the
+  /// App Engine flexible environment.
+  core.List<core.String> zones;
 
   Version();
 
@@ -6217,6 +6449,9 @@ class Version {
     if (_json.containsKey("runtimeApiVersion")) {
       runtimeApiVersion = _json["runtimeApiVersion"];
     }
+    if (_json.containsKey("runtimeChannel")) {
+      runtimeChannel = _json["runtimeChannel"];
+    }
     if (_json.containsKey("servingStatus")) {
       servingStatus = _json["servingStatus"];
     }
@@ -6228,6 +6463,9 @@ class Version {
     }
     if (_json.containsKey("vm")) {
       vm = _json["vm"];
+    }
+    if (_json.containsKey("zones")) {
+      zones = _json["zones"];
     }
   }
 
@@ -6319,6 +6557,9 @@ class Version {
     if (runtimeApiVersion != null) {
       _json["runtimeApiVersion"] = runtimeApiVersion;
     }
+    if (runtimeChannel != null) {
+      _json["runtimeChannel"] = runtimeChannel;
+    }
     if (servingStatus != null) {
       _json["servingStatus"] = servingStatus;
     }
@@ -6331,11 +6572,15 @@ class Version {
     if (vm != null) {
       _json["vm"] = vm;
     }
+    if (zones != null) {
+      _json["zones"] = zones;
+    }
     return _json;
   }
 }
 
-/// Volumes mounted within the app container. Only applicable for VM runtimes.
+/// Volumes mounted within the app container. Only applicable in the App Engine
+/// flexible environment.
 class Volume {
   /// Unique name for the volume.
   core.String name;

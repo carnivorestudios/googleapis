@@ -278,13 +278,13 @@ class ProjectsConfigsResourceApi {
   /// for this request, in the format `projects/[PROJECT_ID]`.
   /// Value must have pattern "^projects/[^/]+$".
   ///
-  /// [pageSize] - Specifies the number of results to return per page. If there
-  /// are fewer
-  /// elements than the specified number, returns all elements.
-  ///
   /// [pageToken] - Specifies a page token to use. Set `pageToken` to a
   /// `nextPageToken`
   /// returned by a previous list request to get the next page of results.
+  ///
+  /// [pageSize] - Specifies the number of results to return per page. If there
+  /// are fewer
+  /// elements than the specified number, returns all elements.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -297,7 +297,7 @@ class ProjectsConfigsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListConfigsResponse> list(core.String parent,
-      {core.int pageSize, core.String pageToken, core.String $fields}) {
+      {core.String pageToken, core.int pageSize, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -308,11 +308,11 @@ class ProjectsConfigsResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageSize != null) {
-      _queryParams["pageSize"] = ["${pageSize}"];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
+    }
+    if (pageSize != null) {
+      _queryParams["pageSize"] = ["${pageSize}"];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -799,25 +799,20 @@ class ProjectsConfigsVariablesResourceApi {
   }
 
   /// Lists variables within given a configuration, matching any provided
-  /// filters.
-  /// This only lists variable names, not the values, unless `return_values` is
-  /// true, in which case only variables that user has IAM permission to
-  /// GetVariable
-  /// will be returned.
+  /// filters. This only lists variable names, not the values, unless
+  /// `return_values` is true, in which case only variables that user has IAM
+  /// permission to GetVariable will be returned.
   ///
   /// Request parameters:
   ///
   /// [parent] - The path to the RuntimeConfig resource for which you want to
-  /// list variables.
-  /// The configuration must exist beforehand; the path must be in the format:
+  /// list
+  /// variables. The configuration must exist beforehand; the path must be in
+  /// the
+  /// format:
   ///
   /// `projects/[PROJECT_ID]/configs/[CONFIG_NAME]`
   /// Value must have pattern "^projects/[^/]+/configs/[^/]+$".
-  ///
-  /// [filter] - Filters variables by matching the specified filter. For
-  /// example:
-  ///
-  /// `projects/example-project/config/[CONFIG_NAME]/variables/example-variable`.
   ///
   /// [pageToken] - Specifies a page token to use. Set `pageToken` to a
   /// `nextPageToken`
@@ -833,6 +828,11 @@ class ProjectsConfigsVariablesResourceApi {
   /// are fewer
   /// elements than the specified number, returns all elements.
   ///
+  /// [filter] - Filters variables by matching the specified filter. For
+  /// example:
+  ///
+  /// `projects/example-project/config/[CONFIG_NAME]/variables/example-variable`.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -844,10 +844,10 @@ class ProjectsConfigsVariablesResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListVariablesResponse> list(core.String parent,
-      {core.String filter,
-      core.String pageToken,
+      {core.String pageToken,
       core.bool returnValues,
       core.int pageSize,
+      core.String filter,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -859,9 +859,6 @@ class ProjectsConfigsVariablesResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (filter != null) {
-      _queryParams["filter"] = [filter];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
     }
@@ -870,6 +867,9 @@ class ProjectsConfigsVariablesResourceApi {
     }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (filter != null) {
+      _queryParams["filter"] = [filter];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1008,10 +1008,8 @@ class ProjectsConfigsVariablesResourceApi {
   /// set to `DELETED` and the method returns the last known variable `value`.
   ///
   /// If you set the deadline for watching to a larger value than internal
-  /// timeout
-  /// (60 seconds), the current variable value is returned and the
-  /// `variableState`
-  /// will be `VARIABLE_STATE_UNSPECIFIED`.
+  /// timeout (60 seconds), the current variable value is returned and the
+  /// `variableState` will be `VARIABLE_STATE_UNSPECIFIED`.
   ///
   /// To learn more about creating a watcher, read the
   /// [Watching a Variable for
@@ -1744,7 +1742,7 @@ class Operation {
 ///     }
 ///
 /// For a description of IAM and its features, see the
-/// [IAM developer's guide](https://cloud.google.com/iam).
+/// [IAM developer's guide](https://cloud.google.com/iam/docs).
 class Policy {
   /// Associates a list of `members` to a `role`.
   /// `bindings` with no members will result in an error.
@@ -1771,7 +1769,7 @@ class Policy {
         convert.BASE64.encode(_bytes).replaceAll("/", "_").replaceAll("+", "-");
   }
 
-  /// Version of the `Policy`. The default version is 0.
+  /// Deprecated.
   core.int version;
 
   Policy();
@@ -1818,8 +1816,8 @@ class RuntimeConfig {
   ///     projects/[PROJECT_ID]/configs/[CONFIG_NAME]
   ///
   /// The `[PROJECT_ID]` must be a valid project ID, and `[CONFIG_NAME]` is an
-  /// arbitrary name that matches
-  /// [0-9A-Za-z](?:[_.A-Za-z0-9-]{0,62}[_.A-Za-z0-9])? regular expression.
+  /// arbitrary name that matches the
+  /// `[0-9A-Za-z](?:[_.A-Za-z0-9-]{0,62}[_.A-Za-z0-9])?` regular expression.
   /// The length of `[CONFIG_NAME]` must be less than 64 characters.
   ///
   /// You pick the RuntimeConfig resource name, but the server will validate
@@ -2073,7 +2071,7 @@ class Variable {
   /// `text: "my text value"`. The string must be valid UTF-8.
   core.String text;
 
-  /// [Output Only] The time of the last variable update.
+  /// Output only. The time of the last variable update.
   core.String updateTime;
 
   /// The binary value of the variable. The length of the value must be less
@@ -2149,21 +2147,19 @@ class Variable {
 /// Waiter](/deployment-manager/runtime-configurator/creating-a-waiter)
 /// documentation.
 class Waiter {
-  /// [Output Only] The instant at which this Waiter resource was created.
-  /// Adding
+  /// Output only. The instant at which this Waiter resource was created. Adding
   /// the value of `timeout` to this instant yields the timeout deadline for the
   /// waiter.
   core.String createTime;
 
-  /// [Output Only] If the value is `false`, it means the waiter is still
-  /// waiting
+  /// Output only. If the value is `false`, it means the waiter is still waiting
   /// for one of its conditions to be met.
   ///
   /// If true, the waiter has finished. If the waiter finished due to a timeout
   /// or failure, `error` will be set.
   core.bool done;
 
-  /// [Output Only] If the waiter ended due to a failure or timeout, this value
+  /// Output only. If the waiter ended due to a failure or timeout, this value
   /// will be set.
   Status error;
 

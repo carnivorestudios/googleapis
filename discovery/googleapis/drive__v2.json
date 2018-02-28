@@ -38,7 +38,7 @@
     "description": "Manages files in Drive including uploading, downloading, searching, detecting changes, and updating sharing permissions.",
     "discoveryVersion": "v1",
     "documentationLink": "https://developers.google.com/drive/",
-    "etag": "\"YWOzh2SDasdU84ArJnpYek-OMdg/F3cMZraaitMrbJJU63m0qV_j_To\"",
+    "etag": "\"-iA1DTNe4s-I6JZXPt1t1Ypy8IU/3sZY5SudRICrZaNsZzXj7Gt8kVY\"",
     "icons": {
         "x16": "https://ssl.gstatic.com/docs/doclist/images/drive_icon_16.png",
         "x32": "https://ssl.gstatic.com/docs/doclist/images/drive_icon_32.png"
@@ -104,7 +104,7 @@
                     "parameters": {
                         "includeSubscribed": {
                             "default": "true",
-                            "description": "When calculating the number of remaining change IDs, whether to include public files the user has opened and shared files. When set to false, this counts only change IDs for owned files and any shared or public files that the user has explicitly added to a folder they own.",
+                            "description": "Whether to count changes outside the My Drive hierarchy. When set to false, changes to files such as those in the Application Data folder or shared files which have not been added to My Drive will be omitted from the maxChangeIdCount.",
                             "location": "query",
                             "type": "boolean"
                         },
@@ -205,7 +205,7 @@
         "changes": {
             "methods": {
                 "get": {
-                    "description": "Gets a specific change.",
+                    "description": "Deprecated - Use changes.getStartPageToken and changes.list to retrieve recent changes.",
                     "httpMethod": "GET",
                     "id": "drive.changes.get",
                     "parameterOrder": [
@@ -296,7 +296,7 @@
                         },
                         "includeSubscribed": {
                             "default": "true",
-                            "description": "Whether to include public files the user has opened and shared files. When set to false, the list only includes owned files plus any shared or public files the user has explicitly added to a folder they own.",
+                            "description": "Whether to include changes outside the My Drive hierarchy in the result. When set to false, changes to files such as those in the Application Data folder or shared files which have not been added to My Drive will be omitted from the result.",
                             "location": "query",
                             "type": "boolean"
                         },
@@ -325,7 +325,7 @@
                             "type": "string"
                         },
                         "startChangeId": {
-                            "description": "Change ID to start listing changes from.",
+                            "description": "Deprecated - use pageToken instead.",
                             "format": "int64",
                             "location": "query",
                             "type": "string"
@@ -377,7 +377,7 @@
                         },
                         "includeSubscribed": {
                             "default": "true",
-                            "description": "Whether to include public files the user has opened and shared files. When set to false, the list only includes owned files plus any shared or public files the user has explicitly added to a folder they own.",
+                            "description": "Whether to include changes outside the My Drive hierarchy in the result. When set to false, changes to files such as those in the Application Data folder or shared files which have not been added to My Drive will be omitted from the result.",
                             "location": "query",
                             "type": "boolean"
                         },
@@ -406,7 +406,7 @@
                             "type": "string"
                         },
                         "startChangeId": {
-                            "description": "Change ID to start listing changes from.",
+                            "description": "Deprecated - use pageToken instead.",
                             "format": "int64",
                             "location": "query",
                             "type": "string"
@@ -1358,7 +1358,7 @@
                         },
                         "setModifiedDate": {
                             "default": "false",
-                            "description": "Whether to set the modified date with the supplied modified date.",
+                            "description": "Whether to set the modified date using the value supplied in the request body. Setting this field to true is equivalent to modifiedDateBehavior=fromBodyOrNow, and false is equivalent to modifiedDateBehavior=now. To prevent any changes to the modified date set modifiedDateBehavior=noChange.",
                             "location": "query",
                             "type": "boolean"
                         },
@@ -1596,7 +1596,7 @@
                         },
                         "setModifiedDate": {
                             "default": "false",
-                            "description": "Whether to set the modified date with the supplied modified date.",
+                            "description": "Whether to set the modified date using the value supplied in the request body. Setting this field to true is equivalent to modifiedDateBehavior=fromBodyOrNow, and false is equivalent to modifiedDateBehavior=now. To prevent any changes to the modified date set modifiedDateBehavior=noChange.",
                             "location": "query",
                             "type": "boolean"
                         },
@@ -1978,7 +1978,7 @@
                     ],
                     "parameters": {
                         "emailMessage": {
-                            "description": "A custom message to include in notification emails.",
+                            "description": "A plain text custom message to include in notification emails.",
                             "location": "query",
                             "type": "string"
                         },
@@ -3072,7 +3072,7 @@
             }
         }
     },
-    "revision": "20171103",
+    "revision": "20180209",
     "rootUrl": "https://www.googleapis.com/",
     "schemas": {
         "About": {
@@ -3111,6 +3111,10 @@
                         "type": "object"
                     },
                     "type": "array"
+                },
+                "canCreateTeamDrives": {
+                    "description": "Whether the user can create Team Drives.",
+                    "type": "boolean"
                 },
                 "domainSharingPolicy": {
                     "description": "The domain sharing policy for the current user. Possible values are:  \n- allowed \n- allowedWithWarning \n- incomingOnly \n- disallowed",
@@ -3711,6 +3715,7 @@
                     "annotations": {
                         "required": [
                             "drive.comments.insert",
+                            "drive.comments.patch",
                             "drive.comments.update"
                         ]
                     },
@@ -3822,6 +3827,7 @@
                 "content": {
                     "annotations": {
                         "required": [
+                            "drive.replies.patch",
                             "drive.replies.update"
                         ]
                     },
@@ -4300,7 +4306,7 @@
                     "type": "array"
                 },
                 "parents": {
-                    "description": "Collection of parent folders which contain this file.\nSetting this field will put the file in all of the provided folders. On insert, if no folders are provided, the file will be placed in the default root folder.",
+                    "description": "Collection of parent folders which contain this file.\nIf not specified as part of an insert request, the file will be placed directly in the user's My Drive folder. If not specified as part of a copy request, the file will inherit any discoverable parents of the source file. Update requests can also use the addParents and removeParents parameters to modify the parents list.",
                     "items": {
                         "$ref": "ParentReference"
                     },
@@ -4600,7 +4606,7 @@
                     "type": "string"
                 },
                 "expirationDate": {
-                    "description": "The time at which this permission will expire (RFC 3339 date-time). Expiration dates have the following restrictions:  \n- They can only be set on user and group permissions \n- The date must be in the future \n- The date cannot be more than a year in the future \n- The date can only be set on drive.permissions.update requests",
+                    "description": "The time at which this permission will expire (RFC 3339 date-time). Expiration dates have the following restrictions:  \n- They can only be set on user and group permissions \n- The date must be in the future \n- The date cannot be more than a year in the future \n- The date can only be set on drive.permissions.update or drive.permissions.patch requests",
                     "format": "date-time",
                     "type": "string"
                 },
@@ -5038,6 +5044,11 @@
                     "type": "string"
                 },
                 "name": {
+                    "annotations": {
+                        "required": [
+                            "drive.teamdrives.insert"
+                        ]
+                    },
                     "description": "The name of this Team Drive.",
                     "type": "string"
                 },

@@ -542,10 +542,8 @@ class ProjectsLocationsTransferConfigsResourceApi {
   /// [parent] - The BigQuery project id where the transfer configuration should
   /// be created.
   /// Must be in the format /projects/{project_id}/locations/{location_id}
-  /// or
-  /// /projects/{project_id}/locations/-
-  /// In case when '-' is specified as location_id, location is infered from
-  /// the destination dataset region.
+  /// If specified location and location of the destination bigquery dataset
+  /// do not match - the request will fail.
   /// Value must have pattern "^projects/[^/]+/locations/[^/]+$".
   ///
   /// [authorizationCode] - Optional OAuth2 authorization code to use with this
@@ -797,7 +795,7 @@ class ProjectsLocationsTransferConfigsResourceApi {
   /// [authorizationCode] - Optional OAuth2 authorization code to use with this
   /// transfer configuration.
   /// If it is provided, the transfer configuration will be associated with the
-  /// gaia id of the authorizing user.
+  /// authorizing user.
   /// In order to obtain authorization_code, please make a
   /// request to
   /// https://www.gstatic.com/bigquerydatatransfer/oauthz/auth?client_id=<datatransferapiclientid>&scope=<data_source_scopes>&redirect_uri=<redirect_uri>
@@ -862,7 +860,7 @@ class ProjectsLocationsTransferConfigsResourceApi {
     return _response.then((data) => new TransferConfig.fromJson(data));
   }
 
-  /// Creates transfer runs for a time range [range_start_time, range_end_time].
+  /// Creates transfer runs for a time range [start_time, end_time].
   /// For each date - or whatever granularity the data source supports - in the
   /// range, one transfer run is created.
   /// Note that runs are created per UTC time in the time range.
@@ -1035,11 +1033,6 @@ class ProjectsLocationsTransferConfigsRunsResourceApi {
   /// Value must have pattern
   /// "^projects/[^/]+/locations/[^/]+/transferConfigs/[^/]+$".
   ///
-  /// [runAttempt] - Indicates how run attempts are to be pulled.
-  /// Possible string values are:
-  /// - "RUN_ATTEMPT_UNSPECIFIED" : A RUN_ATTEMPT_UNSPECIFIED.
-  /// - "LATEST" : A LATEST.
-  ///
   /// [pageToken] - Pagination token, which can be used to request a specific
   /// page
   /// of `ListTransferRunsRequest` list results. For multiple-page
@@ -1053,6 +1046,11 @@ class ProjectsLocationsTransferConfigsRunsResourceApi {
   /// [pageSize] - Page size. The default page size is the maximum value of 1000
   /// results.
   ///
+  /// [runAttempt] - Indicates how run attempts are to be pulled.
+  /// Possible string values are:
+  /// - "RUN_ATTEMPT_UNSPECIFIED" : A RUN_ATTEMPT_UNSPECIFIED.
+  /// - "LATEST" : A LATEST.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1064,10 +1062,10 @@ class ProjectsLocationsTransferConfigsRunsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListTransferRunsResponse> list(core.String parent,
-      {core.String runAttempt,
-      core.String pageToken,
+      {core.String pageToken,
       core.List<core.String> states,
       core.int pageSize,
+      core.String runAttempt,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1079,9 +1077,6 @@ class ProjectsLocationsTransferConfigsRunsResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (runAttempt != null) {
-      _queryParams["runAttempt"] = [runAttempt];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
     }
@@ -1090,6 +1085,9 @@ class ProjectsLocationsTransferConfigsRunsResourceApi {
     }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (runAttempt != null) {
+      _queryParams["runAttempt"] = [runAttempt];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1209,10 +1207,8 @@ class ProjectsTransferConfigsResourceApi {
   /// [parent] - The BigQuery project id where the transfer configuration should
   /// be created.
   /// Must be in the format /projects/{project_id}/locations/{location_id}
-  /// or
-  /// /projects/{project_id}/locations/-
-  /// In case when '-' is specified as location_id, location is infered from
-  /// the destination dataset region.
+  /// If specified location and location of the destination bigquery dataset
+  /// do not match - the request will fail.
   /// Value must have pattern "^projects/[^/]+$".
   ///
   /// [authorizationCode] - Optional OAuth2 authorization code to use with this
@@ -1458,10 +1454,12 @@ class ProjectsTransferConfigsResourceApi {
   /// config.
   /// Value must have pattern "^projects/[^/]+/transferConfigs/[^/]+$".
   ///
+  /// [updateMask] - Required list of fields to be updated in this request.
+  ///
   /// [authorizationCode] - Optional OAuth2 authorization code to use with this
   /// transfer configuration.
   /// If it is provided, the transfer configuration will be associated with the
-  /// gaia id of the authorizing user.
+  /// authorizing user.
   /// In order to obtain authorization_code, please make a
   /// request to
   /// https://www.gstatic.com/bigquerydatatransfer/oauthz/auth?client_id=<datatransferapiclientid>&scope=<data_source_scopes>&redirect_uri=<redirect_uri>
@@ -1476,8 +1474,6 @@ class ProjectsTransferConfigsResourceApi {
   ///   returned in the title bar of the browser, with the page text prompting
   ///   the user to copy the code and paste it in the application.
   ///
-  /// [updateMask] - Required list of fields to be updated in this request.
-  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1489,8 +1485,8 @@ class ProjectsTransferConfigsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<TransferConfig> patch(TransferConfig request, core.String name,
-      {core.String authorizationCode,
-      core.String updateMask,
+      {core.String updateMask,
+      core.String authorizationCode,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1505,11 +1501,11 @@ class ProjectsTransferConfigsResourceApi {
     if (name == null) {
       throw new core.ArgumentError("Parameter name is required.");
     }
-    if (authorizationCode != null) {
-      _queryParams["authorizationCode"] = [authorizationCode];
-    }
     if (updateMask != null) {
       _queryParams["updateMask"] = [updateMask];
+    }
+    if (authorizationCode != null) {
+      _queryParams["authorizationCode"] = [authorizationCode];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1526,7 +1522,7 @@ class ProjectsTransferConfigsResourceApi {
     return _response.then((data) => new TransferConfig.fromJson(data));
   }
 
-  /// Creates transfer runs for a time range [range_start_time, range_end_time].
+  /// Creates transfer runs for a time range [start_time, end_time].
   /// For each date - or whatever granularity the data source supports - in the
   /// range, one transfer run is created.
   /// Note that runs are created per UTC time in the time range.
@@ -1695,11 +1691,6 @@ class ProjectsTransferConfigsRunsResourceApi {
   /// `projects/{project_id}/transferConfigs/{config_id}`.
   /// Value must have pattern "^projects/[^/]+/transferConfigs/[^/]+$".
   ///
-  /// [runAttempt] - Indicates how run attempts are to be pulled.
-  /// Possible string values are:
-  /// - "RUN_ATTEMPT_UNSPECIFIED" : A RUN_ATTEMPT_UNSPECIFIED.
-  /// - "LATEST" : A LATEST.
-  ///
   /// [pageToken] - Pagination token, which can be used to request a specific
   /// page
   /// of `ListTransferRunsRequest` list results. For multiple-page
@@ -1713,6 +1704,11 @@ class ProjectsTransferConfigsRunsResourceApi {
   /// [pageSize] - Page size. The default page size is the maximum value of 1000
   /// results.
   ///
+  /// [runAttempt] - Indicates how run attempts are to be pulled.
+  /// Possible string values are:
+  /// - "RUN_ATTEMPT_UNSPECIFIED" : A RUN_ATTEMPT_UNSPECIFIED.
+  /// - "LATEST" : A LATEST.
+  ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
@@ -1724,10 +1720,10 @@ class ProjectsTransferConfigsRunsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListTransferRunsResponse> list(core.String parent,
-      {core.String runAttempt,
-      core.String pageToken,
+      {core.String pageToken,
       core.List<core.String> states,
       core.int pageSize,
+      core.String runAttempt,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1739,9 +1735,6 @@ class ProjectsTransferConfigsRunsResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (runAttempt != null) {
-      _queryParams["runAttempt"] = [runAttempt];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
     }
@@ -1750,6 +1743,9 @@ class ProjectsTransferConfigsRunsResourceApi {
     }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (runAttempt != null) {
+      _queryParams["runAttempt"] = [runAttempt];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1784,10 +1780,6 @@ class ProjectsTransferConfigsRunsTransferLogsResourceApi {
   /// Value must have pattern
   /// "^projects/[^/]+/transferConfigs/[^/]+/runs/[^/]+$".
   ///
-  /// [messageTypes] - Message types to return. If not populated - INFO, WARNING
-  /// and ERROR
-  /// messages are returned.
-  ///
   /// [pageToken] - Pagination token, which can be used to request a specific
   /// page
   /// of `ListTransferLogsRequest` list results. For multiple-page
@@ -1797,6 +1789,10 @@ class ProjectsTransferConfigsRunsTransferLogsResourceApi {
   ///
   /// [pageSize] - Page size. The default page size is the maximum value of 1000
   /// results.
+  ///
+  /// [messageTypes] - Message types to return. If not populated - INFO, WARNING
+  /// and ERROR
+  /// messages are returned.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -1809,9 +1805,9 @@ class ProjectsTransferConfigsRunsTransferLogsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListTransferLogsResponse> list(core.String parent,
-      {core.List<core.String> messageTypes,
-      core.String pageToken,
+      {core.String pageToken,
       core.int pageSize,
+      core.List<core.String> messageTypes,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1823,14 +1819,14 @@ class ProjectsTransferConfigsRunsTransferLogsResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (messageTypes != null) {
-      _queryParams["messageTypes"] = messageTypes;
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
     }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (messageTypes != null) {
+      _queryParams["messageTypes"] = messageTypes;
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1954,7 +1950,7 @@ class DataSource {
   /// for the data source.
   core.bool manualRunsDisabled;
 
-  /// The minimum interval between two consecutive scheduled runs.
+  /// The minimum interval for scheduler to schedule runs.
   core.String minimumScheduleInterval;
 
   /// Data source resource name.
@@ -2716,6 +2712,7 @@ class Status {
 /// When a new transfer configuration is created, the specified
 /// `destination_dataset_id` is created when needed and shared with the
 /// appropriate data source service account.
+/// Next id: 21
 class TransferConfig {
   /// The number of days to look back to automatically refresh the data.
   /// For example, if `data_refresh_window_days = 10`, then every day
@@ -2776,7 +2773,6 @@ class TransferConfig {
   /// Output only. State of the most recently updated transfer run.
   /// Possible string values are:
   /// - "TRANSFER_STATE_UNSPECIFIED" : State placeholder.
-  /// - "INACTIVE" : Data transfer is inactive.
   /// - "PENDING" : Data transfer is scheduled and is waiting to be picked up by
   /// data transfer backend.
   /// - "RUNNING" : Data transfer is in progress.
@@ -2791,6 +2787,8 @@ class TransferConfig {
   /// Output only. Unique ID of the user on whose behalf transfer is done.
   /// Applicable only to data sources that do not support service accounts.
   /// When set to 0, the data source service account credentials are used.
+  /// May be negative. Note, that this identifier is not stable.
+  /// It may change over time even for the same user.
   core.String userId;
 
   TransferConfig();
@@ -2930,12 +2928,12 @@ class TransferMessage {
 }
 
 /// Represents a data transfer run.
-/// Next id: 23
+/// Next id: 27
 class TransferRun {
   /// Output only. Data source id.
   core.String dataSourceId;
 
-  /// The BigQuery target dataset id.
+  /// Output only. The BigQuery target dataset id.
   core.String destinationDatasetId;
 
   /// Output only. Time when transfer run ended.
@@ -2951,7 +2949,7 @@ class TransferRun {
   /// The name is ignored when creating a transfer run.
   core.String name;
 
-  /// Data transfer specific parameters.
+  /// Output only. Data transfer specific parameters.
   ///
   /// The values for Object must be JSON objects. It can consist of `num`,
   /// `String`, `bool` and `null` as well as `Map` and `List` values.
@@ -2978,7 +2976,6 @@ class TransferRun {
   /// Data transfer run state. Ignored for input requests.
   /// Possible string values are:
   /// - "TRANSFER_STATE_UNSPECIFIED" : State placeholder.
-  /// - "INACTIVE" : Data transfer is inactive.
   /// - "PENDING" : Data transfer is scheduled and is waiting to be picked up by
   /// data transfer backend.
   /// - "RUNNING" : Data transfer is in progress.
@@ -2993,7 +2990,8 @@ class TransferRun {
   /// Output only. Unique ID of the user on whose behalf transfer is done.
   /// Applicable only to data sources that do not support service accounts.
   /// When set to 0, the data source service account credentials are used.
-  /// May be negative.
+  /// May be negative. Note, that this identifier is not stable.
+  /// It may change over time even for the same user.
   core.String userId;
 
   TransferRun();

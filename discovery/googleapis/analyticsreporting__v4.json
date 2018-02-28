@@ -2,11 +2,11 @@
     "auth": {
         "oauth2": {
             "scopes": {
-                "https://www.googleapis.com/auth/analytics": {
-                    "description": "View and manage your Google Analytics data"
-                },
                 "https://www.googleapis.com/auth/analytics.readonly": {
                     "description": "View your Google Analytics data"
+                },
+                "https://www.googleapis.com/auth/analytics": {
+                    "description": "View and manage your Google Analytics data"
                 }
             }
         }
@@ -28,6 +28,53 @@
     "ownerDomain": "google.com",
     "ownerName": "Google",
     "parameters": {
+        "quotaUser": {
+            "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters.",
+            "location": "query",
+            "type": "string"
+        },
+        "pp": {
+            "default": "true",
+            "description": "Pretty-print response.",
+            "location": "query",
+            "type": "boolean"
+        },
+        "bearer_token": {
+            "description": "OAuth bearer token.",
+            "location": "query",
+            "type": "string"
+        },
+        "oauth_token": {
+            "description": "OAuth 2.0 token for the current user.",
+            "location": "query",
+            "type": "string"
+        },
+        "upload_protocol": {
+            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
+            "location": "query",
+            "type": "string"
+        },
+        "prettyPrint": {
+            "default": "true",
+            "description": "Returns response with indentations and line breaks.",
+            "location": "query",
+            "type": "boolean"
+        },
+        "uploadType": {
+            "description": "Legacy upload protocol for media (e.g. \"media\", \"multipart\").",
+            "location": "query",
+            "type": "string"
+        },
+        "fields": {
+            "description": "Selector specifying which fields to include in a partial response.",
+            "location": "query",
+            "type": "string"
+        },
+        "callback": {
+            "description": "JSONP",
+            "location": "query",
+            "type": "string"
+        },
         "$.xgafv": {
             "description": "V1 error format.",
             "enum": [
@@ -38,11 +85,6 @@
                 "v1 error format",
                 "v2 error format"
             ],
-            "location": "query",
-            "type": "string"
-        },
-        "callback": {
-            "description": "JSONP",
             "location": "query",
             "type": "string"
         },
@@ -62,55 +104,13 @@
             "location": "query",
             "type": "string"
         },
-        "access_token": {
-            "description": "OAuth access token.",
-            "location": "query",
-            "type": "string"
-        },
         "key": {
             "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
             "location": "query",
             "type": "string"
         },
-        "quotaUser": {
-            "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters.",
-            "location": "query",
-            "type": "string"
-        },
-        "pp": {
-            "default": "true",
-            "description": "Pretty-print response.",
-            "location": "query",
-            "type": "boolean"
-        },
-        "oauth_token": {
-            "description": "OAuth 2.0 token for the current user.",
-            "location": "query",
-            "type": "string"
-        },
-        "bearer_token": {
-            "description": "OAuth bearer token.",
-            "location": "query",
-            "type": "string"
-        },
-        "upload_protocol": {
-            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
-            "location": "query",
-            "type": "string"
-        },
-        "prettyPrint": {
-            "default": "true",
-            "description": "Returns response with indentations and line breaks.",
-            "location": "query",
-            "type": "boolean"
-        },
-        "fields": {
-            "description": "Selector specifying which fields to include in a partial response.",
-            "location": "query",
-            "type": "string"
-        },
-        "uploadType": {
-            "description": "Legacy upload protocol for media (e.g. \"media\", \"multipart\").",
+        "access_token": {
+            "description": "OAuth access token.",
             "location": "query",
             "type": "string"
         }
@@ -140,7 +140,7 @@
             }
         }
     },
-    "revision": "20171108",
+    "revision": "20180210",
     "rootUrl": "https://analyticsreporting.googleapis.com/",
     "schemas": {
         "DateRange": {
@@ -162,14 +162,6 @@
             "description": "MetricFilter specifies the filter on a metric.",
             "id": "MetricFilter",
             "properties": {
-                "metricName": {
-                    "description": "The metric that will be filtered on. A metricFilter must contain a metric\nname. A metric name can be an alias earlier defined as a metric or it can\nalso be a metric expression.",
-                    "type": "string"
-                },
-                "comparisonValue": {
-                    "description": "The value to compare against.",
-                    "type": "string"
-                },
                 "operator": {
                     "description": "Is the metric `EQUAL`, `LESS_THAN` or `GREATER_THAN` the\ncomparisonValue, the default is `EQUAL`. If the operator is\n`IS_MISSING`, checks if the metric is missing and would ignore the\ncomparisonValue.",
                     "enum": [
@@ -191,6 +183,14 @@
                 "not": {
                     "description": "Logical `NOT` operator. If this boolean is set to true, then the matching\nmetric values will be excluded in the report. The default is false.",
                     "type": "boolean"
+                },
+                "metricName": {
+                    "description": "The metric that will be filtered on. A metricFilter must contain a metric\nname. A metric name can be an alias earlier defined as a metric or it can\nalso be a metric expression.",
+                    "type": "string"
+                },
+                "comparisonValue": {
+                    "description": "The value to compare against.",
+                    "type": "string"
                 }
             },
             "type": "object"
@@ -199,6 +199,43 @@
             "description": "The main request class which specifies the Reporting API request.",
             "id": "ReportRequest",
             "properties": {
+                "dimensionFilterClauses": {
+                    "description": "The dimension filter clauses for filtering Dimension Values. They are\nlogically combined with the `AND` operator. Note that filtering occurs\nbefore any dimensions are aggregated, so that the returned metrics\nrepresent the total for only the relevant dimensions.",
+                    "items": {
+                        "$ref": "DimensionFilterClause"
+                    },
+                    "type": "array"
+                },
+                "orderBys": {
+                    "description": "Sort order on output rows. To compare two rows, the elements of the\nfollowing are applied in order until a difference is found.  All date\nranges in the output get the same row order.",
+                    "items": {
+                        "$ref": "OrderBy"
+                    },
+                    "type": "array"
+                },
+                "segments": {
+                    "description": "Segment the data returned for the request. A segment definition helps look\nat a subset of the segment request. A request can contain up to four\nsegments. Every [ReportRequest](#ReportRequest) within a\n`batchGet` method must contain the same `segments` definition. Requests\nwith segments must have the `ga:segment` dimension.",
+                    "items": {
+                        "$ref": "Segment"
+                    },
+                    "type": "array"
+                },
+                "samplingLevel": {
+                    "description": "The desired report\n[sample](https://support.google.com/analytics/answer/2637192) size.\nIf the the `samplingLevel` field is unspecified the `DEFAULT` sampling\nlevel is used. Every [ReportRequest](#ReportRequest) within a\n`batchGet` method must contain the same `samplingLevel` definition. See\n[developer guide](/analytics/devguides/reporting/core/v4/basics#sampling)\n for details.",
+                    "enum": [
+                        "SAMPLING_UNSPECIFIED",
+                        "DEFAULT",
+                        "SMALL",
+                        "LARGE"
+                    ],
+                    "enumDescriptions": [
+                        "If the `samplingLevel` field is unspecified the `DEFAULT` sampling level\nis used.",
+                        "Returns response with a sample size that balances speed and\naccuracy.",
+                        "It returns a fast response with a smaller sampling size.",
+                        "Returns a more accurate response using a large sampling size. But this\nmay result in response being slower."
+                    ],
+                    "type": "string"
+                },
                 "dimensions": {
                     "description": "The dimensions requested.\nRequests can have a total of 7 dimensions.",
                     "items": {
@@ -240,12 +277,12 @@
                     "format": "int32",
                     "type": "integer"
                 },
-                "hideTotals": {
-                    "description": "If set to true, hides the total of all metrics for all the matching rows,\nfor every date range. The default false and will return the totals.",
-                    "type": "boolean"
-                },
                 "hideValueRanges": {
                     "description": "If set to true, hides the minimum and maximum across all matching rows.\nThe default is false and the value ranges are returned.",
+                    "type": "boolean"
+                },
+                "hideTotals": {
+                    "description": "If set to true, hides the total of all metrics for all the matching rows,\nfor every date range. The default false and will return the totals.",
                     "type": "boolean"
                 },
                 "cohortGroup": {
@@ -266,43 +303,6 @@
                         "$ref": "Metric"
                     },
                     "type": "array"
-                },
-                "dimensionFilterClauses": {
-                    "description": "The dimension filter clauses for filtering Dimension Values. They are\nlogically combined with the `AND` operator. Note that filtering occurs\nbefore any dimensions are aggregated, so that the returned metrics\nrepresent the total for only the relevant dimensions.",
-                    "items": {
-                        "$ref": "DimensionFilterClause"
-                    },
-                    "type": "array"
-                },
-                "orderBys": {
-                    "description": "Sort order on output rows. To compare two rows, the elements of the\nfollowing are applied in order until a difference is found.  All date\nranges in the output get the same row order.",
-                    "items": {
-                        "$ref": "OrderBy"
-                    },
-                    "type": "array"
-                },
-                "segments": {
-                    "description": "Segment the data returned for the request. A segment definition helps look\nat a subset of the segment request. A request can contain up to four\nsegments. Every [ReportRequest](#ReportRequest) within a\n`batchGet` method must contain the same `segments` definition. Requests\nwith segments must have the `ga:segment` dimension.",
-                    "items": {
-                        "$ref": "Segment"
-                    },
-                    "type": "array"
-                },
-                "samplingLevel": {
-                    "description": "The desired report\n[sample](https://support.google.com/analytics/answer/2637192) size.\nIf the the `samplingLevel` field is unspecified the `DEFAULT` sampling\nlevel is used. Every [ReportRequest](#ReportRequest) within a\n`batchGet` method must contain the same `samplingLevel` definition. See\n[developer guide](/analytics/devguides/reporting/core/v4/basics#sampling)\n for details.",
-                    "enum": [
-                        "SAMPLING_UNSPECIFIED",
-                        "DEFAULT",
-                        "SMALL",
-                        "LARGE"
-                    ],
-                    "enumDescriptions": [
-                        "If the `samplingLevel` field is unspecified the `DEFAULT` sampling level\nis used.",
-                        "Returns response with a sample size that balances speed and\naccuracy.",
-                        "It returns a fast response with a smaller sampling size.",
-                        "Returns a more accurate response using a large sampling size. But this\nmay result in response being slower."
-                    ],
-                    "type": "string"
                 }
             },
             "type": "object"
@@ -363,16 +363,16 @@
             "description": "Column headers.",
             "id": "ColumnHeader",
             "properties": {
-                "metricHeader": {
-                    "$ref": "MetricHeader",
-                    "description": "Metric headers for the metrics in the response."
-                },
                 "dimensions": {
                     "description": "The dimension names in the response.",
                     "items": {
                         "type": "string"
                     },
                     "type": "array"
+                },
+                "metricHeader": {
+                    "$ref": "MetricHeader",
+                    "description": "Metric headers for the metrics in the response."
                 }
             },
             "type": "object"
@@ -400,17 +400,17 @@
             "description": "A row in the report.",
             "id": "ReportRow",
             "properties": {
-                "dimensions": {
-                    "description": "List of requested dimensions.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
                 "metrics": {
                     "description": "List of metrics for each requested DateRange.",
                     "items": {
                         "$ref": "DateRangeValues"
+                    },
+                    "type": "array"
+                },
+                "dimensions": {
+                    "description": "List of requested dimensions.",
+                    "items": {
+                        "type": "string"
                     },
                     "type": "array"
                 }
@@ -490,17 +490,17 @@
             "description": "The headers for the metrics.",
             "id": "MetricHeader",
             "properties": {
-                "metricHeaderEntries": {
-                    "description": "Headers for the metrics in the response.",
-                    "items": {
-                        "$ref": "MetricHeaderEntry"
-                    },
-                    "type": "array"
-                },
                 "pivotHeaders": {
                     "description": "Headers for the pivots in the response.",
                     "items": {
                         "$ref": "PivotHeader"
+                    },
+                    "type": "array"
+                },
+                "metricHeaderEntries": {
+                    "description": "Headers for the metrics in the response.",
+                    "items": {
+                        "$ref": "MetricHeaderEntry"
                     },
                     "type": "array"
                 }
@@ -580,6 +580,24 @@
             "description": "Metric filter to be used in a segment filter clause.",
             "id": "SegmentMetricFilter",
             "properties": {
+                "operator": {
+                    "description": "Specifies is the operation to perform to compare the metric. The default\nis `EQUAL`.",
+                    "enum": [
+                        "UNSPECIFIED_OPERATOR",
+                        "LESS_THAN",
+                        "GREATER_THAN",
+                        "EQUAL",
+                        "BETWEEN"
+                    ],
+                    "enumDescriptions": [
+                        "Unspecified operator is treated as `LESS_THAN` operator.",
+                        "Checks if the metric value is less than comparison value.",
+                        "Checks if the metric value is greater than comparison value.",
+                        "Equals operator.",
+                        "For between operator, both the minimum and maximum are exclusive.\nWe will use `LT` and `GT` for comparison."
+                    ],
+                    "type": "string"
+                },
                 "metricName": {
                     "description": "The metric that will be filtered on. A `metricFilter` must contain a\nmetric name.",
                     "type": "string"
@@ -609,24 +627,6 @@
                 "comparisonValue": {
                     "description": "The value to compare against. If the operator is `BETWEEN`, this value is\ntreated as minimum comparison value.",
                     "type": "string"
-                },
-                "operator": {
-                    "description": "Specifies is the operation to perform to compare the metric. The default\nis `EQUAL`.",
-                    "enum": [
-                        "UNSPECIFIED_OPERATOR",
-                        "LESS_THAN",
-                        "GREATER_THAN",
-                        "EQUAL",
-                        "BETWEEN"
-                    ],
-                    "enumDescriptions": [
-                        "Unspecified operator is treated as `LESS_THAN` operator.",
-                        "Checks if the metric value is less than comparison value.",
-                        "Checks if the metric value is greater than comparison value.",
-                        "Equals operator.",
-                        "For between operator, both the minimum and maximum are exclusive.\nWe will use `LT` and `GT` for comparison."
-                    ],
-                    "type": "string"
                 }
             },
             "type": "object"
@@ -635,17 +635,17 @@
             "description": "Used to return a list of metrics for a single DateRange / dimension\ncombination",
             "id": "DateRangeValues",
             "properties": {
-                "values": {
-                    "description": "Each value corresponds to each Metric in the request.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
                 "pivotValueRegions": {
                     "description": "The values of each pivot region.",
                     "items": {
                         "$ref": "PivotValueRegion"
+                    },
+                    "type": "array"
+                },
+                "values": {
+                    "description": "Each value corresponds to each Metric in the request.",
+                    "items": {
+                        "type": "string"
                     },
                     "type": "array"
                 }
@@ -656,16 +656,16 @@
             "description": "Defines a cohort group.\nFor example:\n\n    \"cohortGroup\": {\n      \"cohorts\": [{\n        \"name\": \"cohort 1\",\n        \"type\": \"FIRST_VISIT_DATE\",\n        \"dateRange\": { \"startDate\": \"2015-08-01\", \"endDate\": \"2015-08-01\" }\n      },{\n        \"name\": \"cohort 2\"\n         \"type\": \"FIRST_VISIT_DATE\"\n         \"dateRange\": { \"startDate\": \"2015-07-01\", \"endDate\": \"2015-07-01\" }\n      }]\n    }",
             "id": "CohortGroup",
             "properties": {
+                "lifetimeValue": {
+                    "description": "Enable Life Time Value (LTV).  LTV measures lifetime value for users\nacquired through different channels.\nPlease see:\n[Cohort Analysis](https://support.google.com/analytics/answer/6074676) and\n[Lifetime Value](https://support.google.com/analytics/answer/6182550)\nIf the value of lifetimeValue is false:\n\n- The metric values are similar to the values in the web interface cohort\n  report.\n- The cohort definition date ranges must be aligned to the calendar week\n  and month. i.e. while requesting `ga:cohortNthWeek` the `startDate` in\n  the cohort definition should be a Sunday and the `endDate` should be the\n  following Saturday, and for `ga:cohortNthMonth`, the `startDate`\n  should be the 1st of the month and `endDate` should be the last day\n  of the month.\n\nWhen the lifetimeValue is true:\n\n- The metric values will correspond to the values in the web interface\n  LifeTime value report.\n- The Lifetime Value report shows you how user value (Revenue) and\n  engagement (Appviews, Goal Completions, Sessions, and Session Duration)\n  grow during the 90 days after a user is acquired.\n- The metrics are calculated as a cumulative average per user per the time\n  increment.\n- The cohort definition date ranges need not be aligned to the calendar\n  week and month boundaries.\n- The `viewId` must be an\n  [app view ID](https://support.google.com/analytics/answer/2649553#WebVersusAppViews)",
+                    "type": "boolean"
+                },
                 "cohorts": {
                     "description": "The definition for the cohort.",
                     "items": {
                         "$ref": "Cohort"
                     },
                     "type": "array"
-                },
-                "lifetimeValue": {
-                    "description": "Enable Life Time Value (LTV).  LTV measures lifetime value for users\nacquired through different channels.\nPlease see:\n[Cohort Analysis](https://support.google.com/analytics/answer/6074676) and\n[Lifetime Value](https://support.google.com/analytics/answer/6182550)\nIf the value of lifetimeValue is false:\n\n- The metric values are similar to the values in the web interface cohort\n  report.\n- The cohort definition date ranges must be aligned to the calendar week\n  and month. i.e. while requesting `ga:cohortNthWeek` the `startDate` in\n  the cohort definition should be a Sunday and the `endDate` should be the\n  following Saturday, and for `ga:cohortNthMonth`, the `startDate`\n  should be the 1st of the month and `endDate` should be the last day\n  of the month.\n\nWhen the lifetimeValue is true:\n\n- The metric values will correspond to the values in the web interface\n  LifeTime value report.\n- The Lifetime Value report shows you how user value (Revenue) and\n  engagement (Appviews, Goal Completions, Sessions, and Session Duration)\n  grow during the 90 days after a user is acquired.\n- The metrics are calculated as a cumulative average per user per the time\n  increment.\n- The cohort definition date ranges need not be aligned to the calendar\n  week and month boundaries.\n- The `viewId` must be an\n  [app view ID](https://support.google.com/analytics/answer/2649553#WebVersusAppViews)",
-                    "type": "boolean"
                 }
             },
             "type": "object"
@@ -674,16 +674,16 @@
             "description": "The batch request containing multiple report request.",
             "id": "GetReportsRequest",
             "properties": {
-                "useResourceQuotas": {
-                    "description": "Enables\n[resource based quotas](/analytics/devguides/reporting/core/v4/limits-quotas#analytics_reporting_api_v4),\n(defaults to `False`). If this field is set to `True` the\nper view (profile) quotas are governed by the computational\ncost of the request. Note that using cost based quotas will\nhigher enable sampling rates. (10 Million for `SMALL`,\n100M for `LARGE`. See the\n[limits and quotas documentation](/analytics/devguides/reporting/core/v4/limits-quotas#analytics_reporting_api_v4) for details.",
-                    "type": "boolean"
-                },
                 "reportRequests": {
                     "description": "Requests, each request will have a separate response.\nThere can be a maximum of 5 requests. All requests should have the same\n`dateRanges`, `viewId`, `segments`, `samplingLevel`, and `cohortGroup`.",
                     "items": {
                         "$ref": "ReportRequest"
                     },
                     "type": "array"
+                },
+                "useResourceQuotas": {
+                    "description": "Enables\n[resource based quotas](/analytics/devguides/reporting/core/v4/limits-quotas#analytics_reporting_api_v4),\n(defaults to `False`). If this field is set to `True` the\nper view (profile) quotas are governed by the computational\ncost of the request. Note that using cost based quotas will\nhigher enable sampling rates. (10 Million for `SMALL`,\n100M for `LARGE`. See the\n[limits and quotas documentation](/analytics/devguides/reporting/core/v4/limits-quotas#analytics_reporting_api_v4) for details.",
+                    "type": "boolean"
                 }
             },
             "type": "object"
@@ -730,13 +730,6 @@
             "description": "The headers for the each of the metric column corresponding to the metrics\nrequested in the pivots section of the response.",
             "id": "PivotHeaderEntry",
             "properties": {
-                "dimensionValues": {
-                    "description": "The values for the dimensions in the pivot.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
                 "dimensionNames": {
                     "description": "The name of the dimensions in the pivot response.",
                     "items": {
@@ -747,6 +740,13 @@
                 "metric": {
                     "$ref": "MetricHeaderEntry",
                     "description": "The metric header for the metric in the pivot."
+                },
+                "dimensionValues": {
+                    "description": "The values for the dimensions in the pivot.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
                 }
             },
             "type": "object"
@@ -755,10 +755,6 @@
             "description": "SegmentFilter defines the segment to be either a simple or a sequence\nsegment. A simple segment condition contains dimension and metric conditions\nto select the sessions or users. A sequence segment condition can be used to\nselect users or sessions based on sequential conditions.",
             "id": "SegmentFilter",
             "properties": {
-                "sequenceSegment": {
-                    "$ref": "SequenceSegment",
-                    "description": "Sequence conditions consist of one or more steps, where each step is\ndefined by one or more dimension/metric conditions. Multiple steps can\nbe combined with special sequence operators."
-                },
                 "not": {
                     "description": "If true, match the complement of simple or sequence segment.\nFor example, to match all visits not from \"New York\", we can define the\nsegment as follows:\n\n      \"sessionSegment\": {\n        \"segmentFilters\": [{\n          \"simpleSegment\" :{\n            \"orFiltersForSegment\": [{\n              \"segmentFilterClauses\":[{\n                \"dimensionFilter\": {\n                  \"dimensionName\": \"ga:city\",\n                  \"expressions\": [\"New York\"]\n                }\n              }]\n            }]\n          },\n          \"not\": \"True\"\n        }]\n      },",
                     "type": "boolean"
@@ -766,6 +762,10 @@
                 "simpleSegment": {
                     "$ref": "SimpleSegment",
                     "description": "A Simple segment conditions consist of one or more dimension/metric\nconditions that can be combined"
+                },
+                "sequenceSegment": {
+                    "$ref": "SequenceSegment",
+                    "description": "Sequence conditions consist of one or more steps, where each step is\ndefined by one or more dimension/metric conditions. Multiple steps can\nbe combined with special sequence operators."
                 }
             },
             "type": "object"
@@ -836,31 +836,11 @@
             "description": "The data part of the report.",
             "id": "ReportData",
             "properties": {
-                "isDataGolden": {
-                    "description": "Indicates if response to this request is golden or not. Data is\ngolden when the exact same request will not produce any new results if\nasked at a later point in time.",
-                    "type": "boolean"
-                },
-                "rows": {
-                    "description": "There's one ReportRow for every unique combination of dimensions.",
+                "samplingSpaceSizes": {
+                    "description": "If the results are\n[sampled](https://support.google.com/analytics/answer/2637192),\nthis returns the total number of\nsamples present, one entry per date range. If the results are not sampled\nthis field will not be defined. See\n[developer guide](/analytics/devguides/reporting/core/v4/basics#sampling)\nfor details.",
                     "items": {
-                        "$ref": "ReportRow"
-                    },
-                    "type": "array"
-                },
-                "rowCount": {
-                    "description": "Total number of matching rows for this query.",
-                    "format": "int32",
-                    "type": "integer"
-                },
-                "dataLastRefreshed": {
-                    "description": "The last time the data in the report was refreshed. All the hits received\nbefore this timestamp are included in the calculation of the report.",
-                    "format": "google-datetime",
-                    "type": "string"
-                },
-                "maximums": {
-                    "description": "Minimum and maximum values seen over all matching rows. These are both\nempty when `hideValueRanges` in the request is false, or when\nrowCount is zero.",
-                    "items": {
-                        "$ref": "DateRangeValues"
+                        "format": "int64",
+                        "type": "string"
                     },
                     "type": "array"
                 },
@@ -868,14 +848,6 @@
                     "description": "Minimum and maximum values seen over all matching rows. These are both\nempty when `hideValueRanges` in the request is false, or when\nrowCount is zero.",
                     "items": {
                         "$ref": "DateRangeValues"
-                    },
-                    "type": "array"
-                },
-                "samplingSpaceSizes": {
-                    "description": "If the results are\n[sampled](https://support.google.com/analytics/answer/2637192),\nthis returns the total number of\nsamples present, one entry per date range. If the results are not sampled\nthis field will not be defined. See\n[developer guide](/analytics/devguides/reporting/core/v4/basics#sampling)\nfor details.",
-                    "items": {
-                        "format": "int64",
-                        "type": "string"
                     },
                     "type": "array"
                 },
@@ -893,6 +865,34 @@
                         "type": "string"
                     },
                     "type": "array"
+                },
+                "rowCount": {
+                    "description": "Total number of matching rows for this query.",
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "rows": {
+                    "description": "There's one ReportRow for every unique combination of dimensions.",
+                    "items": {
+                        "$ref": "ReportRow"
+                    },
+                    "type": "array"
+                },
+                "isDataGolden": {
+                    "description": "Indicates if response to this request is golden or not. Data is\ngolden when the exact same request will not produce any new results if\nasked at a later point in time.",
+                    "type": "boolean"
+                },
+                "dataLastRefreshed": {
+                    "description": "The last time the data in the report was refreshed. All the hits received\nbefore this timestamp are included in the calculation of the report.",
+                    "format": "google-datetime",
+                    "type": "string"
+                },
+                "maximums": {
+                    "description": "Minimum and maximum values seen over all matching rows. These are both\nempty when `hideValueRanges` in the request is false, or when\nrowCount is zero.",
+                    "items": {
+                        "$ref": "DateRangeValues"
+                    },
+                    "type": "array"
                 }
             },
             "type": "object"
@@ -901,6 +901,10 @@
             "description": "Dimension filter specifies the filtering options on a dimension.",
             "id": "DimensionFilter",
             "properties": {
+                "caseSensitive": {
+                    "description": "Should the match be case sensitive? Default is false.",
+                    "type": "boolean"
+                },
                 "dimensionName": {
                     "description": "The dimension to filter on. A DimensionFilter must contain a dimension.",
                     "type": "string"
@@ -943,10 +947,6 @@
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "caseSensitive": {
-                    "description": "Should the match be case sensitive? Default is false.",
-                    "type": "boolean"
                 }
             },
             "type": "object"

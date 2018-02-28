@@ -1,3 +1,51 @@
+## 0.45.0
+
+* [api] dlp:v2beta2
+* [api] dialogflow:v2beta1
+* [api] adexchangebuyer2:v2beta1
+* [api] dataflow:v1b3
+* [api] appengine:v1beta
+* [api] sqladmin:v1beta3
+* [api] sqladmin:v1beta4
+* [api-breaking] dialogflow:v2beta1
+* [api-breaking] dialogflow:v2beta1
+
+## 0.44.0
+
+* [api] dialogflow:v2beta1
+* [api] dataflow:v1b3
+* [api] tpu:v1alpha1
+* [api] logging:v2beta1
+* [api] appengine:v1beta
+* [api] appengine:v1beta4
+* [api] appengine:v1beta5
+* [api-breaking] cloudtasks:v2beta2
+* [api-breaking] oslogin:v1beta
+* [api-breaking] oslogin:v1alpha
+* [api-breaking] speech:v1beta1
+
+## 0.43.0
+
+* [api] dlp:v2beta1
+* [api] adexchangebuyer2:v2beta1
+* [api] cloudtasks:v2beta2
+* [api] tpu:v1alpha1
+* [api-breaking] cloudtasks:v2beta2
+* [api-breaking] cloudtasks:v2beta2
+* [api-breaking] speech:v1beta1
+
+## 0.42.0
+* [api-new] dialogflow:v2beta1
+* [api-new] tpu:v1alpha1
+* [api] appengine:v1beta
+* [api] cloudtasks:v2beta2
+* [api] dataflow:v1b3
+* [api] dlp:v2beta1
+* [api] proximitybeacon:v1beta1
+* [api] speech:v1beta1
+* [api-breaking] cloudtasks:v2beta2
+* [api-breaking] dataflow:v1b3
+
 ## 0.41.0
 
 * [api] appengine:v1beta4

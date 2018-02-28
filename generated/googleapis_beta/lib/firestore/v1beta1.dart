@@ -372,14 +372,14 @@ class ProjectsDatabasesDocumentsResourceApi {
   /// Value must have pattern
   /// "^projects/[^/]+/databases/[^/]+/documents/[^/]+/.+$".
   ///
-  /// [transaction] - Reads the document in a transaction.
+  /// [mask_fieldPaths] - The list of field paths in the mask. See
+  /// Document.fields for a field
+  /// path syntax reference.
   ///
   /// [readTime] - Reads the version of the document at the given time.
   /// This may not be older than 60 seconds.
   ///
-  /// [mask_fieldPaths] - The list of field paths in the mask. See
-  /// Document.fields for a field
-  /// path syntax reference.
+  /// [transaction] - Reads the document in a transaction.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -392,9 +392,9 @@ class ProjectsDatabasesDocumentsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<Document> get(core.String name,
-      {core.String transaction,
+      {core.List<core.String> mask_fieldPaths,
       core.String readTime,
-      core.List<core.String> mask_fieldPaths,
+      core.String transaction,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -406,14 +406,14 @@ class ProjectsDatabasesDocumentsResourceApi {
     if (name == null) {
       throw new core.ArgumentError("Parameter name is required.");
     }
-    if (transaction != null) {
-      _queryParams["transaction"] = [transaction];
+    if (mask_fieldPaths != null) {
+      _queryParams["mask.fieldPaths"] = mask_fieldPaths;
     }
     if (readTime != null) {
       _queryParams["readTime"] = [readTime];
     }
-    if (mask_fieldPaths != null) {
-      _queryParams["mask.fieldPaths"] = mask_fieldPaths;
+    if (transaction != null) {
+      _queryParams["transaction"] = [transaction];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -666,14 +666,6 @@ class ProjectsDatabasesDocumentsResourceApi {
   /// Value must have pattern
   /// "^projects/[^/]+/databases/[^/]+/documents/[^/]+/.+$".
   ///
-  /// [mask_fieldPaths] - The list of field paths in the mask. See
-  /// Document.fields for a field
-  /// path syntax reference.
-  ///
-  /// [updateMask_fieldPaths] - The list of field paths in the mask. See
-  /// Document.fields for a field
-  /// path syntax reference.
-  ///
   /// [currentDocument_updateTime] - When set, the target document must exist
   /// and have been last updated at
   /// that time.
@@ -681,6 +673,14 @@ class ProjectsDatabasesDocumentsResourceApi {
   /// [currentDocument_exists] - When set to `true`, the target document must
   /// exist.
   /// When set to `false`, the target document must not exist.
+  ///
+  /// [updateMask_fieldPaths] - The list of field paths in the mask. See
+  /// Document.fields for a field
+  /// path syntax reference.
+  ///
+  /// [mask_fieldPaths] - The list of field paths in the mask. See
+  /// Document.fields for a field
+  /// path syntax reference.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -693,10 +693,10 @@ class ProjectsDatabasesDocumentsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<Document> patch(Document request, core.String name,
-      {core.List<core.String> mask_fieldPaths,
-      core.List<core.String> updateMask_fieldPaths,
-      core.String currentDocument_updateTime,
+      {core.String currentDocument_updateTime,
       core.bool currentDocument_exists,
+      core.List<core.String> updateMask_fieldPaths,
+      core.List<core.String> mask_fieldPaths,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -711,17 +711,17 @@ class ProjectsDatabasesDocumentsResourceApi {
     if (name == null) {
       throw new core.ArgumentError("Parameter name is required.");
     }
-    if (mask_fieldPaths != null) {
-      _queryParams["mask.fieldPaths"] = mask_fieldPaths;
-    }
-    if (updateMask_fieldPaths != null) {
-      _queryParams["updateMask.fieldPaths"] = updateMask_fieldPaths;
-    }
     if (currentDocument_updateTime != null) {
       _queryParams["currentDocument.updateTime"] = [currentDocument_updateTime];
     }
     if (currentDocument_exists != null) {
       _queryParams["currentDocument.exists"] = ["${currentDocument_exists}"];
+    }
+    if (updateMask_fieldPaths != null) {
+      _queryParams["updateMask.fieldPaths"] = updateMask_fieldPaths;
+    }
+    if (mask_fieldPaths != null) {
+      _queryParams["mask.fieldPaths"] = mask_fieldPaths;
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1102,11 +1102,11 @@ class ProjectsDatabasesIndexesResourceApi {
   /// `projects/{project_id}/databases/{database_id}`
   /// Value must have pattern "^projects/[^/]+/databases/[^/]+$".
   ///
-  /// [pageToken] - The standard List page token.
-  ///
   /// [pageSize] - The standard List page size.
   ///
   /// [filter] - null
+  ///
+  /// [pageToken] - The standard List page token.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -1119,9 +1119,9 @@ class ProjectsDatabasesIndexesResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListIndexesResponse> list(core.String parent,
-      {core.String pageToken,
-      core.int pageSize,
+      {core.int pageSize,
       core.String filter,
+      core.String pageToken,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -1133,14 +1133,14 @@ class ProjectsDatabasesIndexesResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
     }
     if (filter != null) {
       _queryParams["filter"] = [filter];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1589,8 +1589,7 @@ class Document {
   /// The map keys represent field names.
   ///
   /// A simple field name contains only characters `a` to `z`, `A` to `Z`,
-  /// `0` to `9`, or `_`, and must not start with `0` to `9` or `_`. For
-  /// example,
+  /// `0` to `9`, or `_`, and must not start with `0` to `9`. For example,
   /// `foo_bar_17`.
   ///
   /// Field names matching the regular expression `__.*__` are reserved.
@@ -1847,6 +1846,7 @@ class DocumentTransform {
 
   /// The list of transformations to apply to the fields of the document, in
   /// order.
+  /// This must not be empty.
   core.List<FieldTransform> fieldTransforms;
 
   DocumentTransform();
@@ -2042,7 +2042,9 @@ class FieldTransform {
   /// Sets the field to the given server value.
   /// Possible string values are:
   /// - "SERVER_VALUE_UNSPECIFIED" : Unspecified. This value must not be used.
-  /// - "REQUEST_TIME" : The time at which the server processed the request.
+  /// - "REQUEST_TIME" : The time at which the server processed the request,
+  /// with millisecond
+  /// precision.
   core.String setToServerValue;
 
   FieldTransform();
@@ -3598,9 +3600,11 @@ class Write {
   /// The fields to update in this write.
   ///
   /// This field can be set only when the operation is `update`.
-  /// None of the field paths in the mask may contain a reserved name.
-  /// If the document exists on the server and has fields not referenced in the
-  /// mask, they are left unchanged.
+  /// If the mask is not set for an `update` and the document exists, any
+  /// existing data will be overwritten.
+  /// If the mask is set and the document on the server has fields not covered
+  /// by
+  /// the mask, they are left unchanged.
   /// Fields referenced in the mask, but not present in the input document, are
   /// deleted from the document on the server.
   /// The field paths in this mask must not contain a reserved field name.

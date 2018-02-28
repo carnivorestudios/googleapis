@@ -2,14 +2,14 @@
     "auth": {
         "oauth2": {
             "scopes": {
+                "https://www.googleapis.com/auth/trace.append": {
+                    "description": "Write Trace data for a project or application"
+                },
                 "https://www.googleapis.com/auth/cloud-platform": {
                     "description": "View and manage your data across Google Cloud Platform services"
                 },
                 "https://www.googleapis.com/auth/trace.readonly": {
                     "description": "Read Trace data for a project or application"
-                },
-                "https://www.googleapis.com/auth/trace.append": {
-                    "description": "Write Trace data for a project or application"
                 }
             }
         }
@@ -31,21 +31,6 @@
     "ownerDomain": "google.com",
     "ownerName": "Google",
     "parameters": {
-        "bearer_token": {
-            "description": "OAuth bearer token.",
-            "location": "query",
-            "type": "string"
-        },
-        "oauth_token": {
-            "description": "OAuth 2.0 token for the current user.",
-            "location": "query",
-            "type": "string"
-        },
-        "upload_protocol": {
-            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
-            "location": "query",
-            "type": "string"
-        },
         "prettyPrint": {
             "default": "true",
             "description": "Returns response with indentations and line breaks.",
@@ -62,11 +47,6 @@
             "location": "query",
             "type": "string"
         },
-        "callback": {
-            "description": "JSONP",
-            "location": "query",
-            "type": "string"
-        },
         "$.xgafv": {
             "description": "V1 error format.",
             "enum": [
@@ -77,6 +57,11 @@
                 "v1 error format",
                 "v2 error format"
             ],
+            "location": "query",
+            "type": "string"
+        },
+        "callback": {
+            "description": "JSONP",
             "location": "query",
             "type": "string"
         },
@@ -116,6 +101,21 @@
             "description": "Pretty-print response.",
             "location": "query",
             "type": "boolean"
+        },
+        "oauth_token": {
+            "description": "OAuth 2.0 token for the current user.",
+            "location": "query",
+            "type": "string"
+        },
+        "bearer_token": {
+            "description": "OAuth bearer token.",
+            "location": "query",
+            "type": "string"
+        },
+        "upload_protocol": {
+            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
+            "location": "query",
+            "type": "string"
         }
     },
     "protocol": "rest",
@@ -230,14 +230,14 @@
                                 "traceId"
                             ],
                             "parameters": {
-                                "traceId": {
-                                    "description": "ID of the trace to return.",
+                                "projectId": {
+                                    "description": "ID of the Cloud project where the trace data is stored.",
                                     "location": "path",
                                     "required": true,
                                     "type": "string"
                                 },
-                                "projectId": {
-                                    "description": "ID of the Cloud project where the trace data is stored.",
+                                "traceId": {
+                                    "description": "ID of the trace to return.",
                                     "location": "path",
                                     "required": true,
                                     "type": "string"
@@ -257,27 +257,32 @@
             }
         }
     },
-    "revision": "20171106",
+    "revision": "20180212",
     "rootUrl": "https://cloudtrace.googleapis.com/",
     "schemas": {
-        "Traces": {
-            "description": "List of new or updated traces.",
-            "id": "Traces",
-            "properties": {
-                "traces": {
-                    "description": "List of traces.",
-                    "items": {
-                        "$ref": "Trace"
-                    },
-                    "type": "array"
-                }
-            },
-            "type": "object"
-        },
         "TraceSpan": {
             "description": "A span represents a single timed event within a trace. Spans can be nested\nand form a trace tree. Often, a trace contains a root span that describes the\nend-to-end latency of an operation and, optionally, one or more subspans for\nits suboperations. Spans do not need to be contiguous. There may be gaps\nbetween spans in a trace.",
             "id": "TraceSpan",
             "properties": {
+                "startTime": {
+                    "description": "Start time of the span in nanoseconds from the UNIX epoch.",
+                    "format": "google-datetime",
+                    "type": "string"
+                },
+                "kind": {
+                    "description": "Distinguishes between spans generated in a particular context. For example,\ntwo spans with the same name may be distinguished using `RPC_CLIENT`\nand `RPC_SERVER` to identify queueing latency associated with the span.",
+                    "enum": [
+                        "SPAN_KIND_UNSPECIFIED",
+                        "RPC_SERVER",
+                        "RPC_CLIENT"
+                    ],
+                    "enumDescriptions": [
+                        "Unspecified.",
+                        "Indicates that the span covers server-side handling of an RPC or other\nremote network request.",
+                        "Indicates that the span covers the client-side wrapper around an RPC or\nother remote request."
+                    ],
+                    "type": "string"
+                },
                 "labels": {
                     "additionalProperties": {
                         "type": "string"
@@ -302,25 +307,6 @@
                 "endTime": {
                     "description": "End time of the span in nanoseconds from the UNIX epoch.",
                     "format": "google-datetime",
-                    "type": "string"
-                },
-                "startTime": {
-                    "description": "Start time of the span in nanoseconds from the UNIX epoch.",
-                    "format": "google-datetime",
-                    "type": "string"
-                },
-                "kind": {
-                    "description": "Distinguishes between spans generated in a particular context. For example,\ntwo spans with the same name may be distinguished using `RPC_CLIENT`\nand `RPC_SERVER` to identify queueing latency associated with the span.",
-                    "enum": [
-                        "SPAN_KIND_UNSPECIFIED",
-                        "RPC_SERVER",
-                        "RPC_CLIENT"
-                    ],
-                    "enumDescriptions": [
-                        "Unspecified.",
-                        "Indicates that the span covers server-side handling of an RPC or other\nremote network request.",
-                        "Indicates that the span covers the client-side wrapper around an RPC or\nother remote request."
-                    ],
                     "type": "string"
                 }
             },
@@ -368,6 +354,20 @@
                 "traceId": {
                     "description": "Globally unique identifier for the trace. This identifier is a 128-bit\nnumeric value formatted as a 32-byte hex string.",
                     "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Traces": {
+            "description": "List of new or updated traces.",
+            "id": "Traces",
+            "properties": {
+                "traces": {
+                    "description": "List of traces.",
+                    "items": {
+                        "$ref": "Trace"
+                    },
+                    "type": "array"
                 }
             },
             "type": "object"

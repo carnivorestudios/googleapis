@@ -275,11 +275,11 @@ class AppsLocationsResourceApi {
   /// [appsId] - Part of `name`. The resource that owns the locations
   /// collection, if applicable.
   ///
-  /// [pageSize] - The standard list page size.
-  ///
   /// [filter] - The standard list filter.
   ///
   /// [pageToken] - The standard list page token.
+  ///
+  /// [pageSize] - The standard list page size.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -292,9 +292,9 @@ class AppsLocationsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListLocationsResponse> list(core.String appsId,
-      {core.int pageSize,
-      core.String filter,
+      {core.String filter,
       core.String pageToken,
+      core.int pageSize,
       core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
@@ -306,14 +306,14 @@ class AppsLocationsResourceApi {
     if (appsId == null) {
       throw new core.ArgumentError("Parameter appsId is required.");
     }
-    if (pageSize != null) {
-      _queryParams["pageSize"] = ["${pageSize}"];
-    }
     if (filter != null) {
       _queryParams["filter"] = [filter];
     }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
+    }
+    if (pageSize != null) {
+      _queryParams["pageSize"] = ["${pageSize}"];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1832,6 +1832,56 @@ class CpuUtilization {
   }
 }
 
+/// Metadata for the given google.longrunning.Operation during a
+/// google.appengine.v1alpha.CreateVersionRequest.
+class CreateVersionMetadataV1Alpha {
+  /// The Cloud Build ID if one was created as part of the version create.
+  /// @OutputOnly
+  core.String cloudBuildId;
+
+  CreateVersionMetadataV1Alpha();
+
+  CreateVersionMetadataV1Alpha.fromJson(core.Map _json) {
+    if (_json.containsKey("cloudBuildId")) {
+      cloudBuildId = _json["cloudBuildId"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (cloudBuildId != null) {
+      _json["cloudBuildId"] = cloudBuildId;
+    }
+    return _json;
+  }
+}
+
+/// Metadata for the given google.longrunning.Operation during a
+/// google.appengine.v1beta.CreateVersionRequest.
+class CreateVersionMetadataV1Beta {
+  /// The Cloud Build ID if one was created as part of the version create.
+  /// @OutputOnly
+  core.String cloudBuildId;
+
+  CreateVersionMetadataV1Beta();
+
+  CreateVersionMetadataV1Beta.fromJson(core.Map _json) {
+    if (_json.containsKey("cloudBuildId")) {
+      cloudBuildId = _json["cloudBuildId"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (cloudBuildId != null) {
+      _json["cloudBuildId"] = cloudBuildId;
+    }
+    return _json;
+  }
+}
+
 /// Request message for Instances.DebugInstance.
 class DebugInstanceRequest {
   /// Public SSH key to add to the instance. Examples:
@@ -2665,11 +2715,11 @@ class Location {
 
 /// Metadata for the given google.cloud.location.Location.
 class LocationMetadata {
-  /// App Engine Flexible Environment is available in the given
+  /// App Engine flexible environment is available in the given
   /// location.@OutputOnly
   core.bool flexibleEnvironmentAvailable;
 
-  /// App Engine Standard Environment is available in the given
+  /// App Engine standard environment is available in the given
   /// location.@OutputOnly
   core.bool standardEnvironmentAvailable;
 
@@ -3098,6 +3148,8 @@ class OperationMetadataV1 {
 
 /// Metadata for the given google.longrunning.Operation.
 class OperationMetadataV1Alpha {
+  CreateVersionMetadataV1Alpha createVersionMetadata;
+
   /// Time that this operation completed.@OutputOnly
   core.String endTime;
 
@@ -3125,6 +3177,10 @@ class OperationMetadataV1Alpha {
   OperationMetadataV1Alpha();
 
   OperationMetadataV1Alpha.fromJson(core.Map _json) {
+    if (_json.containsKey("createVersionMetadata")) {
+      createVersionMetadata = new CreateVersionMetadataV1Alpha.fromJson(
+          _json["createVersionMetadata"]);
+    }
     if (_json.containsKey("endTime")) {
       endTime = _json["endTime"];
     }
@@ -3151,6 +3207,9 @@ class OperationMetadataV1Alpha {
   core.Map<core.String, core.Object> toJson() {
     final core.Map<core.String, core.Object> _json =
         new core.Map<core.String, core.Object>();
+    if (createVersionMetadata != null) {
+      _json["createVersionMetadata"] = (createVersionMetadata).toJson();
+    }
     if (endTime != null) {
       _json["endTime"] = endTime;
     }
@@ -3178,6 +3237,8 @@ class OperationMetadataV1Alpha {
 
 /// Metadata for the given google.longrunning.Operation.
 class OperationMetadataV1Beta {
+  CreateVersionMetadataV1Beta createVersionMetadata;
+
   /// Time that this operation completed.@OutputOnly
   core.String endTime;
 
@@ -3205,6 +3266,10 @@ class OperationMetadataV1Beta {
   OperationMetadataV1Beta();
 
   OperationMetadataV1Beta.fromJson(core.Map _json) {
+    if (_json.containsKey("createVersionMetadata")) {
+      createVersionMetadata = new CreateVersionMetadataV1Beta.fromJson(
+          _json["createVersionMetadata"]);
+    }
     if (_json.containsKey("endTime")) {
       endTime = _json["endTime"];
     }
@@ -3231,6 +3296,9 @@ class OperationMetadataV1Beta {
   core.Map<core.String, core.Object> toJson() {
     final core.Map<core.String, core.Object> _json =
         new core.Map<core.String, core.Object>();
+    if (createVersionMetadata != null) {
+      _json["createVersionMetadata"] = (createVersionMetadata).toJson();
+    }
     if (endTime != null) {
       _json["endTime"] = endTime;
     }

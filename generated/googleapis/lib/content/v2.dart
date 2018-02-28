@@ -91,8 +91,9 @@ class AccountsResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account whose website is claimed.
   ///
@@ -205,7 +206,7 @@ class AccountsResourceApi {
   /// Request parameters:
   ///
   /// [merchantId] - The ID of the managing account. This must be a multi-client
-  /// account.
+  /// account, and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account.
   ///
@@ -266,8 +267,9 @@ class AccountsResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account.
   ///
@@ -428,8 +430,9 @@ class AccountsResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account.
   ///
@@ -490,8 +493,9 @@ class AccountsResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account.
   ///
@@ -599,8 +603,9 @@ class AccountstatusesResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account.
   ///
@@ -764,8 +769,9 @@ class AccounttaxResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account for which to get/update account tax
   /// settings.
@@ -875,8 +881,9 @@ class AccounttaxResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account for which to get/update account tax
   /// settings.
@@ -938,8 +945,9 @@ class AccounttaxResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account for which to get/update account tax
   /// settings.
@@ -1211,7 +1219,7 @@ class DatafeedsResourceApi {
     return _response.then((data) => new Datafeed.fromJson(data));
   }
 
-  /// Lists the datafeeds in your Merchant Center account.
+  /// Lists the configurations for datafeeds in your Merchant Center account.
   ///
   /// Request parameters:
   ///
@@ -2197,6 +2205,67 @@ class OrdersResourceApi {
         .then((data) => new OrdersGetTestOrderTemplateResponse.fromJson(data));
   }
 
+  /// Notifies that item return and refund was handled directly in store.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [merchantId] - The ID of the account that manages the order. This cannot
+  /// be a multi-client account.
+  ///
+  /// [orderId] - The ID of the order.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [OrdersInStoreRefundLineItemResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<OrdersInStoreRefundLineItemResponse> instorerefundlineitem(
+      OrdersInStoreRefundLineItemRequest request,
+      core.String merchantId,
+      core.String orderId,
+      {core.String $fields}) {
+    var _url = null;
+    var _queryParams = new core.Map();
+    var _uploadMedia = null;
+    var _uploadOptions = null;
+    var _downloadOptions = commons.DownloadOptions.Metadata;
+    var _body = null;
+
+    if (request != null) {
+      _body = convert.JSON.encode((request).toJson());
+    }
+    if (merchantId == null) {
+      throw new core.ArgumentError("Parameter merchantId is required.");
+    }
+    if (orderId == null) {
+      throw new core.ArgumentError("Parameter orderId is required.");
+    }
+    if ($fields != null) {
+      _queryParams["fields"] = [$fields];
+    }
+
+    _url = commons.Escaper.ecapeVariable('$merchantId') +
+        '/orders/' +
+        commons.Escaper.ecapeVariable('$orderId') +
+        '/inStoreRefundLineItem';
+
+    var _response = _requester.request(_url, "POST",
+        body: _body,
+        queryParams: _queryParams,
+        uploadOptions: _uploadOptions,
+        uploadMedia: _uploadMedia,
+        downloadOptions: _downloadOptions);
+    return _response
+        .then((data) => new OrdersInStoreRefundLineItemResponse.fromJson(data));
+  }
+
   /// Lists the orders in your Merchant Center account.
   ///
   /// Request parameters:
@@ -2363,6 +2432,67 @@ class OrdersResourceApi {
     return _response.then((data) => new OrdersRefundResponse.fromJson(data));
   }
 
+  /// Rejects return on an line item.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [merchantId] - The ID of the account that manages the order. This cannot
+  /// be a multi-client account.
+  ///
+  /// [orderId] - The ID of the order.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [OrdersRejectReturnLineItemResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<OrdersRejectReturnLineItemResponse> rejectreturnlineitem(
+      OrdersRejectReturnLineItemRequest request,
+      core.String merchantId,
+      core.String orderId,
+      {core.String $fields}) {
+    var _url = null;
+    var _queryParams = new core.Map();
+    var _uploadMedia = null;
+    var _uploadOptions = null;
+    var _downloadOptions = commons.DownloadOptions.Metadata;
+    var _body = null;
+
+    if (request != null) {
+      _body = convert.JSON.encode((request).toJson());
+    }
+    if (merchantId == null) {
+      throw new core.ArgumentError("Parameter merchantId is required.");
+    }
+    if (orderId == null) {
+      throw new core.ArgumentError("Parameter orderId is required.");
+    }
+    if ($fields != null) {
+      _queryParams["fields"] = [$fields];
+    }
+
+    _url = commons.Escaper.ecapeVariable('$merchantId') +
+        '/orders/' +
+        commons.Escaper.ecapeVariable('$orderId') +
+        '/rejectReturnLineItem';
+
+    var _response = _requester.request(_url, "POST",
+        body: _body,
+        queryParams: _queryParams,
+        uploadOptions: _uploadOptions,
+        uploadMedia: _uploadMedia,
+        downloadOptions: _downloadOptions);
+    return _response
+        .then((data) => new OrdersRejectReturnLineItemResponse.fromJson(data));
+  }
+
   /// Returns a line item.
   ///
   /// [request] - The metadata request object.
@@ -2424,6 +2554,129 @@ class OrdersResourceApi {
         .then((data) => new OrdersReturnLineItemResponse.fromJson(data));
   }
 
+  /// Returns and refunds a line item. Note that this method can only be called
+  /// on fully shipped orders.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [merchantId] - The ID of the account that manages the order. This cannot
+  /// be a multi-client account.
+  ///
+  /// [orderId] - The ID of the order.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [OrdersReturnRefundLineItemResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<OrdersReturnRefundLineItemResponse> returnrefundlineitem(
+      OrdersReturnRefundLineItemRequest request,
+      core.String merchantId,
+      core.String orderId,
+      {core.String $fields}) {
+    var _url = null;
+    var _queryParams = new core.Map();
+    var _uploadMedia = null;
+    var _uploadOptions = null;
+    var _downloadOptions = commons.DownloadOptions.Metadata;
+    var _body = null;
+
+    if (request != null) {
+      _body = convert.JSON.encode((request).toJson());
+    }
+    if (merchantId == null) {
+      throw new core.ArgumentError("Parameter merchantId is required.");
+    }
+    if (orderId == null) {
+      throw new core.ArgumentError("Parameter orderId is required.");
+    }
+    if ($fields != null) {
+      _queryParams["fields"] = [$fields];
+    }
+
+    _url = commons.Escaper.ecapeVariable('$merchantId') +
+        '/orders/' +
+        commons.Escaper.ecapeVariable('$orderId') +
+        '/returnRefundLineItem';
+
+    var _response = _requester.request(_url, "POST",
+        body: _body,
+        queryParams: _queryParams,
+        uploadOptions: _uploadOptions,
+        uploadMedia: _uploadMedia,
+        downloadOptions: _downloadOptions);
+    return _response
+        .then((data) => new OrdersReturnRefundLineItemResponse.fromJson(data));
+  }
+
+  /// Sets (overrides) merchant provided annotations on the line item.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [merchantId] - The ID of the account that manages the order. This cannot
+  /// be a multi-client account.
+  ///
+  /// [orderId] - The ID of the order.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [OrdersSetLineItemMetadataResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<OrdersSetLineItemMetadataResponse> setlineitemmetadata(
+      OrdersSetLineItemMetadataRequest request,
+      core.String merchantId,
+      core.String orderId,
+      {core.String $fields}) {
+    var _url = null;
+    var _queryParams = new core.Map();
+    var _uploadMedia = null;
+    var _uploadOptions = null;
+    var _downloadOptions = commons.DownloadOptions.Metadata;
+    var _body = null;
+
+    if (request != null) {
+      _body = convert.JSON.encode((request).toJson());
+    }
+    if (merchantId == null) {
+      throw new core.ArgumentError("Parameter merchantId is required.");
+    }
+    if (orderId == null) {
+      throw new core.ArgumentError("Parameter orderId is required.");
+    }
+    if ($fields != null) {
+      _queryParams["fields"] = [$fields];
+    }
+
+    _url = commons.Escaper.ecapeVariable('$merchantId') +
+        '/orders/' +
+        commons.Escaper.ecapeVariable('$orderId') +
+        '/setLineItemMetadata';
+
+    var _response = _requester.request(_url, "POST",
+        body: _body,
+        queryParams: _queryParams,
+        uploadOptions: _uploadOptions,
+        uploadMedia: _uploadMedia,
+        downloadOptions: _downloadOptions);
+    return _response
+        .then((data) => new OrdersSetLineItemMetadataResponse.fromJson(data));
+  }
+
   /// Marks line item(s) as shipped.
   ///
   /// [request] - The metadata request object.
@@ -2483,6 +2736,68 @@ class OrdersResourceApi {
         downloadOptions: _downloadOptions);
     return _response
         .then((data) => new OrdersShipLineItemsResponse.fromJson(data));
+  }
+
+  /// Updates ship by and delivery by dates for a line item.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [merchantId] - The ID of the account that manages the order. This cannot
+  /// be a multi-client account.
+  ///
+  /// [orderId] - The ID of the order.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [OrdersUpdateLineItemShippingDetailsResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<OrdersUpdateLineItemShippingDetailsResponse>
+      updatelineitemshippingdetails(
+          OrdersUpdateLineItemShippingDetailsRequest request,
+          core.String merchantId,
+          core.String orderId,
+          {core.String $fields}) {
+    var _url = null;
+    var _queryParams = new core.Map();
+    var _uploadMedia = null;
+    var _uploadOptions = null;
+    var _downloadOptions = commons.DownloadOptions.Metadata;
+    var _body = null;
+
+    if (request != null) {
+      _body = convert.JSON.encode((request).toJson());
+    }
+    if (merchantId == null) {
+      throw new core.ArgumentError("Parameter merchantId is required.");
+    }
+    if (orderId == null) {
+      throw new core.ArgumentError("Parameter orderId is required.");
+    }
+    if ($fields != null) {
+      _queryParams["fields"] = [$fields];
+    }
+
+    _url = commons.Escaper.ecapeVariable('$merchantId') +
+        '/orders/' +
+        commons.Escaper.ecapeVariable('$orderId') +
+        '/updateLineItemShippingDetails';
+
+    var _response = _requester.request(_url, "POST",
+        body: _body,
+        queryParams: _queryParams,
+        uploadOptions: _uploadOptions,
+        uploadMedia: _uploadMedia,
+        downloadOptions: _downloadOptions);
+    return _response.then((data) =>
+        new OrdersUpdateLineItemShippingDetailsResponse.fromJson(data));
   }
 
   /// Updates the merchant order ID for a given order.
@@ -3147,8 +3462,9 @@ class ShippingsettingsResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account for which to get/update shipping
   /// settings.
@@ -3241,6 +3557,51 @@ class ShippingsettingsResourceApi {
         new ShippingsettingsGetSupportedCarriersResponse.fromJson(data));
   }
 
+  /// Retrieves supported holidays for an account.
+  ///
+  /// Request parameters:
+  ///
+  /// [merchantId] - The ID of the account for which to retrieve the supported
+  /// holidays.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [ShippingsettingsGetSupportedHolidaysResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<ShippingsettingsGetSupportedHolidaysResponse>
+      getsupportedholidays(core.String merchantId, {core.String $fields}) {
+    var _url = null;
+    var _queryParams = new core.Map();
+    var _uploadMedia = null;
+    var _uploadOptions = null;
+    var _downloadOptions = commons.DownloadOptions.Metadata;
+    var _body = null;
+
+    if (merchantId == null) {
+      throw new core.ArgumentError("Parameter merchantId is required.");
+    }
+    if ($fields != null) {
+      _queryParams["fields"] = [$fields];
+    }
+
+    _url = commons.Escaper.ecapeVariable('$merchantId') + '/supportedHolidays';
+
+    var _response = _requester.request(_url, "GET",
+        body: _body,
+        queryParams: _queryParams,
+        uploadOptions: _uploadOptions,
+        uploadMedia: _uploadMedia,
+        downloadOptions: _downloadOptions);
+    return _response.then((data) =>
+        new ShippingsettingsGetSupportedHolidaysResponse.fromJson(data));
+  }
+
   /// Lists the shipping settings of the sub-accounts in your Merchant Center
   /// account.
   ///
@@ -3305,8 +3666,9 @@ class ShippingsettingsResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account for which to get/update shipping
   /// settings.
@@ -3368,8 +3730,9 @@ class ShippingsettingsResourceApi {
   ///
   /// Request parameters:
   ///
-  /// [merchantId] - The ID of the managing account. If this account is not a
-  /// multi-client account, then this parameter must be the same as accountId.
+  /// [merchantId] - The ID of the managing account. If this parameter is not
+  /// the same as accountId, then this account must be a multi-client account
+  /// and accountId must be the ID of a sub-account of this account.
   ///
   /// [accountId] - The ID of the account for which to get/update shipping
   /// settings.
@@ -3438,6 +3801,10 @@ class Account {
   /// or to cancel a link request, remove it from the list.
   core.List<AccountAdwordsLink> adwordsLinks;
 
+  /// The GMB account which is linked or in the process of being linked with the
+  /// Merchant Center accounnt.
+  AccountGoogleMyBusinessLink googleMyBusinessLink;
+
   /// Merchant Center account ID.
   core.String id;
 
@@ -3479,6 +3846,10 @@ class Account {
           .map((value) => new AccountAdwordsLink.fromJson(value))
           .toList();
     }
+    if (_json.containsKey("googleMyBusinessLink")) {
+      googleMyBusinessLink = new AccountGoogleMyBusinessLink.fromJson(
+          _json["googleMyBusinessLink"]);
+    }
     if (_json.containsKey("id")) {
       id = _json["id"];
     }
@@ -3518,6 +3889,9 @@ class Account {
     if (adwordsLinks != null) {
       _json["adwordsLinks"] =
           adwordsLinks.map((value) => (value).toJson()).toList();
+    }
+    if (googleMyBusinessLink != null) {
+      _json["googleMyBusinessLink"] = (googleMyBusinessLink).toJson();
     }
     if (id != null) {
       _json["id"] = id;
@@ -3580,6 +3954,38 @@ class AccountAdwordsLink {
         new core.Map<core.String, core.Object>();
     if (adwordsId != null) {
       _json["adwordsId"] = adwordsId;
+    }
+    if (status != null) {
+      _json["status"] = status;
+    }
+    return _json;
+  }
+}
+
+class AccountGoogleMyBusinessLink {
+  /// The GMB email address.
+  core.String gmbEmail;
+
+  /// Status of the link between this Merchant Center account and the GMB
+  /// account.
+  core.String status;
+
+  AccountGoogleMyBusinessLink();
+
+  AccountGoogleMyBusinessLink.fromJson(core.Map _json) {
+    if (_json.containsKey("gmbEmail")) {
+      gmbEmail = _json["gmbEmail"];
+    }
+    if (_json.containsKey("status")) {
+      status = _json["status"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (gmbEmail != null) {
+      _json["gmbEmail"] = gmbEmail;
     }
     if (status != null) {
       _json["status"] = status;
@@ -5846,6 +6252,10 @@ class DatafeedstatusesListResponse {
 }
 
 class DeliveryTime {
+  /// Holiday cutoff definitions. If configured, they specify order cutoff times
+  /// for holiday-specific shipping.
+  core.List<HolidayCutoff> holidayCutoffs;
+
   /// Maximum number of business days that is spent in transit. 0 means same day
   /// delivery, 1 means next day delivery. Must be greater than or equal to
   /// minTransitTimeInDays. Required.
@@ -5858,6 +6268,11 @@ class DeliveryTime {
   DeliveryTime();
 
   DeliveryTime.fromJson(core.Map _json) {
+    if (_json.containsKey("holidayCutoffs")) {
+      holidayCutoffs = _json["holidayCutoffs"]
+          .map((value) => new HolidayCutoff.fromJson(value))
+          .toList();
+    }
     if (_json.containsKey("maxTransitTimeInDays")) {
       maxTransitTimeInDays = _json["maxTransitTimeInDays"];
     }
@@ -5869,6 +6284,10 @@ class DeliveryTime {
   core.Map<core.String, core.Object> toJson() {
     final core.Map<core.String, core.Object> _json =
         new core.Map<core.String, core.Object>();
+    if (holidayCutoffs != null) {
+      _json["holidayCutoffs"] =
+          holidayCutoffs.map((value) => (value).toJson()).toList();
+    }
     if (maxTransitTimeInDays != null) {
       _json["maxTransitTimeInDays"] = maxTransitTimeInDays;
     }
@@ -6037,6 +6456,143 @@ class Headers {
     }
     if (weights != null) {
       _json["weights"] = weights.map((value) => (value).toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class HolidayCutoff {
+  /// Date of the order deadline, in ISO 8601 format. E.g. "2016-11-29" for 29th
+  /// November 2016. Required.
+  core.String deadlineDate;
+
+  /// Hour of the day on the deadline date until which the order has to be
+  /// placed to qualify for the delivery guarantee. Possible values are: 0
+  /// (midnight), 1, ..., 12 (noon), 13, ..., 23. Required.
+  core.int deadlineHour;
+
+  /// Timezone identifier for the deadline hour. A list of identifiers can be
+  /// found in  the AdWords API documentation. E.g. "Europe/Zurich". Required.
+  core.String deadlineTimezone;
+
+  /// Unique identifier for the holiday. Required.
+  core.String holidayId;
+
+  /// Date on which the deadline will become visible to consumers in ISO 8601
+  /// format. E.g. "2016-10-31" for 31st October 2016. Required.
+  core.String visibleFromDate;
+
+  HolidayCutoff();
+
+  HolidayCutoff.fromJson(core.Map _json) {
+    if (_json.containsKey("deadlineDate")) {
+      deadlineDate = _json["deadlineDate"];
+    }
+    if (_json.containsKey("deadlineHour")) {
+      deadlineHour = _json["deadlineHour"];
+    }
+    if (_json.containsKey("deadlineTimezone")) {
+      deadlineTimezone = _json["deadlineTimezone"];
+    }
+    if (_json.containsKey("holidayId")) {
+      holidayId = _json["holidayId"];
+    }
+    if (_json.containsKey("visibleFromDate")) {
+      visibleFromDate = _json["visibleFromDate"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (deadlineDate != null) {
+      _json["deadlineDate"] = deadlineDate;
+    }
+    if (deadlineHour != null) {
+      _json["deadlineHour"] = deadlineHour;
+    }
+    if (deadlineTimezone != null) {
+      _json["deadlineTimezone"] = deadlineTimezone;
+    }
+    if (holidayId != null) {
+      _json["holidayId"] = holidayId;
+    }
+    if (visibleFromDate != null) {
+      _json["visibleFromDate"] = visibleFromDate;
+    }
+    return _json;
+  }
+}
+
+class HolidaysHoliday {
+  /// The CLDR territory code of the country in which the holiday is available.
+  /// E.g. "US", "DE", "GB". A holiday cutoff can only be configured in a
+  /// shipping settings service with matching delivery country. Always present.
+  core.String countryCode;
+
+  /// Date of the holiday, in ISO 8601 format. E.g. "2016-12-25" for Christmas
+  /// 2016. Always present.
+  core.String date;
+
+  /// Date on which the order has to arrive at the customer's, in ISO 8601
+  /// format. E.g. "2016-12-24" for 24th December 2016. Always present.
+  core.String deliveryGuaranteeDate;
+
+  /// Hour of the day in the delivery location's timezone on the guaranteed
+  /// delivery date by which the order has to arrive at the customer's. Possible
+  /// values are: 0 (midnight), 1, ..., 12 (noon), 13, ..., 23. Always present.
+  core.String deliveryGuaranteeHour;
+
+  /// Unique identifier for the holiday to be used when configuring holiday
+  /// cutoffs. Always present.
+  core.String id;
+
+  /// The holiday type. Always present.
+  core.String type;
+
+  HolidaysHoliday();
+
+  HolidaysHoliday.fromJson(core.Map _json) {
+    if (_json.containsKey("countryCode")) {
+      countryCode = _json["countryCode"];
+    }
+    if (_json.containsKey("date")) {
+      date = _json["date"];
+    }
+    if (_json.containsKey("deliveryGuaranteeDate")) {
+      deliveryGuaranteeDate = _json["deliveryGuaranteeDate"];
+    }
+    if (_json.containsKey("deliveryGuaranteeHour")) {
+      deliveryGuaranteeHour = _json["deliveryGuaranteeHour"];
+    }
+    if (_json.containsKey("id")) {
+      id = _json["id"];
+    }
+    if (_json.containsKey("type")) {
+      type = _json["type"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (countryCode != null) {
+      _json["countryCode"] = countryCode;
+    }
+    if (date != null) {
+      _json["date"] = date;
+    }
+    if (deliveryGuaranteeDate != null) {
+      _json["deliveryGuaranteeDate"] = deliveryGuaranteeDate;
+    }
+    if (deliveryGuaranteeHour != null) {
+      _json["deliveryGuaranteeHour"] = deliveryGuaranteeHour;
+    }
+    if (id != null) {
+      _json["id"] = id;
+    }
+    if (type != null) {
+      _json["type"] = type;
     }
     return _json;
   }
@@ -7002,6 +7558,9 @@ class OrderDeliveryDetails {
 }
 
 class OrderLineItem {
+  /// Annotations that are attached to the line item.
+  core.List<OrderMerchantProvidedAnnotation> annotations;
+
   /// Cancellations of the line item.
   core.List<OrderCancellation> cancellations;
 
@@ -7050,6 +7609,11 @@ class OrderLineItem {
   OrderLineItem();
 
   OrderLineItem.fromJson(core.Map _json) {
+    if (_json.containsKey("annotations")) {
+      annotations = _json["annotations"]
+          .map((value) => new OrderMerchantProvidedAnnotation.fromJson(value))
+          .toList();
+    }
     if (_json.containsKey("cancellations")) {
       cancellations = _json["cancellations"]
           .map((value) => new OrderCancellation.fromJson(value))
@@ -7102,6 +7666,10 @@ class OrderLineItem {
   core.Map<core.String, core.Object> toJson() {
     final core.Map<core.String, core.Object> _json =
         new core.Map<core.String, core.Object>();
+    if (annotations != null) {
+      _json["annotations"] =
+          annotations.map((value) => (value).toJson()).toList();
+    }
     if (cancellations != null) {
       _json["cancellations"] =
           cancellations.map((value) => (value).toJson()).toList();
@@ -7464,6 +8032,39 @@ class OrderLineItemShippingDetailsMethod {
   }
 }
 
+class OrderMerchantProvidedAnnotation {
+  /// Key for additional merchant provided (as key-value pairs) annotation about
+  /// the line item.
+  core.String key;
+
+  /// Value for additional merchant provided (as key-value pairs) annotation
+  /// about the line item.
+  core.String value;
+
+  OrderMerchantProvidedAnnotation();
+
+  OrderMerchantProvidedAnnotation.fromJson(core.Map _json) {
+    if (_json.containsKey("key")) {
+      key = _json["key"];
+    }
+    if (_json.containsKey("value")) {
+      value = _json["value"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (key != null) {
+      _json["key"] = key;
+    }
+    if (value != null) {
+      _json["value"] = value;
+    }
+    return _json;
+  }
+}
+
 class OrderPaymentMethod {
   /// The billing address.
   OrderAddress billingAddress;
@@ -7809,26 +8410,20 @@ class OrderShipment {
   /// Acceptable values are:
   /// - "gsx"
   /// - "ups"
-  /// - "united parcel service"
   /// - "usps"
-  /// - "united states postal service"
   /// - "fedex"
   /// - "dhl"
   /// - "ecourier"
   /// - "cxt"
   /// - "google"
-  /// - "on trac"
   /// - "ontrac"
-  /// - "on-trac"
-  /// - "on_trac"
-  /// - "delvic"
+  /// - "emsy"
+  /// - "ont"
+  /// - "deliv"
   /// - "dynamex"
   /// - "lasership"
-  /// - "smartpost"
-  /// - "fedex smartpost"
   /// - "mpx"
   /// - "uds"
-  /// - "united delivery service"
   core.String carrier;
 
   /// Date on which the shipment has been created, in ISO 8601 format.
@@ -7911,6 +8506,10 @@ class OrderShipmentLineItemShipment {
   /// required.
   core.String lineItemId;
 
+  /// The ID of the product to ship. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
+
   /// The quantity that is shipped.
   core.int quantity;
 
@@ -7919,6 +8518,9 @@ class OrderShipmentLineItemShipment {
   OrderShipmentLineItemShipment.fromJson(core.Map _json) {
     if (_json.containsKey("lineItemId")) {
       lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
     }
     if (_json.containsKey("quantity")) {
       quantity = _json["quantity"];
@@ -7930,6 +8532,9 @@ class OrderShipmentLineItemShipment {
         new core.Map<core.String, core.Object>();
     if (lineItemId != null) {
       _json["lineItemId"] = lineItemId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
     }
     if (quantity != null) {
       _json["quantity"] = quantity;
@@ -8021,12 +8626,24 @@ class OrdersCancelLineItemRequest {
   /// The amount must not be larger than the net amount left on the order.
   Price amount;
 
+  /// Amount to refund for the cancelation. Optional. If not set, Google will
+  /// calculate the default based on the price and tax of the items involved.
+  /// The amount must not be larger than the net amount left on the order.
+  Price amountPretax;
+
+  /// Tax amount that correspond to cancellation amount in amountPretax.
+  Price amountTax;
+
   /// The ID of the line item to cancel. Either lineItemId or productId is
   /// required.
   core.String lineItemId;
 
   /// The ID of the operation. Unique across all operations for a given order.
   core.String operationId;
+
+  /// The ID of the product to cancel. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
 
   /// The quantity to cancel.
   core.int quantity;
@@ -8043,11 +8660,20 @@ class OrdersCancelLineItemRequest {
     if (_json.containsKey("amount")) {
       amount = new Price.fromJson(_json["amount"]);
     }
+    if (_json.containsKey("amountPretax")) {
+      amountPretax = new Price.fromJson(_json["amountPretax"]);
+    }
+    if (_json.containsKey("amountTax")) {
+      amountTax = new Price.fromJson(_json["amountTax"]);
+    }
     if (_json.containsKey("lineItemId")) {
       lineItemId = _json["lineItemId"];
     }
     if (_json.containsKey("operationId")) {
       operationId = _json["operationId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
     }
     if (_json.containsKey("quantity")) {
       quantity = _json["quantity"];
@@ -8066,11 +8692,20 @@ class OrdersCancelLineItemRequest {
     if (amount != null) {
       _json["amount"] = (amount).toJson();
     }
+    if (amountPretax != null) {
+      _json["amountPretax"] = (amountPretax).toJson();
+    }
+    if (amountTax != null) {
+      _json["amountTax"] = (amountTax).toJson();
+    }
     if (lineItemId != null) {
       _json["lineItemId"] = lineItemId;
     }
     if (operationId != null) {
       _json["operationId"] = operationId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
     }
     if (quantity != null) {
       _json["quantity"] = quantity;
@@ -8288,6 +8923,9 @@ class OrdersCustomBatchRequestEntry {
   /// Required for cancelLineItem method.
   OrdersCustomBatchRequestEntryCancelLineItem cancelLineItem;
 
+  /// Required for inStoreReturnLineItem method.
+  OrdersCustomBatchRequestEntryInStoreRefundLineItem inStoreRefundLineItem;
+
   /// The ID of the managing account.
   core.String merchantId;
 
@@ -8308,11 +8946,24 @@ class OrdersCustomBatchRequestEntry {
   /// Required for refund method.
   OrdersCustomBatchRequestEntryRefund refund;
 
+  /// Required for rejectReturnLineItem method.
+  OrdersCustomBatchRequestEntryRejectReturnLineItem rejectReturnLineItem;
+
   /// Required for returnLineItem method.
   OrdersCustomBatchRequestEntryReturnLineItem returnLineItem;
 
+  /// Required for returnRefundLineItem method.
+  OrdersCustomBatchRequestEntryReturnRefundLineItem returnRefundLineItem;
+
+  /// Required for setLineItemMetadata method.
+  OrdersCustomBatchRequestEntrySetLineItemMetadata setLineItemMetadata;
+
   /// Required for shipLineItems method.
   OrdersCustomBatchRequestEntryShipLineItems shipLineItems;
+
+  /// Required for updateLineItemShippingDate method.
+  OrdersCustomBatchRequestEntryUpdateLineItemShippingDetails
+      updateLineItemShippingDetails;
 
   /// Required for updateShipment method.
   OrdersCustomBatchRequestEntryUpdateShipment updateShipment;
@@ -8330,6 +8981,11 @@ class OrdersCustomBatchRequestEntry {
     if (_json.containsKey("cancelLineItem")) {
       cancelLineItem = new OrdersCustomBatchRequestEntryCancelLineItem.fromJson(
           _json["cancelLineItem"]);
+    }
+    if (_json.containsKey("inStoreRefundLineItem")) {
+      inStoreRefundLineItem =
+          new OrdersCustomBatchRequestEntryInStoreRefundLineItem.fromJson(
+              _json["inStoreRefundLineItem"]);
     }
     if (_json.containsKey("merchantId")) {
       merchantId = _json["merchantId"];
@@ -8350,13 +9006,33 @@ class OrdersCustomBatchRequestEntry {
       refund =
           new OrdersCustomBatchRequestEntryRefund.fromJson(_json["refund"]);
     }
+    if (_json.containsKey("rejectReturnLineItem")) {
+      rejectReturnLineItem =
+          new OrdersCustomBatchRequestEntryRejectReturnLineItem.fromJson(
+              _json["rejectReturnLineItem"]);
+    }
     if (_json.containsKey("returnLineItem")) {
       returnLineItem = new OrdersCustomBatchRequestEntryReturnLineItem.fromJson(
           _json["returnLineItem"]);
     }
+    if (_json.containsKey("returnRefundLineItem")) {
+      returnRefundLineItem =
+          new OrdersCustomBatchRequestEntryReturnRefundLineItem.fromJson(
+              _json["returnRefundLineItem"]);
+    }
+    if (_json.containsKey("setLineItemMetadata")) {
+      setLineItemMetadata =
+          new OrdersCustomBatchRequestEntrySetLineItemMetadata.fromJson(
+              _json["setLineItemMetadata"]);
+    }
     if (_json.containsKey("shipLineItems")) {
       shipLineItems = new OrdersCustomBatchRequestEntryShipLineItems.fromJson(
           _json["shipLineItems"]);
+    }
+    if (_json.containsKey("updateLineItemShippingDetails")) {
+      updateLineItemShippingDetails =
+          new OrdersCustomBatchRequestEntryUpdateLineItemShippingDetails
+              .fromJson(_json["updateLineItemShippingDetails"]);
     }
     if (_json.containsKey("updateShipment")) {
       updateShipment = new OrdersCustomBatchRequestEntryUpdateShipment.fromJson(
@@ -8376,6 +9052,9 @@ class OrdersCustomBatchRequestEntry {
     if (cancelLineItem != null) {
       _json["cancelLineItem"] = (cancelLineItem).toJson();
     }
+    if (inStoreRefundLineItem != null) {
+      _json["inStoreRefundLineItem"] = (inStoreRefundLineItem).toJson();
+    }
     if (merchantId != null) {
       _json["merchantId"] = merchantId;
     }
@@ -8394,11 +9073,24 @@ class OrdersCustomBatchRequestEntry {
     if (refund != null) {
       _json["refund"] = (refund).toJson();
     }
+    if (rejectReturnLineItem != null) {
+      _json["rejectReturnLineItem"] = (rejectReturnLineItem).toJson();
+    }
     if (returnLineItem != null) {
       _json["returnLineItem"] = (returnLineItem).toJson();
     }
+    if (returnRefundLineItem != null) {
+      _json["returnRefundLineItem"] = (returnRefundLineItem).toJson();
+    }
+    if (setLineItemMetadata != null) {
+      _json["setLineItemMetadata"] = (setLineItemMetadata).toJson();
+    }
     if (shipLineItems != null) {
       _json["shipLineItems"] = (shipLineItems).toJson();
+    }
+    if (updateLineItemShippingDetails != null) {
+      _json["updateLineItemShippingDetails"] =
+          (updateLineItemShippingDetails).toJson();
     }
     if (updateShipment != null) {
       _json["updateShipment"] = (updateShipment).toJson();
@@ -8444,9 +9136,21 @@ class OrdersCustomBatchRequestEntryCancelLineItem {
   /// The amount must not be larger than the net amount left on the order.
   Price amount;
 
+  /// Amount to refund for the cancelation. Optional. If not set, Google will
+  /// calculate the default based on the price and tax of the items involved.
+  /// The amount must not be larger than the net amount left on the order.
+  Price amountPretax;
+
+  /// Tax amount that correspond to cancellation amount in amountPretax.
+  Price amountTax;
+
   /// The ID of the line item to cancel. Either lineItemId or productId is
   /// required.
   core.String lineItemId;
+
+  /// The ID of the product to cancel. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
 
   /// The quantity to cancel.
   core.int quantity;
@@ -8463,8 +9167,17 @@ class OrdersCustomBatchRequestEntryCancelLineItem {
     if (_json.containsKey("amount")) {
       amount = new Price.fromJson(_json["amount"]);
     }
+    if (_json.containsKey("amountPretax")) {
+      amountPretax = new Price.fromJson(_json["amountPretax"]);
+    }
+    if (_json.containsKey("amountTax")) {
+      amountTax = new Price.fromJson(_json["amountTax"]);
+    }
     if (_json.containsKey("lineItemId")) {
       lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
     }
     if (_json.containsKey("quantity")) {
       quantity = _json["quantity"];
@@ -8483,8 +9196,95 @@ class OrdersCustomBatchRequestEntryCancelLineItem {
     if (amount != null) {
       _json["amount"] = (amount).toJson();
     }
+    if (amountPretax != null) {
+      _json["amountPretax"] = (amountPretax).toJson();
+    }
+    if (amountTax != null) {
+      _json["amountTax"] = (amountTax).toJson();
+    }
     if (lineItemId != null) {
       _json["lineItemId"] = lineItemId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
+    if (quantity != null) {
+      _json["quantity"] = quantity;
+    }
+    if (reason != null) {
+      _json["reason"] = reason;
+    }
+    if (reasonText != null) {
+      _json["reasonText"] = reasonText;
+    }
+    return _json;
+  }
+}
+
+class OrdersCustomBatchRequestEntryInStoreRefundLineItem {
+  /// The amount that is refunded. Required.
+  Price amountPretax;
+
+  /// Tax amount that correspond to refund amount in amountPretax. Required.
+  Price amountTax;
+
+  /// The ID of the line item to return. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the product to return. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// The quantity to return and refund.
+  core.int quantity;
+
+  /// The reason for the return.
+  core.String reason;
+
+  /// The explanation of the reason.
+  core.String reasonText;
+
+  OrdersCustomBatchRequestEntryInStoreRefundLineItem();
+
+  OrdersCustomBatchRequestEntryInStoreRefundLineItem.fromJson(core.Map _json) {
+    if (_json.containsKey("amountPretax")) {
+      amountPretax = new Price.fromJson(_json["amountPretax"]);
+    }
+    if (_json.containsKey("amountTax")) {
+      amountTax = new Price.fromJson(_json["amountTax"]);
+    }
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+    if (_json.containsKey("quantity")) {
+      quantity = _json["quantity"];
+    }
+    if (_json.containsKey("reason")) {
+      reason = _json["reason"];
+    }
+    if (_json.containsKey("reasonText")) {
+      reasonText = _json["reasonText"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (amountPretax != null) {
+      _json["amountPretax"] = (amountPretax).toJson();
+    }
+    if (amountTax != null) {
+      _json["amountTax"] = (amountTax).toJson();
+    }
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
     }
     if (quantity != null) {
       _json["quantity"] = quantity;
@@ -8503,6 +9303,13 @@ class OrdersCustomBatchRequestEntryRefund {
   /// The amount that is refunded.
   Price amount;
 
+  /// The amount that is refunded. Either amount or amountPretax and amountTax
+  /// should be filled.
+  Price amountPretax;
+
+  /// Tax amount that correspond to refund amount in amountPretax.
+  Price amountTax;
+
   /// The reason for the refund.
   core.String reason;
 
@@ -8514,6 +9321,12 @@ class OrdersCustomBatchRequestEntryRefund {
   OrdersCustomBatchRequestEntryRefund.fromJson(core.Map _json) {
     if (_json.containsKey("amount")) {
       amount = new Price.fromJson(_json["amount"]);
+    }
+    if (_json.containsKey("amountPretax")) {
+      amountPretax = new Price.fromJson(_json["amountPretax"]);
+    }
+    if (_json.containsKey("amountTax")) {
+      amountTax = new Price.fromJson(_json["amountTax"]);
     }
     if (_json.containsKey("reason")) {
       reason = _json["reason"];
@@ -8529,6 +9342,12 @@ class OrdersCustomBatchRequestEntryRefund {
     if (amount != null) {
       _json["amount"] = (amount).toJson();
     }
+    if (amountPretax != null) {
+      _json["amountPretax"] = (amountPretax).toJson();
+    }
+    if (amountTax != null) {
+      _json["amountTax"] = (amountTax).toJson();
+    }
     if (reason != null) {
       _json["reason"] = reason;
     }
@@ -8539,12 +9358,16 @@ class OrdersCustomBatchRequestEntryRefund {
   }
 }
 
-class OrdersCustomBatchRequestEntryReturnLineItem {
+class OrdersCustomBatchRequestEntryRejectReturnLineItem {
   /// The ID of the line item to return. Either lineItemId or productId is
   /// required.
   core.String lineItemId;
 
-  /// The quantity to return.
+  /// The ID of the product to return. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// The quantity to return and refund.
   core.int quantity;
 
   /// The reason for the return.
@@ -8553,11 +9376,14 @@ class OrdersCustomBatchRequestEntryReturnLineItem {
   /// The explanation of the reason.
   core.String reasonText;
 
-  OrdersCustomBatchRequestEntryReturnLineItem();
+  OrdersCustomBatchRequestEntryRejectReturnLineItem();
 
-  OrdersCustomBatchRequestEntryReturnLineItem.fromJson(core.Map _json) {
+  OrdersCustomBatchRequestEntryRejectReturnLineItem.fromJson(core.Map _json) {
     if (_json.containsKey("lineItemId")) {
       lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
     }
     if (_json.containsKey("quantity")) {
       quantity = _json["quantity"];
@@ -8576,6 +9402,9 @@ class OrdersCustomBatchRequestEntryReturnLineItem {
     if (lineItemId != null) {
       _json["lineItemId"] = lineItemId;
     }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
     if (quantity != null) {
       _json["quantity"] = quantity;
     }
@@ -8584,6 +9413,189 @@ class OrdersCustomBatchRequestEntryReturnLineItem {
     }
     if (reasonText != null) {
       _json["reasonText"] = reasonText;
+    }
+    return _json;
+  }
+}
+
+class OrdersCustomBatchRequestEntryReturnLineItem {
+  /// The ID of the line item to return. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the product to return. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// The quantity to return.
+  core.int quantity;
+
+  /// The reason for the return.
+  core.String reason;
+
+  /// The explanation of the reason.
+  core.String reasonText;
+
+  OrdersCustomBatchRequestEntryReturnLineItem();
+
+  OrdersCustomBatchRequestEntryReturnLineItem.fromJson(core.Map _json) {
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+    if (_json.containsKey("quantity")) {
+      quantity = _json["quantity"];
+    }
+    if (_json.containsKey("reason")) {
+      reason = _json["reason"];
+    }
+    if (_json.containsKey("reasonText")) {
+      reasonText = _json["reasonText"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
+    if (quantity != null) {
+      _json["quantity"] = quantity;
+    }
+    if (reason != null) {
+      _json["reason"] = reason;
+    }
+    if (reasonText != null) {
+      _json["reasonText"] = reasonText;
+    }
+    return _json;
+  }
+}
+
+class OrdersCustomBatchRequestEntryReturnRefundLineItem {
+  /// The amount that is refunded. Optional, but if filled then both
+  /// amountPretax and amountTax must be set.
+  Price amountPretax;
+
+  /// Tax amount that correspond to refund amount in amountPretax.
+  Price amountTax;
+
+  /// The ID of the line item to return. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the product to return. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// The quantity to return and refund.
+  core.int quantity;
+
+  /// The reason for the return.
+  core.String reason;
+
+  /// The explanation of the reason.
+  core.String reasonText;
+
+  OrdersCustomBatchRequestEntryReturnRefundLineItem();
+
+  OrdersCustomBatchRequestEntryReturnRefundLineItem.fromJson(core.Map _json) {
+    if (_json.containsKey("amountPretax")) {
+      amountPretax = new Price.fromJson(_json["amountPretax"]);
+    }
+    if (_json.containsKey("amountTax")) {
+      amountTax = new Price.fromJson(_json["amountTax"]);
+    }
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+    if (_json.containsKey("quantity")) {
+      quantity = _json["quantity"];
+    }
+    if (_json.containsKey("reason")) {
+      reason = _json["reason"];
+    }
+    if (_json.containsKey("reasonText")) {
+      reasonText = _json["reasonText"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (amountPretax != null) {
+      _json["amountPretax"] = (amountPretax).toJson();
+    }
+    if (amountTax != null) {
+      _json["amountTax"] = (amountTax).toJson();
+    }
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
+    if (quantity != null) {
+      _json["quantity"] = quantity;
+    }
+    if (reason != null) {
+      _json["reason"] = reason;
+    }
+    if (reasonText != null) {
+      _json["reasonText"] = reasonText;
+    }
+    return _json;
+  }
+}
+
+class OrdersCustomBatchRequestEntrySetLineItemMetadata {
+  core.List<OrderMerchantProvidedAnnotation> annotations;
+
+  /// The ID of the line item to set metadata. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the product to set metadata. This is the REST ID used in the
+  /// products service. Either lineItemId or productId is required.
+  core.String productId;
+
+  OrdersCustomBatchRequestEntrySetLineItemMetadata();
+
+  OrdersCustomBatchRequestEntrySetLineItemMetadata.fromJson(core.Map _json) {
+    if (_json.containsKey("annotations")) {
+      annotations = _json["annotations"]
+          .map((value) => new OrderMerchantProvidedAnnotation.fromJson(value))
+          .toList();
+    }
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (annotations != null) {
+      _json["annotations"] =
+          annotations.map((value) => (value).toJson()).toList();
+    }
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
     }
     return _json;
   }
@@ -8696,6 +9708,60 @@ class OrdersCustomBatchRequestEntryShipLineItemsShipmentInfo {
     }
     if (trackingId != null) {
       _json["trackingId"] = trackingId;
+    }
+    return _json;
+  }
+}
+
+class OrdersCustomBatchRequestEntryUpdateLineItemShippingDetails {
+  /// Updated delivery by date, in ISO 8601 format. If not specified only ship
+  /// by date is updated.
+  core.String deliverByDate;
+
+  /// The ID of the line item to set metadata. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the product to set metadata. This is the REST ID used in the
+  /// products service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// Updated ship by date, in ISO 8601 format. If not specified only deliver by
+  /// date is updated.
+  core.String shipByDate;
+
+  OrdersCustomBatchRequestEntryUpdateLineItemShippingDetails();
+
+  OrdersCustomBatchRequestEntryUpdateLineItemShippingDetails.fromJson(
+      core.Map _json) {
+    if (_json.containsKey("deliverByDate")) {
+      deliverByDate = _json["deliverByDate"];
+    }
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+    if (_json.containsKey("shipByDate")) {
+      shipByDate = _json["shipByDate"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (deliverByDate != null) {
+      _json["deliverByDate"] = deliverByDate;
+    }
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
+    if (shipByDate != null) {
+      _json["shipByDate"] = shipByDate;
     }
     return _json;
   }
@@ -8911,6 +9977,125 @@ class OrdersGetTestOrderTemplateResponse {
   }
 }
 
+class OrdersInStoreRefundLineItemRequest {
+  /// The amount that is refunded. Required.
+  Price amountPretax;
+
+  /// Tax amount that correspond to refund amount in amountPretax. Required.
+  Price amountTax;
+
+  /// The ID of the line item to return. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the operation. Unique across all operations for a given order.
+  core.String operationId;
+
+  /// The ID of the product to return. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// The quantity to return and refund.
+  core.int quantity;
+
+  /// The reason for the return.
+  core.String reason;
+
+  /// The explanation of the reason.
+  core.String reasonText;
+
+  OrdersInStoreRefundLineItemRequest();
+
+  OrdersInStoreRefundLineItemRequest.fromJson(core.Map _json) {
+    if (_json.containsKey("amountPretax")) {
+      amountPretax = new Price.fromJson(_json["amountPretax"]);
+    }
+    if (_json.containsKey("amountTax")) {
+      amountTax = new Price.fromJson(_json["amountTax"]);
+    }
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("operationId")) {
+      operationId = _json["operationId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+    if (_json.containsKey("quantity")) {
+      quantity = _json["quantity"];
+    }
+    if (_json.containsKey("reason")) {
+      reason = _json["reason"];
+    }
+    if (_json.containsKey("reasonText")) {
+      reasonText = _json["reasonText"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (amountPretax != null) {
+      _json["amountPretax"] = (amountPretax).toJson();
+    }
+    if (amountTax != null) {
+      _json["amountTax"] = (amountTax).toJson();
+    }
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (operationId != null) {
+      _json["operationId"] = operationId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
+    if (quantity != null) {
+      _json["quantity"] = quantity;
+    }
+    if (reason != null) {
+      _json["reason"] = reason;
+    }
+    if (reasonText != null) {
+      _json["reasonText"] = reasonText;
+    }
+    return _json;
+  }
+}
+
+class OrdersInStoreRefundLineItemResponse {
+  /// The status of the execution.
+  core.String executionStatus;
+
+  /// Identifies what kind of resource this is. Value: the fixed string
+  /// "content#ordersInStoreRefundLineItemResponse".
+  core.String kind;
+
+  OrdersInStoreRefundLineItemResponse();
+
+  OrdersInStoreRefundLineItemResponse.fromJson(core.Map _json) {
+    if (_json.containsKey("executionStatus")) {
+      executionStatus = _json["executionStatus"];
+    }
+    if (_json.containsKey("kind")) {
+      kind = _json["kind"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (executionStatus != null) {
+      _json["executionStatus"] = executionStatus;
+    }
+    if (kind != null) {
+      _json["kind"] = kind;
+    }
+    return _json;
+  }
+}
+
 class OrdersListResponse {
   /// Identifies what kind of resource this is. Value: the fixed string
   /// "content#ordersListResponse".
@@ -8955,6 +10140,13 @@ class OrdersRefundRequest {
   /// The amount that is refunded.
   Price amount;
 
+  /// The amount that is refunded. Either amount or amountPretax and amountTax
+  /// should be filled.
+  Price amountPretax;
+
+  /// Tax amount that correspond to refund amount in amountPretax.
+  Price amountTax;
+
   /// The ID of the operation. Unique across all operations for a given order.
   core.String operationId;
 
@@ -8969,6 +10161,12 @@ class OrdersRefundRequest {
   OrdersRefundRequest.fromJson(core.Map _json) {
     if (_json.containsKey("amount")) {
       amount = new Price.fromJson(_json["amount"]);
+    }
+    if (_json.containsKey("amountPretax")) {
+      amountPretax = new Price.fromJson(_json["amountPretax"]);
+    }
+    if (_json.containsKey("amountTax")) {
+      amountTax = new Price.fromJson(_json["amountTax"]);
     }
     if (_json.containsKey("operationId")) {
       operationId = _json["operationId"];
@@ -8986,6 +10184,12 @@ class OrdersRefundRequest {
         new core.Map<core.String, core.Object>();
     if (amount != null) {
       _json["amount"] = (amount).toJson();
+    }
+    if (amountPretax != null) {
+      _json["amountPretax"] = (amountPretax).toJson();
+    }
+    if (amountTax != null) {
+      _json["amountTax"] = (amountTax).toJson();
     }
     if (operationId != null) {
       _json["operationId"] = operationId;
@@ -9032,7 +10236,7 @@ class OrdersRefundResponse {
   }
 }
 
-class OrdersReturnLineItemRequest {
+class OrdersRejectReturnLineItemRequest {
   /// The ID of the line item to return. Either lineItemId or productId is
   /// required.
   core.String lineItemId;
@@ -9040,7 +10244,11 @@ class OrdersReturnLineItemRequest {
   /// The ID of the operation. Unique across all operations for a given order.
   core.String operationId;
 
-  /// The quantity to return.
+  /// The ID of the product to return. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// The quantity to return and refund.
   core.int quantity;
 
   /// The reason for the return.
@@ -9049,14 +10257,17 @@ class OrdersReturnLineItemRequest {
   /// The explanation of the reason.
   core.String reasonText;
 
-  OrdersReturnLineItemRequest();
+  OrdersRejectReturnLineItemRequest();
 
-  OrdersReturnLineItemRequest.fromJson(core.Map _json) {
+  OrdersRejectReturnLineItemRequest.fromJson(core.Map _json) {
     if (_json.containsKey("lineItemId")) {
       lineItemId = _json["lineItemId"];
     }
     if (_json.containsKey("operationId")) {
       operationId = _json["operationId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
     }
     if (_json.containsKey("quantity")) {
       quantity = _json["quantity"];
@@ -9077,6 +10288,110 @@ class OrdersReturnLineItemRequest {
     }
     if (operationId != null) {
       _json["operationId"] = operationId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
+    if (quantity != null) {
+      _json["quantity"] = quantity;
+    }
+    if (reason != null) {
+      _json["reason"] = reason;
+    }
+    if (reasonText != null) {
+      _json["reasonText"] = reasonText;
+    }
+    return _json;
+  }
+}
+
+class OrdersRejectReturnLineItemResponse {
+  /// The status of the execution.
+  core.String executionStatus;
+
+  /// Identifies what kind of resource this is. Value: the fixed string
+  /// "content#ordersRejectReturnLineItemResponse".
+  core.String kind;
+
+  OrdersRejectReturnLineItemResponse();
+
+  OrdersRejectReturnLineItemResponse.fromJson(core.Map _json) {
+    if (_json.containsKey("executionStatus")) {
+      executionStatus = _json["executionStatus"];
+    }
+    if (_json.containsKey("kind")) {
+      kind = _json["kind"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (executionStatus != null) {
+      _json["executionStatus"] = executionStatus;
+    }
+    if (kind != null) {
+      _json["kind"] = kind;
+    }
+    return _json;
+  }
+}
+
+class OrdersReturnLineItemRequest {
+  /// The ID of the line item to return. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the operation. Unique across all operations for a given order.
+  core.String operationId;
+
+  /// The ID of the product to return. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// The quantity to return.
+  core.int quantity;
+
+  /// The reason for the return.
+  core.String reason;
+
+  /// The explanation of the reason.
+  core.String reasonText;
+
+  OrdersReturnLineItemRequest();
+
+  OrdersReturnLineItemRequest.fromJson(core.Map _json) {
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("operationId")) {
+      operationId = _json["operationId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+    if (_json.containsKey("quantity")) {
+      quantity = _json["quantity"];
+    }
+    if (_json.containsKey("reason")) {
+      reason = _json["reason"];
+    }
+    if (_json.containsKey("reasonText")) {
+      reasonText = _json["reasonText"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (operationId != null) {
+      _json["operationId"] = operationId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
     }
     if (quantity != null) {
       _json["quantity"] = quantity;
@@ -9102,6 +10417,211 @@ class OrdersReturnLineItemResponse {
   OrdersReturnLineItemResponse();
 
   OrdersReturnLineItemResponse.fromJson(core.Map _json) {
+    if (_json.containsKey("executionStatus")) {
+      executionStatus = _json["executionStatus"];
+    }
+    if (_json.containsKey("kind")) {
+      kind = _json["kind"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (executionStatus != null) {
+      _json["executionStatus"] = executionStatus;
+    }
+    if (kind != null) {
+      _json["kind"] = kind;
+    }
+    return _json;
+  }
+}
+
+class OrdersReturnRefundLineItemRequest {
+  /// The amount that is refunded. Optional, but if filled then both
+  /// amountPretax and amountTax must be set.
+  Price amountPretax;
+
+  /// Tax amount that correspond to refund amount in amountPretax.
+  Price amountTax;
+
+  /// The ID of the line item to return. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the operation. Unique across all operations for a given order.
+  core.String operationId;
+
+  /// The ID of the product to return. This is the REST ID used in the products
+  /// service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// The quantity to return and refund.
+  core.int quantity;
+
+  /// The reason for the return.
+  core.String reason;
+
+  /// The explanation of the reason.
+  core.String reasonText;
+
+  OrdersReturnRefundLineItemRequest();
+
+  OrdersReturnRefundLineItemRequest.fromJson(core.Map _json) {
+    if (_json.containsKey("amountPretax")) {
+      amountPretax = new Price.fromJson(_json["amountPretax"]);
+    }
+    if (_json.containsKey("amountTax")) {
+      amountTax = new Price.fromJson(_json["amountTax"]);
+    }
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("operationId")) {
+      operationId = _json["operationId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+    if (_json.containsKey("quantity")) {
+      quantity = _json["quantity"];
+    }
+    if (_json.containsKey("reason")) {
+      reason = _json["reason"];
+    }
+    if (_json.containsKey("reasonText")) {
+      reasonText = _json["reasonText"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (amountPretax != null) {
+      _json["amountPretax"] = (amountPretax).toJson();
+    }
+    if (amountTax != null) {
+      _json["amountTax"] = (amountTax).toJson();
+    }
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (operationId != null) {
+      _json["operationId"] = operationId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
+    if (quantity != null) {
+      _json["quantity"] = quantity;
+    }
+    if (reason != null) {
+      _json["reason"] = reason;
+    }
+    if (reasonText != null) {
+      _json["reasonText"] = reasonText;
+    }
+    return _json;
+  }
+}
+
+class OrdersReturnRefundLineItemResponse {
+  /// The status of the execution.
+  core.String executionStatus;
+
+  /// Identifies what kind of resource this is. Value: the fixed string
+  /// "content#ordersReturnRefundLineItemResponse".
+  core.String kind;
+
+  OrdersReturnRefundLineItemResponse();
+
+  OrdersReturnRefundLineItemResponse.fromJson(core.Map _json) {
+    if (_json.containsKey("executionStatus")) {
+      executionStatus = _json["executionStatus"];
+    }
+    if (_json.containsKey("kind")) {
+      kind = _json["kind"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (executionStatus != null) {
+      _json["executionStatus"] = executionStatus;
+    }
+    if (kind != null) {
+      _json["kind"] = kind;
+    }
+    return _json;
+  }
+}
+
+class OrdersSetLineItemMetadataRequest {
+  core.List<OrderMerchantProvidedAnnotation> annotations;
+
+  /// The ID of the line item to set metadata. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the operation. Unique across all operations for a given order.
+  core.String operationId;
+
+  /// The ID of the product to set metadata. This is the REST ID used in the
+  /// products service. Either lineItemId or productId is required.
+  core.String productId;
+
+  OrdersSetLineItemMetadataRequest();
+
+  OrdersSetLineItemMetadataRequest.fromJson(core.Map _json) {
+    if (_json.containsKey("annotations")) {
+      annotations = _json["annotations"]
+          .map((value) => new OrderMerchantProvidedAnnotation.fromJson(value))
+          .toList();
+    }
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("operationId")) {
+      operationId = _json["operationId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (annotations != null) {
+      _json["annotations"] =
+          annotations.map((value) => (value).toJson()).toList();
+    }
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (operationId != null) {
+      _json["operationId"] = operationId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
+    return _json;
+  }
+}
+
+class OrdersSetLineItemMetadataResponse {
+  /// The status of the execution.
+  core.String executionStatus;
+
+  /// Identifies what kind of resource this is. Value: the fixed string
+  /// "content#ordersSetLineItemMetadataResponse".
+  core.String kind;
+
+  OrdersSetLineItemMetadataResponse();
+
+  OrdersSetLineItemMetadataResponse.fromJson(core.Map _json) {
     if (_json.containsKey("executionStatus")) {
       executionStatus = _json["executionStatus"];
     }
@@ -9213,6 +10733,100 @@ class OrdersShipLineItemsResponse {
   OrdersShipLineItemsResponse();
 
   OrdersShipLineItemsResponse.fromJson(core.Map _json) {
+    if (_json.containsKey("executionStatus")) {
+      executionStatus = _json["executionStatus"];
+    }
+    if (_json.containsKey("kind")) {
+      kind = _json["kind"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (executionStatus != null) {
+      _json["executionStatus"] = executionStatus;
+    }
+    if (kind != null) {
+      _json["kind"] = kind;
+    }
+    return _json;
+  }
+}
+
+class OrdersUpdateLineItemShippingDetailsRequest {
+  /// Updated delivery by date, in ISO 8601 format. If not specified only ship
+  /// by date is updated.
+  core.String deliverByDate;
+
+  /// The ID of the line item to set metadata. Either lineItemId or productId is
+  /// required.
+  core.String lineItemId;
+
+  /// The ID of the operation. Unique across all operations for a given order.
+  core.String operationId;
+
+  /// The ID of the product to set metadata. This is the REST ID used in the
+  /// products service. Either lineItemId or productId is required.
+  core.String productId;
+
+  /// Updated ship by date, in ISO 8601 format. If not specified only deliver by
+  /// date is updated.
+  core.String shipByDate;
+
+  OrdersUpdateLineItemShippingDetailsRequest();
+
+  OrdersUpdateLineItemShippingDetailsRequest.fromJson(core.Map _json) {
+    if (_json.containsKey("deliverByDate")) {
+      deliverByDate = _json["deliverByDate"];
+    }
+    if (_json.containsKey("lineItemId")) {
+      lineItemId = _json["lineItemId"];
+    }
+    if (_json.containsKey("operationId")) {
+      operationId = _json["operationId"];
+    }
+    if (_json.containsKey("productId")) {
+      productId = _json["productId"];
+    }
+    if (_json.containsKey("shipByDate")) {
+      shipByDate = _json["shipByDate"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (deliverByDate != null) {
+      _json["deliverByDate"] = deliverByDate;
+    }
+    if (lineItemId != null) {
+      _json["lineItemId"] = lineItemId;
+    }
+    if (operationId != null) {
+      _json["operationId"] = operationId;
+    }
+    if (productId != null) {
+      _json["productId"] = productId;
+    }
+    if (shipByDate != null) {
+      _json["shipByDate"] = shipByDate;
+    }
+    return _json;
+  }
+}
+
+class OrdersUpdateLineItemShippingDetailsResponse {
+  /// The status of the execution.
+  core.String executionStatus;
+
+  /// Identifies what kind of resource this is. Value: the fixed string
+  /// "content#ordersUpdateLineItemShippingDetailsResponse".
+  core.String kind;
+
+  OrdersUpdateLineItemShippingDetailsResponse();
+
+  OrdersUpdateLineItemShippingDetailsResponse.fromJson(core.Map _json) {
     if (_json.containsKey("executionStatus")) {
       executionStatus = _json["executionStatus"];
     }
@@ -10551,6 +12165,9 @@ class ProductStatus {
   /// Date on which the item expires in Google Shopping, in ISO 8601 format.
   core.String googleExpirationDate;
 
+  /// A list of all issues associated with the product.
+  core.List<ProductStatusItemLevelIssue> itemLevelIssues;
+
   /// Identifies what kind of resource this is. Value: the fixed string
   /// "content#productStatus".
   core.String kind;
@@ -10589,6 +12206,11 @@ class ProductStatus {
     if (_json.containsKey("googleExpirationDate")) {
       googleExpirationDate = _json["googleExpirationDate"];
     }
+    if (_json.containsKey("itemLevelIssues")) {
+      itemLevelIssues = _json["itemLevelIssues"]
+          .map((value) => new ProductStatusItemLevelIssue.fromJson(value))
+          .toList();
+    }
     if (_json.containsKey("kind")) {
       kind = _json["kind"];
     }
@@ -10625,6 +12247,10 @@ class ProductStatus {
     }
     if (googleExpirationDate != null) {
       _json["googleExpirationDate"] = googleExpirationDate;
+    }
+    if (itemLevelIssues != null) {
+      _json["itemLevelIssues"] =
+          itemLevelIssues.map((value) => (value).toJson()).toList();
     }
     if (kind != null) {
       _json["kind"] = kind;
@@ -10734,19 +12360,24 @@ class ProductStatusDataQualityIssue {
 }
 
 class ProductStatusDestinationStatus {
+  /// Whether the approval status might change due to further processing.
+  core.bool approvalPending;
+
   /// The destination's approval status.
   core.String approvalStatus;
 
   /// The name of the destination
   core.String destination;
 
-  /// Whether the destination is required, excluded, selected by default or
-  /// should be validated.
+  /// Provided for backward compatibility only. Always set to "required".
   core.String intention;
 
   ProductStatusDestinationStatus();
 
   ProductStatusDestinationStatus.fromJson(core.Map _json) {
+    if (_json.containsKey("approvalPending")) {
+      approvalPending = _json["approvalPending"];
+    }
     if (_json.containsKey("approvalStatus")) {
       approvalStatus = _json["approvalStatus"];
     }
@@ -10761,6 +12392,9 @@ class ProductStatusDestinationStatus {
   core.Map<core.String, core.Object> toJson() {
     final core.Map<core.String, core.Object> _json =
         new core.Map<core.String, core.Object>();
+    if (approvalPending != null) {
+      _json["approvalPending"] = approvalPending;
+    }
     if (approvalStatus != null) {
       _json["approvalStatus"] = approvalStatus;
     }
@@ -10769,6 +12403,64 @@ class ProductStatusDestinationStatus {
     }
     if (intention != null) {
       _json["intention"] = intention;
+    }
+    return _json;
+  }
+}
+
+class ProductStatusItemLevelIssue {
+  /// The attribute's name, if the issue is caused by a single attribute.
+  core.String attributeName;
+
+  /// The error code of the issue.
+  core.String code;
+
+  /// The destination the issue applies to.
+  core.String destination;
+
+  /// Whether the issue can be resolved by the merchant.
+  core.String resolution;
+
+  /// How this issue affects serving of the offer.
+  core.String servability;
+
+  ProductStatusItemLevelIssue();
+
+  ProductStatusItemLevelIssue.fromJson(core.Map _json) {
+    if (_json.containsKey("attributeName")) {
+      attributeName = _json["attributeName"];
+    }
+    if (_json.containsKey("code")) {
+      code = _json["code"];
+    }
+    if (_json.containsKey("destination")) {
+      destination = _json["destination"];
+    }
+    if (_json.containsKey("resolution")) {
+      resolution = _json["resolution"];
+    }
+    if (_json.containsKey("servability")) {
+      servability = _json["servability"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (attributeName != null) {
+      _json["attributeName"] = attributeName;
+    }
+    if (code != null) {
+      _json["code"] = code;
+    }
+    if (destination != null) {
+      _json["destination"] = destination;
+    }
+    if (resolution != null) {
+      _json["resolution"] = resolution;
+    }
+    if (servability != null) {
+      _json["servability"] = servability;
     }
     return _json;
   }
@@ -11757,6 +13449,40 @@ class ShippingsettingsGetSupportedCarriersResponse {
   }
 }
 
+class ShippingsettingsGetSupportedHolidaysResponse {
+  /// A list of holidays applicable for delivery guarantees. May be empty.
+  core.List<HolidaysHoliday> holidays;
+
+  /// Identifies what kind of resource this is. Value: the fixed string
+  /// "content#shippingsettingsGetSupportedHolidaysResponse".
+  core.String kind;
+
+  ShippingsettingsGetSupportedHolidaysResponse();
+
+  ShippingsettingsGetSupportedHolidaysResponse.fromJson(core.Map _json) {
+    if (_json.containsKey("holidays")) {
+      holidays = _json["holidays"]
+          .map((value) => new HolidaysHoliday.fromJson(value))
+          .toList();
+    }
+    if (_json.containsKey("kind")) {
+      kind = _json["kind"];
+    }
+  }
+
+  core.Map<core.String, core.Object> toJson() {
+    final core.Map<core.String, core.Object> _json =
+        new core.Map<core.String, core.Object>();
+    if (holidays != null) {
+      _json["holidays"] = holidays.map((value) => (value).toJson()).toList();
+    }
+    if (kind != null) {
+      _json["kind"] = kind;
+    }
+    return _json;
+  }
+}
+
 class ShippingsettingsListResponse {
   /// Identifies what kind of resource this is. Value: the fixed string
   /// "content#shippingsettingsListResponse".
@@ -11860,6 +13586,10 @@ class TestOrder {
   /// Line items that are ordered. At least one line item must be provided.
   core.List<TestOrderLineItem> lineItems;
 
+  /// Determines if test order must be pulled by merchant or pushed to merchant
+  /// via push integration.
+  core.String notificationMode;
+
   /// The details of the payment method.
   TestOrderPaymentMethod paymentMethod;
 
@@ -11892,6 +13622,9 @@ class TestOrder {
       lineItems = _json["lineItems"]
           .map((value) => new TestOrderLineItem.fromJson(value))
           .toList();
+    }
+    if (_json.containsKey("notificationMode")) {
+      notificationMode = _json["notificationMode"];
     }
     if (_json.containsKey("paymentMethod")) {
       paymentMethod =
@@ -11927,6 +13660,9 @@ class TestOrder {
     }
     if (lineItems != null) {
       _json["lineItems"] = lineItems.map((value) => (value).toJson()).toList();
+    }
+    if (notificationMode != null) {
+      _json["notificationMode"] = notificationMode;
     }
     if (paymentMethod != null) {
       _json["paymentMethod"] = (paymentMethod).toJson();

@@ -435,14 +435,14 @@ class BillingAccountsLogsResourceApi {
   ///
   /// Value must have pattern "^billingAccounts/[^/]+$".
   ///
-  /// [pageSize] - Optional. The maximum number of results to return from this
-  /// request. Non-positive values are ignored. The presence of nextPageToken in
-  /// the response indicates that more results might be available.
-  ///
   /// [pageToken] - Optional. If present, then retrieve the next batch of
   /// results from the preceding call to this method. pageToken must be the
   /// value of nextPageToken from the previous response. The values of other
   /// method parameters should be identical to those in the previous call.
+  ///
+  /// [pageSize] - Optional. The maximum number of results to return from this
+  /// request. Non-positive values are ignored. The presence of nextPageToken in
+  /// the response indicates that more results might be available.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -455,7 +455,7 @@ class BillingAccountsLogsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListLogsResponse> list(core.String parent,
-      {core.int pageSize, core.String pageToken, core.String $fields}) {
+      {core.String pageToken, core.int pageSize, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -466,11 +466,11 @@ class BillingAccountsLogsResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageSize != null) {
-      _queryParams["pageSize"] = ["${pageSize}"];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
+    }
+    if (pageSize != null) {
+      _queryParams["pageSize"] = ["${pageSize}"];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -675,14 +675,14 @@ class BillingAccountsSinksResourceApi {
   ///
   /// Value must have pattern "^billingAccounts/[^/]+$".
   ///
+  /// [pageSize] - Optional. The maximum number of results to return from this
+  /// request. Non-positive values are ignored. The presence of nextPageToken in
+  /// the response indicates that more results might be available.
+  ///
   /// [pageToken] - Optional. If present, then retrieve the next batch of
   /// results from the preceding call to this method. pageToken must be the
   /// value of nextPageToken from the previous response. The values of other
   /// method parameters should be identical to those in the previous call.
-  ///
-  /// [pageSize] - Optional. The maximum number of results to return from this
-  /// request. Non-positive values are ignored. The presence of nextPageToken in
-  /// the response indicates that more results might be available.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -695,7 +695,7 @@ class BillingAccountsSinksResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListSinksResponse> list(core.String parent,
-      {core.String pageToken, core.int pageSize, core.String $fields}) {
+      {core.int pageSize, core.String pageToken, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -706,11 +706,11 @@ class BillingAccountsSinksResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1170,14 +1170,14 @@ class ExclusionsResourceApi {
   ///
   /// Value must have pattern "^[^/]+/[^/]+$".
   ///
+  /// [pageSize] - Optional. The maximum number of results to return from this
+  /// request. Non-positive values are ignored. The presence of nextPageToken in
+  /// the response indicates that more results might be available.
+  ///
   /// [pageToken] - Optional. If present, then retrieve the next batch of
   /// results from the preceding call to this method. pageToken must be the
   /// value of nextPageToken from the previous response. The values of other
   /// method parameters should be identical to those in the previous call.
-  ///
-  /// [pageSize] - Optional. The maximum number of results to return from this
-  /// request. Non-positive values are ignored. The presence of nextPageToken in
-  /// the response indicates that more results might be available.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -1190,7 +1190,7 @@ class ExclusionsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListExclusionsResponse> list(core.String parent,
-      {core.String pageToken, core.int pageSize, core.String $fields}) {
+      {core.int pageSize, core.String pageToken, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -1201,11 +1201,11 @@ class ExclusionsResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1663,14 +1663,14 @@ class FoldersLogsResourceApi {
   ///
   /// Value must have pattern "^folders/[^/]+$".
   ///
-  /// [pageSize] - Optional. The maximum number of results to return from this
-  /// request. Non-positive values are ignored. The presence of nextPageToken in
-  /// the response indicates that more results might be available.
-  ///
   /// [pageToken] - Optional. If present, then retrieve the next batch of
   /// results from the preceding call to this method. pageToken must be the
   /// value of nextPageToken from the previous response. The values of other
   /// method parameters should be identical to those in the previous call.
+  ///
+  /// [pageSize] - Optional. The maximum number of results to return from this
+  /// request. Non-positive values are ignored. The presence of nextPageToken in
+  /// the response indicates that more results might be available.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -1683,7 +1683,7 @@ class FoldersLogsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListLogsResponse> list(core.String parent,
-      {core.int pageSize, core.String pageToken, core.String $fields}) {
+      {core.String pageToken, core.int pageSize, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -1694,11 +1694,11 @@ class FoldersLogsResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageSize != null) {
-      _queryParams["pageSize"] = ["${pageSize}"];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
+    }
+    if (pageSize != null) {
+      _queryParams["pageSize"] = ["${pageSize}"];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -1902,14 +1902,14 @@ class FoldersSinksResourceApi {
   ///
   /// Value must have pattern "^folders/[^/]+$".
   ///
-  /// [pageSize] - Optional. The maximum number of results to return from this
-  /// request. Non-positive values are ignored. The presence of nextPageToken in
-  /// the response indicates that more results might be available.
-  ///
   /// [pageToken] - Optional. If present, then retrieve the next batch of
   /// results from the preceding call to this method. pageToken must be the
   /// value of nextPageToken from the previous response. The values of other
   /// method parameters should be identical to those in the previous call.
+  ///
+  /// [pageSize] - Optional. The maximum number of results to return from this
+  /// request. Non-positive values are ignored. The presence of nextPageToken in
+  /// the response indicates that more results might be available.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -1922,7 +1922,7 @@ class FoldersSinksResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListSinksResponse> list(core.String parent,
-      {core.int pageSize, core.String pageToken, core.String $fields}) {
+      {core.String pageToken, core.int pageSize, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -1933,11 +1933,11 @@ class FoldersSinksResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageSize != null) {
-      _queryParams["pageSize"] = ["${pageSize}"];
-    }
     if (pageToken != null) {
       _queryParams["pageToken"] = [pageToken];
+    }
+    if (pageSize != null) {
+      _queryParams["pageSize"] = ["${pageSize}"];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -2501,14 +2501,14 @@ class OrganizationsExclusionsResourceApi {
   ///
   /// Value must have pattern "^organizations/[^/]+$".
   ///
+  /// [pageSize] - Optional. The maximum number of results to return from this
+  /// request. Non-positive values are ignored. The presence of nextPageToken in
+  /// the response indicates that more results might be available.
+  ///
   /// [pageToken] - Optional. If present, then retrieve the next batch of
   /// results from the preceding call to this method. pageToken must be the
   /// value of nextPageToken from the previous response. The values of other
   /// method parameters should be identical to those in the previous call.
-  ///
-  /// [pageSize] - Optional. The maximum number of results to return from this
-  /// request. Non-positive values are ignored. The presence of nextPageToken in
-  /// the response indicates that more results might be available.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2521,7 +2521,7 @@ class OrganizationsExclusionsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListExclusionsResponse> list(core.String parent,
-      {core.String pageToken, core.int pageSize, core.String $fields}) {
+      {core.int pageSize, core.String pageToken, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -2532,11 +2532,11 @@ class OrganizationsExclusionsResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -2692,14 +2692,14 @@ class OrganizationsLogsResourceApi {
   ///
   /// Value must have pattern "^organizations/[^/]+$".
   ///
+  /// [pageSize] - Optional. The maximum number of results to return from this
+  /// request. Non-positive values are ignored. The presence of nextPageToken in
+  /// the response indicates that more results might be available.
+  ///
   /// [pageToken] - Optional. If present, then retrieve the next batch of
   /// results from the preceding call to this method. pageToken must be the
   /// value of nextPageToken from the previous response. The values of other
   /// method parameters should be identical to those in the previous call.
-  ///
-  /// [pageSize] - Optional. The maximum number of results to return from this
-  /// request. Non-positive values are ignored. The presence of nextPageToken in
-  /// the response indicates that more results might be available.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -2712,7 +2712,7 @@ class OrganizationsLogsResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListLogsResponse> list(core.String parent,
-      {core.String pageToken, core.int pageSize, core.String $fields}) {
+      {core.int pageSize, core.String pageToken, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -2723,11 +2723,11 @@ class OrganizationsLogsResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -4451,14 +4451,14 @@ class SinksResourceApi {
   ///
   /// Value must have pattern "^[^/]+/[^/]+$".
   ///
+  /// [pageSize] - Optional. The maximum number of results to return from this
+  /// request. Non-positive values are ignored. The presence of nextPageToken in
+  /// the response indicates that more results might be available.
+  ///
   /// [pageToken] - Optional. If present, then retrieve the next batch of
   /// results from the preceding call to this method. pageToken must be the
   /// value of nextPageToken from the previous response. The values of other
   /// method parameters should be identical to those in the previous call.
-  ///
-  /// [pageSize] - Optional. The maximum number of results to return from this
-  /// request. Non-positive values are ignored. The presence of nextPageToken in
-  /// the response indicates that more results might be available.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -4471,7 +4471,7 @@ class SinksResourceApi {
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
   async.Future<ListSinksResponse> list(core.String parent,
-      {core.String pageToken, core.int pageSize, core.String $fields}) {
+      {core.int pageSize, core.String pageToken, core.String $fields}) {
     var _url = null;
     var _queryParams = new core.Map();
     var _uploadMedia = null;
@@ -4482,11 +4482,11 @@ class SinksResourceApi {
     if (parent == null) {
       throw new core.ArgumentError("Parameter parent is required.");
     }
-    if (pageToken != null) {
-      _queryParams["pageToken"] = [pageToken];
-    }
     if (pageSize != null) {
       _queryParams["pageSize"] = ["${pageSize}"];
+    }
+    if (pageToken != null) {
+      _queryParams["pageToken"] = [pageToken];
     }
     if ($fields != null) {
       _queryParams["fields"] = [$fields];
@@ -5394,10 +5394,10 @@ class LogEntry {
   /// if any.
   LogEntrySourceLocation sourceLocation;
 
-  /// Optional. Id of the span within the trace associated with the log entry.
-  /// e.g. "0000000000000042" For Stackdriver trace spans, this is the same
-  /// format that the Stackdriver trace API uses. The ID is a 16-character
-  /// hexadecimal encoding of an 8-byte array.
+  /// Optional. The span ID within the trace associated with the log entry. For
+  /// Stackdriver Trace spans, this is the same format that the Stackdriver
+  /// Trace API v2 uses: a 16-character hexadecimal encoding of an 8-byte array,
+  /// such as <code>"000000000000004a"</code>.
   core.String spanId;
 
   /// The log entry payload, represented as a Unicode string (UTF-8).
@@ -5408,8 +5408,9 @@ class LogEntry {
   /// retention period. If this field is omitted in a new log entry, then
   /// Stackdriver Logging assigns it the current time.Incoming log entries
   /// should have timestamps that are no more than the logs retention period in
-  /// the past, and no more than 24 hours in the future. See the entries.write
-  /// API method for more information.
+  /// the past, and no more than 24 hours in the future. Log entries outside
+  /// those time boundaries will not be available when calling entries.list, but
+  /// those log entries can still be exported with LogSinks.
   core.String timestamp;
 
   /// Optional. Resource name of the trace associated with the log entry, if
@@ -6095,14 +6096,13 @@ class MetricDescriptor {
   /// Ki kibi (2**10)
   /// Mi mebi (2**20)
   /// Gi gibi (2**30)
-  /// Ti tebi (2**40)GrammarThe grammar includes the dimensionless unit 1, such
-  /// as 1/s.The grammar also includes these connectors:
+  /// Ti tebi (2**40)GrammarThe grammar also includes these connectors:
   /// / division (as an infix operator, e.g. 1/s).
   /// . multiplication (as an infix operator, e.g. GBy.d)The grammar for a unit
   /// is as follows:
   /// Expression = Component { "." Component } { "/" Component } ;
   ///
-  /// Component = [ PREFIX ] UNIT [ Annotation ]
+  /// Component = ( [ PREFIX ] UNIT | "%" ) [ Annotation ]
   ///           | Annotation
   ///           | "1"
   ///           ;
@@ -6114,6 +6114,9 @@ class MetricDescriptor {
   /// == By/s.
   /// NAME is a sequence of non-blank printable ASCII characters not  containing
   /// '{' or '}'.
+  /// 1 represents dimensionless value 1, such as in 1/s.
+  /// % represents dimensionless value 1/100, and annotates values giving  a
+  /// percentage.
   core.String unit;
 
   /// Whether the measurement is an integer, a floating-point number, etc. Some
@@ -6724,6 +6727,11 @@ class SourceReference {
 
 /// The parameters to WriteLogEntries.
 class WriteLogEntriesRequest {
+  /// Optional. If true, the request should expect normal response, but the
+  /// entries won't be persisted nor exported. Useful for checking whether the
+  /// logging API endpoints are working properly before sending valuable data.
+  core.bool dryRun;
+
   /// Required. The log entries to send to Stackdriver Logging. The order of log
   /// entries in this list does not matter. Values supplied in this method's
   /// log_name, resource, and labels fields are copied into those log entries in
@@ -6735,10 +6743,11 @@ class WriteLogEntriesRequest {
   /// entries earlier in the list will sort before the entries later in the
   /// list. See the entries.list method.Log entries with timestamps that are
   /// more than the logs retention period in the past or more than 24 hours in
-  /// the future might be discarded. Discarding does not return an error.To
-  /// improve throughput and to avoid exceeding the quota limit for calls to
-  /// entries.write, you should try to include several log entries in this list,
-  /// rather than calling this method for each individual log entry.
+  /// the future will not be available when calling entries.list. However, those
+  /// log entries can still be exported with LogSinks.To improve throughput and
+  /// to avoid exceeding the quota limit for calls to entries.write, you should
+  /// try to include several log entries in this list, rather than calling this
+  /// method for each individual log entry.
   core.List<LogEntry> entries;
 
   /// Optional. Default labels that are added to the labels field of all log
@@ -6777,6 +6786,9 @@ class WriteLogEntriesRequest {
   WriteLogEntriesRequest();
 
   WriteLogEntriesRequest.fromJson(core.Map _json) {
+    if (_json.containsKey("dryRun")) {
+      dryRun = _json["dryRun"];
+    }
     if (_json.containsKey("entries")) {
       entries = _json["entries"]
           .map((value) => new LogEntry.fromJson(value))
@@ -6799,6 +6811,9 @@ class WriteLogEntriesRequest {
   core.Map<core.String, core.Object> toJson() {
     final core.Map<core.String, core.Object> _json =
         new core.Map<core.String, core.Object>();
+    if (dryRun != null) {
+      _json["dryRun"] = dryRun;
+    }
     if (entries != null) {
       _json["entries"] = entries.map((value) => (value).toJson()).toList();
     }

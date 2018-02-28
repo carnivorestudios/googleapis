@@ -2,9 +2,6 @@
     "auth": {
         "oauth2": {
             "scopes": {
-                "https://www.googleapis.com/auth/source.read_only": {
-                    "description": "View the contents of your source code repositories"
-                },
                 "https://www.googleapis.com/auth/source.read_write": {
                     "description": "Manage the contents of your source code repositories"
                 },
@@ -13,6 +10,9 @@
                 },
                 "https://www.googleapis.com/auth/source.full_control": {
                     "description": "Manage your source code repositories"
+                },
+                "https://www.googleapis.com/auth/source.read_only": {
+                    "description": "View the contents of your source code repositories"
                 }
             }
         }
@@ -34,18 +34,24 @@
     "ownerDomain": "google.com",
     "ownerName": "Google",
     "parameters": {
-        "fields": {
-            "description": "Selector specifying which fields to include in a partial response.",
+        "upload_protocol": {
+            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
             "location": "query",
             "type": "string"
+        },
+        "prettyPrint": {
+            "default": "true",
+            "description": "Returns response with indentations and line breaks.",
+            "location": "query",
+            "type": "boolean"
         },
         "uploadType": {
             "description": "Legacy upload protocol for media (e.g. \"media\", \"multipart\").",
             "location": "query",
             "type": "string"
         },
-        "callback": {
-            "description": "JSONP",
+        "fields": {
+            "description": "Selector specifying which fields to include in a partial response.",
             "location": "query",
             "type": "string"
         },
@@ -59,6 +65,11 @@
                 "v1 error format",
                 "v2 error format"
             ],
+            "location": "query",
+            "type": "string"
+        },
+        "callback": {
+            "description": "JSONP",
             "location": "query",
             "type": "string"
         },
@@ -99,26 +110,15 @@
             "location": "query",
             "type": "boolean"
         },
-        "bearer_token": {
-            "description": "OAuth bearer token.",
-            "location": "query",
-            "type": "string"
-        },
         "oauth_token": {
             "description": "OAuth 2.0 token for the current user.",
             "location": "query",
             "type": "string"
         },
-        "upload_protocol": {
-            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
+        "bearer_token": {
+            "description": "OAuth bearer token.",
             "location": "query",
             "type": "string"
-        },
-        "prettyPrint": {
-            "default": "true",
-            "description": "Returns response with indentations and line breaks.",
-            "location": "query",
-            "type": "boolean"
         }
     },
     "protocol": "rest",
@@ -127,101 +127,6 @@
             "resources": {
                 "repos": {
                     "methods": {
-                        "testIamPermissions": {
-                            "description": "Returns permissions that a caller has on the specified resource.\nIf the resource does not exist, this will return an empty set of\npermissions, not a NOT_FOUND error.",
-                            "httpMethod": "POST",
-                            "id": "sourcerepo.projects.repos.testIamPermissions",
-                            "parameterOrder": [
-                                "resource"
-                            ],
-                            "parameters": {
-                                "resource": {
-                                    "description": "REQUIRED: The resource for which the policy detail is being requested.\nSee the operation documentation for the appropriate value for this field.",
-                                    "location": "path",
-                                    "pattern": "^projects/[^/]+/repos/.+$",
-                                    "required": true,
-                                    "type": "string"
-                                }
-                            },
-                            "path": "v1/{+resource}:testIamPermissions",
-                            "request": {
-                                "$ref": "TestIamPermissionsRequest"
-                            },
-                            "response": {
-                                "$ref": "TestIamPermissionsResponse"
-                            },
-                            "scopes": [
-                                "https://www.googleapis.com/auth/cloud-platform",
-                                "https://www.googleapis.com/auth/source.full_control",
-                                "https://www.googleapis.com/auth/source.read_only",
-                                "https://www.googleapis.com/auth/source.read_write"
-                            ]
-                        },
-                        "delete": {
-                            "description": "Deletes a repo.",
-                            "httpMethod": "DELETE",
-                            "id": "sourcerepo.projects.repos.delete",
-                            "parameterOrder": [
-                                "name"
-                            ],
-                            "parameters": {
-                                "name": {
-                                    "description": "The name of the repo to delete. Values are of the form\n`projects/<project>/repos/<repo>`.",
-                                    "location": "path",
-                                    "pattern": "^projects/[^/]+/repos/.+$",
-                                    "required": true,
-                                    "type": "string"
-                                }
-                            },
-                            "path": "v1/{+name}",
-                            "response": {
-                                "$ref": "Empty"
-                            },
-                            "scopes": [
-                                "https://www.googleapis.com/auth/cloud-platform",
-                                "https://www.googleapis.com/auth/source.full_control",
-                                "https://www.googleapis.com/auth/source.read_only",
-                                "https://www.googleapis.com/auth/source.read_write"
-                            ]
-                        },
-                        "list": {
-                            "description": "Returns all repos belonging to a project. The sizes of the repos are\nnot set by ListRepos.  To get the size of a repo, use GetRepo.",
-                            "httpMethod": "GET",
-                            "id": "sourcerepo.projects.repos.list",
-                            "parameterOrder": [
-                                "name"
-                            ],
-                            "parameters": {
-                                "pageSize": {
-                                    "description": "Maximum number of repositories to return; between 1 and 500.\nIf not set or zero, defaults to 100 at the server.",
-                                    "format": "int32",
-                                    "location": "query",
-                                    "type": "integer"
-                                },
-                                "name": {
-                                    "description": "The project ID whose repos should be listed. Values are of the form\n`projects/<project>`.",
-                                    "location": "path",
-                                    "pattern": "^projects/[^/]+$",
-                                    "required": true,
-                                    "type": "string"
-                                },
-                                "pageToken": {
-                                    "description": "Resume listing repositories where a prior ListReposResponse\nleft off. This is an opaque token that must be obtained from\na recent, prior ListReposResponse's next_page_token field.",
-                                    "location": "query",
-                                    "type": "string"
-                                }
-                            },
-                            "path": "v1/{+name}/repos",
-                            "response": {
-                                "$ref": "ListReposResponse"
-                            },
-                            "scopes": [
-                                "https://www.googleapis.com/auth/cloud-platform",
-                                "https://www.googleapis.com/auth/source.full_control",
-                                "https://www.googleapis.com/auth/source.read_only",
-                                "https://www.googleapis.com/auth/source.read_write"
-                            ]
-                        },
                         "create": {
                             "description": "Creates a repo in the given project with the given name.\n\nIf the named repository already exists, `CreateRepo` returns\n`ALREADY_EXISTS`.",
                             "httpMethod": "POST",
@@ -335,187 +240,110 @@
                                 "https://www.googleapis.com/auth/source.read_only",
                                 "https://www.googleapis.com/auth/source.read_write"
                             ]
+                        },
+                        "testIamPermissions": {
+                            "description": "Returns permissions that a caller has on the specified resource.\nIf the resource does not exist, this will return an empty set of\npermissions, not a NOT_FOUND error.",
+                            "httpMethod": "POST",
+                            "id": "sourcerepo.projects.repos.testIamPermissions",
+                            "parameterOrder": [
+                                "resource"
+                            ],
+                            "parameters": {
+                                "resource": {
+                                    "description": "REQUIRED: The resource for which the policy detail is being requested.\nSee the operation documentation for the appropriate value for this field.",
+                                    "location": "path",
+                                    "pattern": "^projects/[^/]+/repos/.+$",
+                                    "required": true,
+                                    "type": "string"
+                                }
+                            },
+                            "path": "v1/{+resource}:testIamPermissions",
+                            "request": {
+                                "$ref": "TestIamPermissionsRequest"
+                            },
+                            "response": {
+                                "$ref": "TestIamPermissionsResponse"
+                            },
+                            "scopes": [
+                                "https://www.googleapis.com/auth/cloud-platform",
+                                "https://www.googleapis.com/auth/source.full_control",
+                                "https://www.googleapis.com/auth/source.read_only",
+                                "https://www.googleapis.com/auth/source.read_write"
+                            ]
+                        },
+                        "delete": {
+                            "description": "Deletes a repo.",
+                            "httpMethod": "DELETE",
+                            "id": "sourcerepo.projects.repos.delete",
+                            "parameterOrder": [
+                                "name"
+                            ],
+                            "parameters": {
+                                "name": {
+                                    "description": "The name of the repo to delete. Values are of the form\n`projects/<project>/repos/<repo>`.",
+                                    "location": "path",
+                                    "pattern": "^projects/[^/]+/repos/.+$",
+                                    "required": true,
+                                    "type": "string"
+                                }
+                            },
+                            "path": "v1/{+name}",
+                            "response": {
+                                "$ref": "Empty"
+                            },
+                            "scopes": [
+                                "https://www.googleapis.com/auth/cloud-platform",
+                                "https://www.googleapis.com/auth/source.full_control",
+                                "https://www.googleapis.com/auth/source.read_only",
+                                "https://www.googleapis.com/auth/source.read_write"
+                            ]
+                        },
+                        "list": {
+                            "description": "Returns all repos belonging to a project. The sizes of the repos are\nnot set by ListRepos.  To get the size of a repo, use GetRepo.",
+                            "httpMethod": "GET",
+                            "id": "sourcerepo.projects.repos.list",
+                            "parameterOrder": [
+                                "name"
+                            ],
+                            "parameters": {
+                                "name": {
+                                    "description": "The project ID whose repos should be listed. Values are of the form\n`projects/<project>`.",
+                                    "location": "path",
+                                    "pattern": "^projects/[^/]+$",
+                                    "required": true,
+                                    "type": "string"
+                                },
+                                "pageToken": {
+                                    "description": "Resume listing repositories where a prior ListReposResponse\nleft off. This is an opaque token that must be obtained from\na recent, prior ListReposResponse's next_page_token field.",
+                                    "location": "query",
+                                    "type": "string"
+                                },
+                                "pageSize": {
+                                    "description": "Maximum number of repositories to return; between 1 and 500.\nIf not set or zero, defaults to 100 at the server.",
+                                    "format": "int32",
+                                    "location": "query",
+                                    "type": "integer"
+                                }
+                            },
+                            "path": "v1/{+name}/repos",
+                            "response": {
+                                "$ref": "ListReposResponse"
+                            },
+                            "scopes": [
+                                "https://www.googleapis.com/auth/cloud-platform",
+                                "https://www.googleapis.com/auth/source.full_control",
+                                "https://www.googleapis.com/auth/source.read_only",
+                                "https://www.googleapis.com/auth/source.read_write"
+                            ]
                         }
                     }
                 }
             }
         }
     },
-    "revision": "20171011",
+    "revision": "20171215",
     "rootUrl": "https://sourcerepo.googleapis.com/",
     "schemas": {
-        "SetIamPolicyRequest": {
-            "description": "Request message for `SetIamPolicy` method.",
-            "id": "SetIamPolicyRequest",
-            "properties": {
-                "policy": {
-                    "$ref": "Policy",
-                    "description": "REQUIRED: The complete policy to be applied to the `resource`. The size of\nthe policy is limited to a few 10s of KB. An empty policy is a\nvalid policy but certain Cloud Platform services (such as Projects)\nmight reject them."
-                },
-                "updateMask": {
-                    "description": "OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only\nthe fields in the mask will be modified. If no mask is provided, the\nfollowing default mask is used:\npaths: \"bindings, etag\"\nThis field is only used by Cloud IAM.",
-                    "format": "google-fieldmask",
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Binding": {
-            "description": "Associates `members` with a `role`.",
-            "id": "Binding",
-            "properties": {
-                "condition": {
-                    "$ref": "Expr",
-                    "description": "The condition that is associated with this binding.\nNOTE: an unsatisfied condition will not allow user access via current\nbinding. Different bindings, including their conditions, are examined\nindependently.\nThis field is GOOGLE_INTERNAL."
-                },
-                "members": {
-                    "description": "Specifies the identities requesting access for a Cloud Platform resource.\n`members` can have the following values:\n\n* `allUsers`: A special identifier that represents anyone who is\n   on the internet; with or without a Google account.\n\n* `allAuthenticatedUsers`: A special identifier that represents anyone\n   who is authenticated with a Google account or a service account.\n\n* `user:{emailid}`: An email address that represents a specific Google\n   account. For example, `alice@gmail.com` or `joe@example.com`.\n\n\n* `serviceAccount:{emailid}`: An email address that represents a service\n   account. For example, `my-other-app@appspot.gserviceaccount.com`.\n\n* `group:{emailid}`: An email address that represents a Google group.\n   For example, `admins@example.com`.\n\n\n* `domain:{domain}`: A Google Apps domain name that represents all the\n   users of that domain. For example, `google.com` or `example.com`.\n\n",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "role": {
-                    "description": "Role that is assigned to `members`.\nFor example, `roles/viewer`, `roles/editor`, or `roles/owner`.\nRequired",
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Empty": {
-            "description": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:\n\n    service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
-            "id": "Empty",
-            "properties": {},
-            "type": "object"
-        },
-        "MirrorConfig": {
-            "description": "Configuration to automatically mirror a repository from another\nhosting service, for example GitHub or BitBucket.",
-            "id": "MirrorConfig",
-            "properties": {
-                "url": {
-                    "description": "URL of the main repository at the other hosting service.",
-                    "type": "string"
-                },
-                "webhookId": {
-                    "description": "ID of the webhook listening to updates to trigger mirroring.\nRemoving this webhook from the other hosting service will stop\nGoogle Cloud Source Repositories from receiving notifications,\nand thereby disabling mirroring.",
-                    "type": "string"
-                },
-                "deployKeyId": {
-                    "description": "ID of the SSH deploy key at the other hosting service.\nRemoving this key from the other service would deauthorize\nGoogle Cloud Source Repositories from mirroring.",
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Expr": {
-            "description": "Represents an expression text. Example:\n\n    title: \"User account presence\"\n    description: \"Determines whether the request has a user account\"\n    expression: \"size(request.user) > 0\"",
-            "id": "Expr",
-            "properties": {
-                "description": {
-                    "description": "An optional description of the expression. This is a longer text which\ndescribes the expression, e.g. when hovered over it in a UI.",
-                    "type": "string"
-                },
-                "expression": {
-                    "description": "Textual representation of an expression in\nCommon Expression Language syntax.\n\nThe application context of the containing message determines which\nwell-known feature set of CEL is supported.",
-                    "type": "string"
-                },
-                "title": {
-                    "description": "An optional title for the expression, i.e. a short string describing\nits purpose. This can be used e.g. in UIs which allow to enter the\nexpression.",
-                    "type": "string"
-                },
-                "location": {
-                    "description": "An optional string indicating the location of the expression for error\nreporting, e.g. a file name and a position in the file.",
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Repo": {
-            "description": "A repository (or repo) is a Git repository storing versioned source content.",
-            "id": "Repo",
-            "properties": {
-                "mirrorConfig": {
-                    "$ref": "MirrorConfig",
-                    "description": "How this repository mirrors a repository managed by another service."
-                },
-                "url": {
-                    "description": "URL to clone the repository from Google Cloud Source Repositories.",
-                    "type": "string"
-                },
-                "size": {
-                    "description": "The disk usage of the repo, in bytes.\nOnly returned by GetRepo.",
-                    "format": "int64",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "Resource name of the repository, of the form\n`projects/<project>/repos/<repo>`.  The repo name may contain slashes.\neg, `projects/myproject/repos/name/with/slash`",
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "TestIamPermissionsResponse": {
-            "description": "Response message for `TestIamPermissions` method.",
-            "id": "TestIamPermissionsResponse",
-            "properties": {
-                "permissions": {
-                    "description": "A subset of `TestPermissionsRequest.permissions` that the caller is\nallowed.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "type": "object"
-        },
-        "ListReposResponse": {
-            "description": "Response for ListRepos.  The size is not set in the returned repositories.",
-            "id": "ListReposResponse",
-            "properties": {
-                "nextPageToken": {
-                    "description": "If non-empty, additional repositories exist within the project. These\ncan be retrieved by including this value in the next ListReposRequest's\npage_token field.",
-                    "type": "string"
-                },
-                "repos": {
-                    "description": "The listed repos.",
-                    "items": {
-                        "$ref": "Repo"
-                    },
-                    "type": "array"
-                }
-            },
-            "type": "object"
-        },
-        "AuditLogConfig": {
-            "description": "Provides the configuration for logging a type of permissions.\nExample:\n\n    {\n      \"audit_log_configs\": [\n        {\n          \"log_type\": \"DATA_READ\",\n          \"exempted_members\": [\n            \"user:foo@gmail.com\"\n          ]\n        },\n        {\n          \"log_type\": \"DATA_WRITE\",\n        }\n      ]\n    }\n\nThis enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting\nfoo@gmail.com from DATA_READ logging.",
-            "id": "AuditLogConfig",
-            "properties": {
-                "logType": {
-                    "description": "The log type that this config enables.",
-                    "enum": [
-                        "LOG_TYPE_UNSPECIFIED",
-                        "ADMIN_READ",
-                        "DATA_WRITE",
-                        "DATA_READ"
-                    ],
-                    "enumDescriptions": [
-                        "Default case. Should never be this.",
-                        "Admin reads. Example: CloudIAM getIamPolicy",
-                        "Data writes. Example: CloudSQL Users create",
-                        "Data reads. Example: CloudSQL Users list"
-                    ],
-                    "type": "string"
-                },
-                "exemptedMembers": {
-                    "description": "Specifies the identities that do not cause logging for this type of\npermission.\nFollows the same format of Binding.members.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "type": "object"
-        },
         "TestIamPermissionsRequest": {
             "description": "Request message for `TestIamPermissions` method.",
             "id": "TestIamPermissionsRequest",
@@ -580,6 +408,178 @@
                     "type": "array"
                 },
                 "exemptedMembers": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "SetIamPolicyRequest": {
+            "description": "Request message for `SetIamPolicy` method.",
+            "id": "SetIamPolicyRequest",
+            "properties": {
+                "updateMask": {
+                    "description": "OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only\nthe fields in the mask will be modified. If no mask is provided, the\nfollowing default mask is used:\npaths: \"bindings, etag\"\nThis field is only used by Cloud IAM.",
+                    "format": "google-fieldmask",
+                    "type": "string"
+                },
+                "policy": {
+                    "$ref": "Policy",
+                    "description": "REQUIRED: The complete policy to be applied to the `resource`. The size of\nthe policy is limited to a few 10s of KB. An empty policy is a\nvalid policy but certain Cloud Platform services (such as Projects)\nmight reject them."
+                }
+            },
+            "type": "object"
+        },
+        "Binding": {
+            "description": "Associates `members` with a `role`.",
+            "id": "Binding",
+            "properties": {
+                "condition": {
+                    "$ref": "Expr",
+                    "description": "The condition that is associated with this binding.\nNOTE: an unsatisfied condition will not allow user access via current\nbinding. Different bindings, including their conditions, are examined\nindependently.\nThis field is GOOGLE_INTERNAL."
+                },
+                "members": {
+                    "description": "Specifies the identities requesting access for a Cloud Platform resource.\n`members` can have the following values:\n\n* `allUsers`: A special identifier that represents anyone who is\n   on the internet; with or without a Google account.\n\n* `allAuthenticatedUsers`: A special identifier that represents anyone\n   who is authenticated with a Google account or a service account.\n\n* `user:{emailid}`: An email address that represents a specific Google\n   account. For example, `alice@gmail.com` or `joe@example.com`.\n\n\n* `serviceAccount:{emailid}`: An email address that represents a service\n   account. For example, `my-other-app@appspot.gserviceaccount.com`.\n\n* `group:{emailid}`: An email address that represents a Google group.\n   For example, `admins@example.com`.\n\n\n* `domain:{domain}`: A Google Apps domain name that represents all the\n   users of that domain. For example, `google.com` or `example.com`.\n\n",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "role": {
+                    "description": "Role that is assigned to `members`.\nFor example, `roles/viewer`, `roles/editor`, or `roles/owner`.\nRequired",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Expr": {
+            "description": "Represents an expression text. Example:\n\n    title: \"User account presence\"\n    description: \"Determines whether the request has a user account\"\n    expression: \"size(request.user) > 0\"",
+            "id": "Expr",
+            "properties": {
+                "title": {
+                    "description": "An optional title for the expression, i.e. a short string describing\nits purpose. This can be used e.g. in UIs which allow to enter the\nexpression.",
+                    "type": "string"
+                },
+                "location": {
+                    "description": "An optional string indicating the location of the expression for error\nreporting, e.g. a file name and a position in the file.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "An optional description of the expression. This is a longer text which\ndescribes the expression, e.g. when hovered over it in a UI.",
+                    "type": "string"
+                },
+                "expression": {
+                    "description": "Textual representation of an expression in\nCommon Expression Language syntax.\n\nThe application context of the containing message determines which\nwell-known feature set of CEL is supported.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Empty": {
+            "description": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:\n\n    service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
+            "id": "Empty",
+            "properties": {},
+            "type": "object"
+        },
+        "MirrorConfig": {
+            "description": "Configuration to automatically mirror a repository from another\nhosting service, for example GitHub or Bitbucket.",
+            "id": "MirrorConfig",
+            "properties": {
+                "webhookId": {
+                    "description": "ID of the webhook listening to updates to trigger mirroring.\nRemoving this webhook from the other hosting service will stop\nGoogle Cloud Source Repositories from receiving notifications,\nand thereby disabling mirroring.",
+                    "type": "string"
+                },
+                "deployKeyId": {
+                    "description": "ID of the SSH deploy key at the other hosting service.\nRemoving this key from the other service would deauthorize\nGoogle Cloud Source Repositories from mirroring.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "URL of the main repository at the other hosting service.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Repo": {
+            "description": "A repository (or repo) is a Git repository storing versioned source content.",
+            "id": "Repo",
+            "properties": {
+                "size": {
+                    "description": "The disk usage of the repo, in bytes. Read-only field. Size is only\nreturned by GetRepo.",
+                    "format": "int64",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Resource name of the repository, of the form\n`projects/<project>/repos/<repo>`.  The repo name may contain slashes.\neg, `projects/myproject/repos/name/with/slash`",
+                    "type": "string"
+                },
+                "mirrorConfig": {
+                    "$ref": "MirrorConfig",
+                    "description": "How this repository mirrors a repository managed by another service.\nRead-only field."
+                },
+                "url": {
+                    "description": "URL to clone the repository from Google Cloud Source Repositories.\nRead-only field.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ListReposResponse": {
+            "description": "Response for ListRepos.  The size is not set in the returned repositories.",
+            "id": "ListReposResponse",
+            "properties": {
+                "repos": {
+                    "description": "The listed repos.",
+                    "items": {
+                        "$ref": "Repo"
+                    },
+                    "type": "array"
+                },
+                "nextPageToken": {
+                    "description": "If non-empty, additional repositories exist within the project. These\ncan be retrieved by including this value in the next ListReposRequest's\npage_token field.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "TestIamPermissionsResponse": {
+            "description": "Response message for `TestIamPermissions` method.",
+            "id": "TestIamPermissionsResponse",
+            "properties": {
+                "permissions": {
+                    "description": "A subset of `TestPermissionsRequest.permissions` that the caller is\nallowed.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "AuditLogConfig": {
+            "description": "Provides the configuration for logging a type of permissions.\nExample:\n\n    {\n      \"audit_log_configs\": [\n        {\n          \"log_type\": \"DATA_READ\",\n          \"exempted_members\": [\n            \"user:foo@gmail.com\"\n          ]\n        },\n        {\n          \"log_type\": \"DATA_WRITE\",\n        }\n      ]\n    }\n\nThis enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting\nfoo@gmail.com from DATA_READ logging.",
+            "id": "AuditLogConfig",
+            "properties": {
+                "logType": {
+                    "description": "The log type that this config enables.",
+                    "enum": [
+                        "LOG_TYPE_UNSPECIFIED",
+                        "ADMIN_READ",
+                        "DATA_WRITE",
+                        "DATA_READ"
+                    ],
+                    "enumDescriptions": [
+                        "Default case. Should never be this.",
+                        "Admin reads. Example: CloudIAM getIamPolicy",
+                        "Data writes. Example: CloudSQL Users create",
+                        "Data reads. Example: CloudSQL Users list"
+                    ],
+                    "type": "string"
+                },
+                "exemptedMembers": {
+                    "description": "Specifies the identities that do not cause logging for this type of\npermission.\nFollows the same format of Binding.members.",
                     "items": {
                         "type": "string"
                     },

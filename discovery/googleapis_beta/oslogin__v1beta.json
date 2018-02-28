@@ -34,6 +34,27 @@
     "ownerDomain": "google.com",
     "ownerName": "Google",
     "parameters": {
+        "oauth_token": {
+            "description": "OAuth 2.0 token for the current user.",
+            "location": "query",
+            "type": "string"
+        },
+        "bearer_token": {
+            "description": "OAuth bearer token.",
+            "location": "query",
+            "type": "string"
+        },
+        "upload_protocol": {
+            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
+            "location": "query",
+            "type": "string"
+        },
+        "prettyPrint": {
+            "default": "true",
+            "description": "Returns response with indentations and line breaks.",
+            "location": "query",
+            "type": "boolean"
+        },
         "fields": {
             "description": "Selector specifying which fields to include in a partial response.",
             "location": "query",
@@ -41,11 +62,6 @@
         },
         "uploadType": {
             "description": "Legacy upload protocol for media (e.g. \"media\", \"multipart\").",
-            "location": "query",
-            "type": "string"
-        },
-        "callback": {
-            "description": "JSONP",
             "location": "query",
             "type": "string"
         },
@@ -59,6 +75,11 @@
                 "v1 error format",
                 "v2 error format"
             ],
+            "location": "query",
+            "type": "string"
+        },
+        "callback": {
+            "description": "JSONP",
             "location": "query",
             "type": "string"
         },
@@ -96,27 +117,6 @@
         "pp": {
             "default": "true",
             "description": "Pretty-print response.",
-            "location": "query",
-            "type": "boolean"
-        },
-        "bearer_token": {
-            "description": "OAuth bearer token.",
-            "location": "query",
-            "type": "string"
-        },
-        "oauth_token": {
-            "description": "OAuth 2.0 token for the current user.",
-            "location": "query",
-            "type": "string"
-        },
-        "upload_protocol": {
-            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
-            "location": "query",
-            "type": "string"
-        },
-        "prettyPrint": {
-            "default": "true",
-            "description": "Returns response with indentations and line breaks.",
             "location": "query",
             "type": "boolean"
         }
@@ -307,38 +307,9 @@
             }
         }
     },
-    "revision": "20171109",
+    "revision": "20180212",
     "rootUrl": "https://oslogin.googleapis.com/",
     "schemas": {
-        "LoginProfile": {
-            "description": "The user profile information used for logging in to a virtual machine on\nGoogle Compute Engine.",
-            "id": "LoginProfile",
-            "properties": {
-                "name": {
-                    "description": "The primary email address that uniquely identifies the user.",
-                    "type": "string"
-                },
-                "posixAccounts": {
-                    "description": "The list of POSIX accounts associated with the user.",
-                    "items": {
-                        "$ref": "PosixAccount"
-                    },
-                    "type": "array"
-                },
-                "suspended": {
-                    "description": "Indicates if the user is suspended. A suspended user cannot log in but\ntheir profile information is retained.",
-                    "type": "boolean"
-                },
-                "sshPublicKeys": {
-                    "additionalProperties": {
-                        "$ref": "SshPublicKey"
-                    },
-                    "description": "A map from SSH public key fingerprint to the associated key object.",
-                    "type": "object"
-                }
-            },
-            "type": "object"
-        },
         "Empty": {
             "description": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:\n\n    service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
             "id": "Empty",
@@ -349,6 +320,10 @@
             "description": "The SSH public key information associated with a Google account.",
             "id": "SshPublicKey",
             "properties": {
+                "key": {
+                    "description": "Public key text in SSH format, defined by\n<a href=\"https://www.ietf.org/rfc/rfc4253.txt\" target=\"_blank\">RFC4253</a>\nsection 6.6.",
+                    "type": "string"
+                },
                 "expirationTimeUsec": {
                     "description": "An expiration time in microseconds since epoch.",
                     "format": "int64",
@@ -356,10 +331,6 @@
                 },
                 "fingerprint": {
                     "description": "Output only. The SHA-256 fingerprint of the SSH public key.",
-                    "type": "string"
-                },
-                "key": {
-                    "description": "Public key text in SSH format, defined by\n<a href=\"https://www.ietf.org/rfc/rfc4253.txt\" target=\"_blank\">RFC4253</a>\nsection 6.6.",
                     "type": "string"
                 }
             },
@@ -384,12 +355,12 @@
                     "description": "The path to the home directory for this account.",
                     "type": "string"
                 },
-                "gecos": {
-                    "description": "The GECOS (user information) entry for this account.",
-                    "type": "string"
-                },
                 "systemId": {
                     "description": "System identifier for which account the username or uid applies to.\nBy default, the empty value is used.",
+                    "type": "string"
+                },
+                "gecos": {
+                    "description": "The GECOS (user information) entry for this account.",
                     "type": "string"
                 },
                 "primary": {
@@ -417,6 +388,31 @@
                 "shell": {
                     "description": "The path to the logic shell for this account.",
                     "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "LoginProfile": {
+            "description": "The user profile information used for logging in to a virtual machine on\nGoogle Compute Engine.",
+            "id": "LoginProfile",
+            "properties": {
+                "name": {
+                    "description": "A unique user ID.",
+                    "type": "string"
+                },
+                "posixAccounts": {
+                    "description": "The list of POSIX accounts associated with the user.",
+                    "items": {
+                        "$ref": "PosixAccount"
+                    },
+                    "type": "array"
+                },
+                "sshPublicKeys": {
+                    "additionalProperties": {
+                        "$ref": "SshPublicKey"
+                    },
+                    "description": "A map from SSH public key fingerprint to the associated key object.",
+                    "type": "object"
                 }
             },
             "type": "object"

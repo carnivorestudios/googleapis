@@ -16,8 +16,24 @@
     "ownerDomain": "google.com",
     "ownerName": "Google",
     "parameters": {
-        "callback": {
-            "description": "JSONP",
+        "upload_protocol": {
+            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
+            "location": "query",
+            "type": "string"
+        },
+        "prettyPrint": {
+            "default": "true",
+            "description": "Returns response with indentations and line breaks.",
+            "location": "query",
+            "type": "boolean"
+        },
+        "uploadType": {
+            "description": "Legacy upload protocol for media (e.g. \"media\", \"multipart\").",
+            "location": "query",
+            "type": "string"
+        },
+        "fields": {
+            "description": "Selector specifying which fields to include in a partial response.",
             "location": "query",
             "type": "string"
         },
@@ -31,6 +47,11 @@
                 "v1 error format",
                 "v2 error format"
             ],
+            "location": "query",
+            "type": "string"
+        },
+        "callback": {
+            "description": "JSONP",
             "location": "query",
             "type": "string"
         },
@@ -71,34 +92,13 @@
             "location": "query",
             "type": "boolean"
         },
-        "bearer_token": {
-            "description": "OAuth bearer token.",
-            "location": "query",
-            "type": "string"
-        },
         "oauth_token": {
             "description": "OAuth 2.0 token for the current user.",
             "location": "query",
             "type": "string"
         },
-        "upload_protocol": {
-            "description": "Upload protocol for media (e.g. \"raw\", \"multipart\").",
-            "location": "query",
-            "type": "string"
-        },
-        "prettyPrint": {
-            "default": "true",
-            "description": "Returns response with indentations and line breaks.",
-            "location": "query",
-            "type": "boolean"
-        },
-        "uploadType": {
-            "description": "Legacy upload protocol for media (e.g. \"media\", \"multipart\").",
-            "location": "query",
-            "type": "string"
-        },
-        "fields": {
-            "description": "Selector specifying which fields to include in a partial response.",
+        "bearer_token": {
+            "description": "OAuth bearer token.",
             "location": "query",
             "type": "string"
         }
@@ -160,60 +160,9 @@
             }
         }
     },
-    "revision": "20171106",
+    "revision": "20180122",
     "rootUrl": "https://firebaseremoteconfig.googleapis.com/",
     "schemas": {
-        "RemoteConfigCondition": {
-            "description": "A single RemoteConfig Condition.  A list of these (because order matters) are\npart of a single RemoteConfig template.",
-            "id": "RemoteConfigCondition",
-            "properties": {
-                "description": {
-                    "description": "Optional.\nA description for this Condition. Length must be less than or equal to\n100 characters (or more precisely, unicode code points, which is defined in\njava/com/google/wireless/android/config/ConstsExporter.java).\nA description may contain any Unicode characters",
-                    "type": "string"
-                },
-                "expression": {
-                    "description": "Required.",
-                    "type": "string"
-                },
-                "tagColor": {
-                    "description": "Optional.\nThe display (tag) color of this condition. This serves as part of a tag\n(in the future, we may add tag text as well as tag color, but that is not\nyet implemented in the UI).\nThis value has no affect on the semantics of the delivered config and it\nis ignored by the backend, except for passing it through write/read\nrequests.\nNot having this value or having the \"CONDITION_DISPLAY_COLOR_UNSPECIFIED\"\nvalue (0) have the same meaning:  Let the UI choose any valid color when\ndisplaying the condition.",
-                    "enum": [
-                        "CONDITION_DISPLAY_COLOR_UNSPECIFIED",
-                        "BLUE",
-                        "BROWN",
-                        "CYAN",
-                        "DEEP_ORANGE",
-                        "GREEN",
-                        "INDIGO",
-                        "LIME",
-                        "ORANGE",
-                        "PINK",
-                        "PURPLE",
-                        "TEAL"
-                    ],
-                    "enumDescriptions": [
-                        "",
-                        "Blue",
-                        "Brown",
-                        "Cyan",
-                        "aka \"Red Orange\"",
-                        "Green",
-                        "Indigo\n*",
-                        "Lime - Approved deviation from Material color palette",
-                        "Orange",
-                        "Pink",
-                        "Purple",
-                        "Teal"
-                    ],
-                    "type": "string"
-                },
-                "name": {
-                    "description": "Required.\nA non empty and unique name of this condition.",
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
         "RemoteConfigParameterValue": {
             "description": "A RemoteConfigParameter's \"value\" (either the default value, or the value\nassociated with a condition name) is either a string, or the\n\"use_in_app_default\" indicator (which means to leave out the parameter from\nthe returned <key, value> map that is the output of the parameter fetch).\nWe represent the \"use_in_app_default\" as a bool, but (when using the boolean\ninstead of the string) it should always be <code>true</code>.",
             "id": "RemoteConfigParameterValue",
@@ -254,10 +203,6 @@
             "description": "While default_value and conditional_values are each optional, at least one of\nthe two is required - otherwise, the parameter is meaningless (and an\nexception will be thrown by the validation logic).",
             "id": "RemoteConfigParameter",
             "properties": {
-                "defaultValue": {
-                    "$ref": "RemoteConfigParameterValue",
-                    "description": "Optional - value to set the parameter to, when none of the named conditions\nevaluate to <code>true</code>."
-                },
                 "description": {
                     "description": "Optional.\nA description for this Parameter. Length must be less than or equal to\n100 characters (or more precisely, unicode code points, which is defined in\njava/com/google/wireless/android/config/ConstsExporter.java).\nA description may contain any Unicode characters",
                     "type": "string"
@@ -268,6 +213,61 @@
                     },
                     "description": "Optional - a map of (condition_name, value). The condition_name of the\nhighest priority (the one listed first in the conditions array) determines\nthe value of this parameter.",
                     "type": "object"
+                },
+                "defaultValue": {
+                    "$ref": "RemoteConfigParameterValue",
+                    "description": "Optional - value to set the parameter to, when none of the named conditions\nevaluate to <code>true</code>."
+                }
+            },
+            "type": "object"
+        },
+        "RemoteConfigCondition": {
+            "description": "A single RemoteConfig Condition.  A list of these (because order matters) are\npart of a single RemoteConfig template.",
+            "id": "RemoteConfigCondition",
+            "properties": {
+                "tagColor": {
+                    "description": "Optional.\nThe display (tag) color of this condition. This serves as part of a tag\n(in the future, we may add tag text as well as tag color, but that is not\nyet implemented in the UI).\nThis value has no affect on the semantics of the delivered config and it\nis ignored by the backend, except for passing it through write/read\nrequests.\nNot having this value or having the \"CONDITION_DISPLAY_COLOR_UNSPECIFIED\"\nvalue (0) have the same meaning:  Let the UI choose any valid color when\ndisplaying the condition.",
+                    "enum": [
+                        "CONDITION_DISPLAY_COLOR_UNSPECIFIED",
+                        "BLUE",
+                        "BROWN",
+                        "CYAN",
+                        "DEEP_ORANGE",
+                        "GREEN",
+                        "INDIGO",
+                        "LIME",
+                        "ORANGE",
+                        "PINK",
+                        "PURPLE",
+                        "TEAL"
+                    ],
+                    "enumDescriptions": [
+                        "",
+                        "Blue",
+                        "Brown",
+                        "Cyan",
+                        "aka \"Red Orange\"",
+                        "Green",
+                        "Indigo\n*",
+                        "Lime - Approved deviation from Material color palette",
+                        "Orange",
+                        "Pink",
+                        "Purple",
+                        "Teal"
+                    ],
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Required.\nA non empty and unique name of this condition.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "DO NOT USE. Implementation removed and will not be added unless requested.\nA description for this Condition. Length must be less than or equal to\n100 characters (or more precisely, unicode code points, which is defined in\njava/com/google/wireless/android/config/ConstsExporter.java).\nA description may contain any Unicode characters",
+                    "type": "string"
+                },
+                "expression": {
+                    "description": "Required.",
+                    "type": "string"
                 }
             },
             "type": "object"

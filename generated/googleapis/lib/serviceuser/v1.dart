@@ -2006,13 +2006,6 @@ class HttpRule {
   /// Used for updating a resource.
   core.String put;
 
-  /// The name of the response field whose value is mapped to the HTTP body of
-  /// response. Other response fields are ignored. This field is optional. When
-  /// not set, the response message will be used as HTTP body of response.
-  /// NOTE: the referred field must be not a repeated field and must be present
-  /// at the top-level of response message type.
-  core.String responseBody;
-
   /// Selects methods to which this rule applies.
   ///
   /// Refer to selector for syntax details.
@@ -2053,9 +2046,6 @@ class HttpRule {
     if (_json.containsKey("put")) {
       put = _json["put"];
     }
-    if (_json.containsKey("responseBody")) {
-      responseBody = _json["responseBody"];
-    }
     if (_json.containsKey("selector")) {
       selector = _json["selector"];
     }
@@ -2094,9 +2084,6 @@ class HttpRule {
     }
     if (put != null) {
       _json["put"] = put;
-    }
-    if (responseBody != null) {
-      _json["responseBody"] = responseBody;
     }
     if (selector != null) {
       _json["selector"] = selector;
@@ -2698,8 +2685,6 @@ class MetricDescriptor {
   ///
   /// **Grammar**
   ///
-  /// The grammar includes the dimensionless unit `1`, such as `1/s`.
-  ///
   /// The grammar also includes these connectors:
   ///
   /// * `/`    division (as an infix operator, e.g. `1/s`).
@@ -2709,7 +2694,7 @@ class MetricDescriptor {
   ///
   ///     Expression = Component { "." Component } { "/" Component } ;
   ///
-  ///     Component = [ PREFIX ] UNIT [ Annotation ]
+  ///     Component = ( [ PREFIX ] UNIT | "%" ) [ Annotation ]
   ///               | Annotation
   ///               | "1"
   ///               ;
@@ -2723,6 +2708,9 @@ class MetricDescriptor {
   ///    `{requests}/s == 1/s`, `By{transmitted}/s == By/s`.
   /// * `NAME` is a sequence of non-blank printable ASCII characters not
   ///    containing '{' or '}'.
+  /// * `1` represents dimensionless value 1, such as in `1/s`.
+  /// * `%` represents dimensionless value 1/100, and annotates values giving
+  ///    a percentage.
   core.String unit;
 
   /// Whether the measurement is an integer, a floating-point number, etc.
@@ -4581,7 +4569,8 @@ class Usage {
 ///       - selector: "google.example.library.v1.LibraryService.CreateBook"
 ///         allow_unregistered_calls: true
 class UsageRule {
-  /// True, if the method allows unregistered calls; false otherwise.
+  /// If true, the selected method allows unregistered calls, e.g. calls
+  /// that don't identify any user or application.
   core.bool allowUnregisteredCalls;
 
   /// Selects the methods to which this rule applies. Use '*' to indicate all
@@ -4590,10 +4579,10 @@ class UsageRule {
   /// Refer to selector for syntax details.
   core.String selector;
 
-  /// True, if the method should skip service control. If so, no control plane
-  /// feature (like quota and billing) will be enabled.
-  /// This flag is used by ESP to allow some Endpoints customers to bypass
-  /// Google internal checks.
+  /// If true, the selected method should skip service control and the control
+  /// plane features, such as quota and billing, will not be available.
+  /// This flag is used by Google Cloud Endpoints to bypass checks for internal
+  /// methods, such as service health check methods.
   core.bool skipServiceControl;
 
   UsageRule();
